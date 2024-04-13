@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong</title>
+    <link rel="icon" href="../../app/assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/backgroundBody.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style >
+        body {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            user-select: none;
+        }
+        .bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(120deg, #000000 44%, #5c21c3 55%, #5c1a1a 60%)  no-repeat center center fixed;
+            animation: animateColors 20s linear infinite;
+        }
+        background-component {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+        @keyframes animateColors {
+            0% {
+                transform: rotate(0deg) scale(10);
+            }
+            100% {
+                transform: rotate(360deg) scale(10);
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="../../app/assets/logo.svg" alt="logo" class="logo">
+    <div class="signIn">
+        <span></span>
+        <h1 class="title">LOGIN</h1>
+        <div class="anotherContainer">
+            <div class="sign"><img src="../../app/assets/images/goolge.svg" alt="google" class="google" onclick="window.location.href = 'http:\/\/localhost:3000/auth/google'"></div>
+            <div class="sign"><img src="../../app/assets/images/42.svg" alt="42" class="school42" onclick="window.location.href = 'http:\/\/localhost:3000/auth/42'"></div>
+            <div class="form">
+                <form id="formElement">
+
+                    <input required type="text" name="username" placeholder="Username" class="username">
+                    <input type="email" name="email" placeholder="Email" class="email">
+                    <input required type="password" name="password" placeholder="Password" class="password">
+                    <div>
+                        <input type="submit" value="Sign in" class="submit" onclick="submitForm()">
+                        <input type="button" value="Sign up" class="submit2" onclick="handleChangeForm()" >
+                    </div>
+                </form>
+            </div>
+        </div>
+        <em></em>
+        <label>Or via</label>
+        <style src="css/home.css"></style>
+        <script>
+            let span = document.querySelector('span');
+            let sign = document.querySelectorAll('.sign');
+
+            document.addEventListener('mousemove', function(e){
+                let x = e.clientX;
+                let y = e.clientY;
+                span.style.background = `linear-gradient(${x / 90 + y / 90 + 90}deg, rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 0.7) 100%)`;
+                sign.forEach((el) => {
+                    el.style.background = `linear-gradient(${x / 20 + y / 20 + 90}deg, rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 0.7) 100%)`;
+                });
+            });
+            const formElement = document.querySelector('#formElement');
+            const form = document.querySelector('.form');
+            const submit = document.querySelector('.submit');
+            const submit2 = document.querySelector('.submit2');
+            const username = document.querySelector('.username');
+            const email = document.querySelector('.email');
+            const password = document.querySelector('.password');
+
+            let signIn = true;
+            
+            handleChangeForm = () => {
+
+                if (submit2.value === 'Sign up') {
+                    email.required = true;
+                    submit2.value = 'Sign in';
+                    submit.value = 'Sign up';
+                    username.placeholder = 'Username';
+                    password.placeholder = 'Password';
+                    email.style.display = 'block';
+                    form.classList.add('form2');
+                    signIn = false;
+                } else {
+                    email.required = false;
+                    submit2.value = 'Sign up';
+                    submit.value = 'Sign in';
+                    username.placeholder = 'Username';
+                    password.placeholder = 'Password';
+                    email.style.display = 'none';
+                    form.classList.remove('form2');
+                    signIn = true;
+                }
+                submit.style.transition = '0s';
+                submit2.style.transition = '0s';
+            }
+            function submitForm() {
+                if (signIn) {
+                    formElement.method = 'POST';
+                    formElement.action = 'http://localhost:3000/auth/signin';
+                    formElement.submit();
+
+                } else {
+                    formElement.method = 'POST';
+                    formElement.action = 'http://localhost:3000/auth/signup';
+                    formElement.submit();
+                }
+            }
+        </script>
+    </div>
+    <script src="js/utils/backgroundBody.js"></script>
+</body>
+</html>
