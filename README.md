@@ -1,1 +1,1 @@
-# 42Cursus-Ft_Transcendence
+# ft_transcendence

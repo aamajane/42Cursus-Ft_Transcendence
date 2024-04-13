@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16.2-alpine3.19
+    container_name: postgres_container
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7.2.4-alpine3.19
+    container_name: redis_container
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+
+  web:
+    image: web:3.12.2-slim-bullseye
+    container_name: web_container
+    build: ./web/
+    restart: always
+    volumes:
+      - web_data:/app
+    ports:
+      - "8000:8000"
+    networks:
+      - mynetwork
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:
+  web_data:
+    driver_opts:
+      o: bind
+      type: none
+      device: ./web/
+
+networks:
+  mynetwork:
+    driver: bridge

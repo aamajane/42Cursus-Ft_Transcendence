@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .pong-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: rgb(0, 0, 0);
+        }
+
+        .pong-container {
+            position: relative;
+            width: 900px;
+            height: 1200px;
+            animation: cameraTransition 5s;
+        }
+
+        .pong {
+            position: absolute;
+            width: 900px;
+            height: 2100px;
+            transform: perspective(1000px) rotateX(35deg) translateY(-1055px) translateZ(-340px) scaleX(1.03);
+        }
+
+        @keyframes cameraTransition {
+            0% {
+                transform: perspective(1000px) translateY(-80px) translateZ(1000px) rotateX(-25deg) scaleX(0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pong-wrapper">
+        <div id="pong-container" class="pong-container">
+            <canvas id="pong" class="pong" data-game-id="{{game_id}}" data-game-mode="{{game_mode}}" data-game-map="factory"></canvas>
+        </div>
+    </div>
+
+    <!-- TODO: add mirror background for opponent view -->
+
+    <img src="{% static 'game/assets/egypt_background.webp' %}" id="egypt_background" style="display: none;">
+    <img src="{% static 'game/assets/egypt_player_paddle.webp' %}" id="egypt_player_paddle" style="display: none;">
+    <img src="{% static 'game/assets/egypt_opponent_paddle.webp' %}" id="egypt_opponent_paddle" style="display: none;">
+
+    <img src="{% static 'game/assets/factory_background.webp' %}" id="factory_background" style="display: none;">
+    <img src="{% static 'game/assets/factory_player_paddle.webp' %}" id="factory_player_paddle" style="display: none;">
+    <img src="{% static 'game/assets/factory_opponent_paddle.webp' %}" id="factory_opponent_paddle" style="display: none;">
+
+    <img src="{% static 'game/assets/space_background.webp' %}" id="space_background" style="display: none;">
+    <img src="{% static 'game/assets/space_player_paddle.webp' %}" id="space_player_paddle" style="display: none;">
+    <img src="{% static 'game/assets/space_opponent_paddle.webp' %}" id="space_opponent_paddle" style="display: none;">
+
+    <img src="{% static 'game/assets/ball_0.webp' %}" id="ball_0" style="display: none;">
+    <img src="{% static 'game/assets/ball_1.webp' %}" id="ball_1" style="display: none;">
+    <img src="{% static 'game/assets/ball_2.webp' %}" id="ball_2" style="display: none;">
+    <img src="{% static 'game/assets/ball_3.webp' %}" id="ball_3" style="display: none;">
+    <img src="{% static 'game/assets/ball_4.webp' %}" id="ball_4" style="display: none;">
+    <img src="{% static 'game/assets/ball_5.webp' %}" id="ball_5" style="display: none;">
+    <img src="{% static 'game/assets/ball_6.webp' %}" id="ball_6" style="display: none;">
+    <img src="{% static 'game/assets/ball_7.webp' %}" id="ball_7" style="display: none;">
+    <img src="{% static 'game/assets/ball_8.webp' %}" id="ball_8" style="display: none;">
+    <img src="{% static 'game/assets/ball_9.webp' %}" id="ball_9" style="display: none;">
+    <img src="{% static 'game/assets/ball_10.webp' %}" id="ball_10" style="display: none;">
+    <img src="{% static 'game/assets/ball_11.webp' %}" id="ball_11" style="display: none;">
+    <img src="{% static 'game/assets/ball_12.webp' %}" id="ball_12" style="display: none;">
+    <img src="{% static 'game/assets/ball_13.webp' %}" id="ball_13" style="display: none;">
+    <img src="{% static 'game/assets/ball_14.webp' %}" id="ball_14" style="display: none;">
+
+    <script src="{% static 'game/constants.js' %}" defer></script>
+    <script src="{% static 'game/main.js' %}" type="module"></script>
+</body>
+</html>
