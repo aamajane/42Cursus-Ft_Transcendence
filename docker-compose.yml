@@ -1,53 +1,51 @@
-version: '3.9'
+version: '3'
 
 services:
-  postgres:
-    image: postgres:16.2-alpine3.19
-    container_name: postgres_container
-    restart: always
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - mynetwork
-    env_file:
-      - .env
-
-  redis:
-    image: redis:7.2.4-alpine3.19
-    container_name: redis_container
-    restart: always
-    ports:
-      - "6379:6379"
-    networks:
-      - mynetwork
-
-  web:
-    image: web:3.12.2-slim-bullseye
-    container_name: web_container
-    build: ./web/
-    restart: always
-    volumes:
-      - web_data:/app
-    ports:
-      - "8000:8000"
-    networks:
-      - mynetwork
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-      - redis
-
-volumes:
-  postgres_data:
-  web_data:
-    driver_opts:
-      o: bind
-      type: none
-      device: ./web/
-
+    postgresql:
+        image: postgres:16.2-alpine3.19
+        container_name: postgresql
+        restart: always
+        ports:
+            - "5432:5432"
+        networks:
+            - my_network
+        env_file:
+            - ./websockets/.env
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        ports:
+            - "80:80"
+        depends_on:
+            - api
+            - websockets
+        container_name: reverse_proxy
+        networks:
+            - my_network
+    api:
+        container_name: api
+        build:
+            context: ./api
+            dockerfile: Dockerfile
+        networks:
+            - my_network
+        depends_on:
+            - postgresql
+    websockets:
+        container_name: websockets
+        build:
+            context: ./websockets
+            dockerfile: Dockerfile
+        networks:
+            - my_network
+        depends_on:
+            - api
+        env_file:
+            - ./websockets/.env
+        networks:
+            - my_network
 networks:
-  mynetwork:
+  my_network:
     driver: bridge
+

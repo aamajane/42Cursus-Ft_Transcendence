@@ -1,0 +1,320 @@
+.svgsContainer {
+    position: fixed;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    z-index: 1;
+}
+
+.svgsContainer:nth-of-type(1) {
+    transform: rotateX(180deg) rotateY(180deg);
+}
+
+.svgsContainer .svgBg {
+    position : absolute;
+    width: 30%;
+    margin: 10px;
+    height: 400px;
+    right: 0;
+    top: 0;
+}
+.svgsContainer .svgBg:hover {
+    transform: scale(10);
+}
+.svgsContainer .svgBg svg  path {
+    fill: red;
+}
+.svgsContainer .svgBg#to32 {
+    left: 0;
+    top: 1000px;
+    transform: rotate(-9deg) scale(1.2);
+    animation: trAnimation5 6s infinite;
+}
+.svgsContainer .svgBg#to33{
+    left: 0;
+    top: 850px;
+    transform: rotate(-8deg) scale(1.2);
+    animation: trAnimation4 6s infinite;
+}
+.svgsContainer .svgBg#to34{
+    left: 0;
+    top: 450px;
+    transform: rotate(-4deg) scale(1.5) translateX(-10px);
+    animation: trAnimation1 6s infinite;
+}
+.svgsContainer .svgBg#to35 {
+    left: -200px;
+    top: 320px;
+    transform: rotate(-7.7deg) scale(4);
+    animation: trAnimation2 12s infinite;
+}
+.svgsContainer .svgBg#to36 {
+    left: -40px;
+    top: 450px;
+    transform: rotate(-6deg) translateX(-70px);
+    animation: trAnimation1 8s infinite;
+}
+.svgsContainer .svgBg#to37 {
+    left: -100px;
+    top: 450px;
+    transform: rotate(-3deg) translateX(-140px);
+    animation: trAnimation1 10s infinite;
+}
+.svgsContainer .svgBg#to38 {
+    left: -200px;
+    top: 320px;
+    transform: rotate(-7deg) scale(4);
+    animation: trAnimation3 12s infinite;
+}
+.svgsContainer .svgBg#to39 {
+    left: 0;
+    top: -10px;
+    transform: rotate(-8deg);
+    animation: trAnimation6 12s infinite;
+}
+.svgsContainer .svgBg#to40 {
+    left: 0;
+    top: 100px;
+    transform: rotate(-8deg);
+    animation: trAnimation7 8s infinite;
+}
+.svgsContainer .svgBg#to41 {
+    left: -100px;
+    top: -150px;
+    transform: rotate(-7deg);
+    animation: trAnimation8 6s infinite;
+}
+.svgsContainer #gradient1 stop {
+    animation: gradientAnimation1 6s infinite;
+}
+.svgsContainer #gradient01 stop {
+    animation: gradientAnimation1 9s infinite;
+}
+.svgsContainer #gradient2 stop {
+    animation: gradientAnimation2 3s infinite;
+}
+.svgsContainer #gradient3 stop {
+    animation: gradientAnimation3 4s infinite;
+}
+.svgsContainer #gradient4 stop {
+    animation: gradientAnimation4 5s infinite;
+}
+.svgsContainer #gradient5 stop {
+    animation: gradientAnimation5 8s infinite;
+}
+.svgsContainer #gradient6 stop {
+    animation: gradientAnimation6 7s infinite;
+}
+
+@keyframes trAnimation1 {
+    0% {
+        left : 0;
+    }
+    50% {
+        left : 10px;
+    }
+    75% {
+        left : 50px;
+    }
+    100% {
+        left : 0;
+    }
+}
+
+@keyframes trAnimation2 {
+    0% {
+        left: -200px;
+        top: 320px;
+    }
+    25% {
+        left: -170px;
+        top: 270px;
+    }
+    100% {
+        left: -200px;
+        top: 320px;
+    }
+}
+
+@keyframes trAnimation3 {
+    0% {
+        left: -190px;
+        top: 320px;
+    }
+    25% {
+        left: -220px;
+        top: 360px;
+    }
+    100% {
+        left: -190px;
+        top: 320px;
+    }
+}
+
+@keyframes trAnimation4 {
+    0% {
+        left: 0;
+        top: 850px;
+    }
+    25% {
+        left: 30px;
+        top: 800px;
+    }
+    100% {
+        left: 0;
+        top: 850px;
+    }
+}
+
+@keyframes trAnimation5 {
+    0% {
+        left: 0;
+        top: 1000px;
+    }
+    75% {
+        left: -30px;
+        top: 1050px;
+    }
+    100% {
+        left: 0;
+        top: 1000px;
+    }
+}
+
+@keyframes trAnimation6 {
+    0% {
+        left: 0;
+        top: -10px;
+    }
+    20% {
+        left: 0;
+        top: -10px;
+    }
+    50% {
+        left: 100px;
+        top: 80px;
+    }
+    80% {
+        left: 0;
+        top: -10px;
+    }
+    100% {
+        left: 0;
+        top: -10px;
+    }
+}
+
+@keyframes trAnimation7 {
+    0% {
+        left: 150px;
+        top: 240px;
+    }
+    30% {
+        left: 0px;
+        top: 90px;
+    }
+    60% {
+        left: 0px;
+        top: 90px;
+    }
+    100% {
+        left: 150px;
+        top: 240px;
+    }
+}
+
+@keyframes trAnimation8 {
+    0% {
+        left: -100px;
+        top: -150px;
+    }
+    20% {
+        left: -100px;
+        top: -150px;
+    }
+    50% {
+        left: -50px;
+        top: -100px;
+    }
+    80% {
+        left: -100px;
+        top: -150px;
+    }
+    100% {
+        left: -100px;
+        top: -150px;
+    }
+}
+
+@keyframes gradientAnimation1 {
+    0% {
+        stop-color: rgb(93, 45, 110);
+    }
+    50% {
+        stop-color: rgb(220, 125, 255);
+    }
+    100% {
+        stop-color: rgb(93, 45, 110);
+    }
+}
+
+@keyframes gradientAnimation2 {
+    0% {
+        stop-color: rgba(187, 0, 255, 0.537);
+    }
+    50% {
+        stop-color: rgb(95, 0, 129);
+    }
+    100% {
+        stop-color: rgba(187, 0, 255, 0.537);
+    }
+}
+
+@keyframes gradientAnimation3 {
+    0% {
+        stop-color: rgba(187, 0, 255, 0.537);
+    }
+    50% {
+        stop-color: rgba(187, 0, 255, 0.291);
+    }
+    100% {
+        stop-color: rgba(187, 0, 255, 0.17);
+    }
+}
+
+@keyframes gradientAnimation4 {
+    0% {
+        stop-color: rgba(224, 139, 255, 0.537);
+    }
+    50% {
+        stop-color: rgba(187, 0, 255, 0.537);
+    }
+    100% {
+        stop-color: rrgba(224, 139, 255, 0.537);
+    }
+}
+
+@keyframes gradientAnimation5 {
+    0% {
+        stop-color: rgba(62, 2, 84, 0.537);
+    }
+    50% {
+        stop-color: rgba(187, 0, 255, 0.537);
+    }
+    100% {
+        stop-color: rgba(62, 2, 84, 0.537);
+    }
+}
+
+@keyframes gradientAnimation6 {
+    0% {
+        stop-color: rgba(62, 2, 84, 0.537);
+    }
+    50% {
+        stop-color: rgba(187, 0, 255, 0.537);
+    }
+    100% {
+        stop-color: rgba(62, 2, 84, 0.537);
+    }
+}

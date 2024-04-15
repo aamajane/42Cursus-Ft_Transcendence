@@ -1,0 +1,24 @@
+<svg width="5440" height="151" viewBox="0 0 5440 151" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <filter id="drop-shadow" x="0%" y="0%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#fff" flood-opacity="1">
+                <animate attributeName="stdDeviation" values="2;20;2" dur="1s" repeatCount="indefinite"/>
+                <animate attributeName="color" values="#ff0000;#ff0000;#ff0000" dur="1s" repeatCount="indefinite"/>
+            </feDropShadow>
+        </filter>
+    </defs>
+    <g filter="url(#drop-shadow)">
+        <path d="M0 150.5V128.5H2247L2304 70.5H2336L2256.5 150.5H0Z" fill="#00FEFF"/>
+        <path d="M0 115.5V110.5H2240.5L2302 49H2449L2498 0H2504.5L2450.5 54H2304L2242.5 115.5H0Z" fill="#00FEFF"/>
+        <path d="M2434.5 70.5H2353L2308 115.5H2389.5L2434.5 70.5Z" fill="#00FEFF"/>
+        <path d="M2487.5 115.5H2406L2522 0H2603L2487.5 115.5Z" fill="#00FEFF"/>
+        <path d="M2583.5 115.5H2502.5L2618 0H2699L2583.5 115.5Z" fill="#00FEFF"/>
+        <path d="M2839.5 115.5H2600L2645.5 71L2647.5 76L2613 110.5H2827L2792.5 76H2720H2683.75H2665.62H2647.51L2645.51 71H2646.08H2646.67H2647.84H2650.17H2654.84H2664.19H2682.88H2720.25H2795L2839.5 115.5Z" fill="#00FEFF"/>
+        <path d="M2716 0L2662 54H2778.5L2724.5 0L2720.37 4L2766 49H2674L2724.48 0H2716Z" fill="#00FEFF"/>
+        <path d="M2937.5 115.5H2857L2741 0H2822L2937.5 115.5Z" fill="#00FEFF"/>
+        <path d="M3034.5 115.5H2953.5L2838 0H2919L3034.5 115.5Z" fill="#00FEFF"/>
+        <path d="M2990 54.5L2935.5 0H2942.5L2992 49.5H3139L3199.5 110H5440V115.5H3197.5L3136.5 54.5H2990Z" fill="#00FEFF"/>
+        <path d="M3132 115.5H3051L3007 71H3087.5L3132 115.5Z" fill="#00FEFF"/>
+        <path d="M3183 150L3104 71H3135.5L3193 128.5H5440V150H3183Z" fill="#00FEFF"/>
+    </g>
+</svg>
