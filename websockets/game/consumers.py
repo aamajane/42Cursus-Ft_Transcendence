@@ -47,7 +47,8 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         self.user_count[self.room_group_name] -= 1
 
-        if self.scope['user'].username in self.usernames[self.room_group_name]:
+        if self.game_status[self.room_group_name] == 'pending' and \
+        self.scope['user'].username in self.usernames[self.room_group_name]:
             self.usernames[self.room_group_name].remove(self.scope['user'].username)
 
         if self.channel_name in self.channels_names[self.room_group_name]:

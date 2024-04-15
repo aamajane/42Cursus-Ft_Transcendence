@@ -3,6 +3,11 @@ export class Socket {
         this.game = game;
         this.url = `ws://${window.location.host}/ws/game/${game.mode}/${game.id}/`;
         this.socket = new WebSocket(this.url);
+
+        this.onOpen();
+        this.onClose();
+        this.onError();
+        this.onMessage();
     }
 
     onOpen() {

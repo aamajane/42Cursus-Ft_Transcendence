@@ -1,51 +1,81 @@
 version: '3'
 
 services:
-    postgresql:
+    postgres:
         image: postgres:16.2-alpine3.19
-        container_name: postgresql
+        container_name: postgres
         restart: always
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
         ports:
             - "5432:5432"
         networks:
             - my_network
         env_file:
-            - ./websockets/.env
+            - .env
+
+    api:
+        container_name: api
+        build: ./api
+        restart: always
+        volumes:
+            - api_data:/app
+        ports:
+            - "8000:8000"
+        networks:
+            - my_network
+        env_file:
+            - .env
+        depends_on:
+            - postgres
+
+    websockets:
+        container_name: websockets
+        build: ./websockets
+        restart: always
+        volumes:
+            - websockets_data:/app
+        ports:
+            - "8001:8001"
+        networks:
+            - my_network
+        env_file:
+            - .env
+        depends_on:
+            - api
+
     nginx:
-        build:
-            context: ./nginx
-            dockerfile: Dockerfile
+        container_name: nginx
+        build: ./nginx
+        restart: always
+        volumes:
+            - nginx_data:/var/www/app
         ports:
             - "80:80"
+        networks:
+            - my_network
         depends_on:
             - api
             - websockets
-        container_name: reverse_proxy
-        networks:
-            - my_network
-    api:
-        container_name: api
-        build:
-            context: ./api
-            dockerfile: Dockerfile
-        networks:
-            - my_network
-        depends_on:
-            - postgresql
-    websockets:
-        container_name: websockets
-        build:
-            context: ./websockets
-            dockerfile: Dockerfile
-        networks:
-            - my_network
-        depends_on:
-            - api
-        env_file:
-            - ./websockets/.env
-        networks:
-            - my_network
-networks:
-  my_network:
-    driver: bridge
 
+volumes:
+    postgres_data:
+    api_data:
+        driver_opts:
+            o: bind
+            type: none
+            device: ./api/
+    websockets_data:
+        driver_opts:
+            o: bind
+            type: none
+            device: ./websockets/
+    nginx_data:
+        driver_opts:
+            o: bind
+            type: none
+            device: ./nginx/frontend
+
+networks:
+    my_network:
+        driver: bridge

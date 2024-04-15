@@ -9,21 +9,14 @@ window.addEventListener("load", function () {
     const gameMode = canvas.getAttribute("data-game-mode");
     const gameMap = new Map(canvas.getAttribute("data-game-map"));
 
-    let game;
-    if (gameMode === AI) {
-        game = new AIGame(gameMap);
-    } else {
-        game = new MultiplayerGame(gameID, gameMode, gameMap);
-
-        game.socket.onOpen();
-        game.socket.onClose();
-        game.socket.onError();
-        game.socket.onMessage();
-    }
-
     canvasContainer.style.backgroundImage = `url(${gameMap.backgroundImage.src})`;
     canvas.width = GAME_WIDTH;
     canvas.height = GAME_HEIGHT;
+
+    const game =
+        gameMode === AI
+            ? new AIGame(gameMap)
+            : new MultiplayerGame(gameID, gameMode, gameMap);
 
     function render() {
         context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -36,12 +29,11 @@ window.addEventListener("load", function () {
                 gameCountdown();
                 break;
             case ONGOING:
-                game.update();
-                game.draw(context);
+                gameOngoing();
                 break;
             default:
                 gameOver();
-                break;
+                return;
         }
 
         requestAnimationFrame(render);
@@ -73,6 +65,11 @@ window.addEventListener("load", function () {
         } else {
             game.status = ONGOING;
         }
+    }
+
+    function gameOngoing() {
+        game.update();
+        game.draw(context);
     }
 
     function gameOver() {

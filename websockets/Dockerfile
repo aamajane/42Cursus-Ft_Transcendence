@@ -5,12 +5,10 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# COPY . .
 COPY requirements.txt .
 
 RUN pip install --upgrade pip && \
-	pip install -r requirements.txt && \
-	rm requirements.txt
-
-COPY . .
+	pip install -r requirements.txt
 
 CMD ["sh", "/app/start.sh"]

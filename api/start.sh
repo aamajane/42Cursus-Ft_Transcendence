@@ -5,8 +5,8 @@ cd ./backend
 echo "Waiting for postgres..."
 sleep 2
 
-echo "Sourcing the environment for python..."
-source /app/venv/bin/activate
+# echo "Sourcing the environment for python..."
+# source /app/venv/bin/activate
 
 echo "Applying database migrations..."
 python3 manage.py makemigrations

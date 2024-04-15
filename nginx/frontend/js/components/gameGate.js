@@ -965,6 +965,11 @@ class GameGates extends HTMLElement {
                 }
                 if (e.key === 'Enter') {
                     this.shadowRoot.querySelector('.gates__content').style.transform = 'translateY(1010px) translateZ(70px) rotateX(10deg)';
+                    const timeOut = setTimeout(() => {
+                        window.history.pushState(null, null, "/play");
+                        navigateTo('/play');
+                        clearTimeout(timeOut);
+                    }, 1000);
                 }
             }
             if (new Date() - executedDate3 > 700) { 

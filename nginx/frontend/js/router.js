@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             '/tournament': 'tournamentpage',
             '/game/aiBot': 'gamePage',
             '/profile': 'profilePage',
+            '/play' : 'tournamentpage'
         };
         const pageId = routes[pathname];
         if (pageId) {
