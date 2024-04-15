@@ -14,7 +14,6 @@ class GameGates extends HTMLElement {
         this.__r = 0;
         this.__r_x = 0;
         this.__r_y = 0;
-        this.__activateSpecialPower = true;
     }
     connectedCallback() {
         this.render();
@@ -755,23 +754,7 @@ class GameGates extends HTMLElement {
                 align-items: center;
                 font-weight: bold;
             }
-            .activateSpecialPower h1 {
-                all: initial;
-                font-family: "Share Tech", sans-serif;
-                position: relative;
-                font-size: 12px;
-                width: 50%;
-                font-size: 18px;
-                text-align: center;
-                vertical-align: center;
-            }
-            .activateSpecialPower h1:nth-of-type(1) {
-                color: #0f0;
-                font-style: bolder;
-            }
-            .activateSpecialPower h1:nth-of-type(2) {
-                color: #0fa;
-            }
+            
             .activateSpecialPower button {
                 position: relative;
                 background: #5fa7;
@@ -786,32 +769,22 @@ class GameGates extends HTMLElement {
                 overflow: hidden;
                 box-shadow: 0 0 10px 1px #fff7 inset;
             }
-            .activateSpecialPower button div {
-                position: absolute;
-                right: 0;
-                clip-path: polygon(25% 0, 100% 0, 75% 100%, 0 100%); 
-                height: 100%;
-                width: 64%;
-                background: #5faa;
-                border: 1px solid #f00;    
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            .activateSpecialPower:hover button {
+                background: #0f5;
+                box-shadow: 0 0 10px 1px #fff7;
+                scale: 1.1;
+            }
+            .activateSpecialPower:active button {
+                background: #0f5;
                 box-shadow: 0 0 10px 1px #fff7 inset;
+                scale: 1;
             }
-            .activateSpecialPower button:hover div {
-                animation: animateSpecialPower 1s infinite;
-            }
-            @keyframes animateSpecialPower {
-                0% {
-                    width: 64%;
-                }
-                50% {
-                    width: 80%;
-                }
-                100% {
-                    width: 64%;
-                }
+            .activateSpecialPower a {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: #5fa7;
+                z-index: 100;
             }
 
             .base00 {
@@ -891,15 +864,17 @@ class GameGates extends HTMLElement {
                             </span>
                         </div>
                         <div class='activateSpecialPower'>
-                            <h1> Power : </h1>
-                            <h1 id="inf4"> Mummy catch </h1>
-                            <button id='activateSpecialPower'> <div>On</div> </button>
+                            <button id='activateSpecialPower' ><a href="/play" id="pages" class="play pages"></a> Enter </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         `;
+        const activateSpecialPower = this.shadowRoot.querySelector('#activateSpecialPower');
+        activateSpecialPower.addEventListener('click', () => {
+            this.shadowRoot.querySelector('.gates__content').style.transform = 'translateY(1010px) translateZ(70px) rotateX(10deg)';
+        });
         const gateWorld = this.shadowRoot.querySelectorAll('.gateWorld');
         gateWorld.forEach((gate, index) => {
             const gatePath = `
@@ -957,19 +932,9 @@ class GameGates extends HTMLElement {
                 (e.key === 'ArrowRight')    &&  this.pressRight();
 
                 if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                    this.__activateSpecialPower = false;
-                    this.triggerClickSPower();
                     this.shadowRoot.querySelector('.bgWrapper2Wrapper').classList.remove('bgWrapper2WrapperAnimated');
                     this.shadowRoot.querySelector('.bgWrapper2Wrapper').offsetWidth;
                     triggerKey.call(this);
-                }
-                if (e.key === 'Enter') {
-                    this.shadowRoot.querySelector('.gates__content').style.transform = 'translateY(1010px) translateZ(70px) rotateX(10deg)';
-                    const timeOut = setTimeout(() => {
-                        window.history.pushState(null, null, "/play");
-                        navigateTo('/play');
-                        clearTimeout(timeOut);
-                    }, 1000);
                 }
             }
             if (new Date() - executedDate3 > 700) { 
@@ -987,11 +952,6 @@ class GameGates extends HTMLElement {
                 this.animateView1(e.deltaY);
             }
         });
-        this.shadowRoot.querySelector('#activateSpecialPower').addEventListener('click', () => {
-            this.triggerClickSPower();
-            this.__activateSpecialPower = !this.__activateSpecialPower;
-        }
-        );
         this.shadowRoot.querySelector('.gatesFrontGround').style.transform = `rotate(${this.__angle}deg)`;
     }
 
@@ -1005,36 +965,23 @@ class GameGates extends HTMLElement {
         this.__r_x = r_x;
     }
 
-    triggerClickSPower() {
-        if (this.__activateSpecialPower === true) {
-            this.shadowRoot.querySelector('#activateSpecialPower div').textContent = 'Off';
-            this.shadowRoot.querySelector('#activateSpecialPower div').style.right = 'auto';
-            this.shadowRoot.querySelector('#activateSpecialPower div').style.left = '0';
-
-        } else {
-            this.shadowRoot.querySelector('#activateSpecialPower div').textContent = 'On';
-            this.shadowRoot.querySelector('#activateSpecialPower div').style.left = 'auto';
-            this.shadowRoot.querySelector('#activateSpecialPower div').style.right = '0';
-        }
-    }
-
     pressLeft() {
         this.__angle += 120;
         this.__direction = (this.__direction + 1) % 3;
         this.__dir += 1;
     }
-    
+
     pressRight() {
         this.__angle -= 120;
         this.__direction = (this.__direction + 2) % 3;
         this.__dir -= 1;
     }
-    
+
     pressUp() {
         this.__r_x += 20;
         this.__y += 700;
     }
-    
+
     pressDown() {
         this.__r_x -= 20;
         this.__y -= 700;
@@ -1072,7 +1019,7 @@ class GameGates extends HTMLElement {
             gatePathC.querySelector('.indexWrapper').classList.add('animatedBigGate2');
         });
     }
-    
+
     animation1() {
         this.shadowRoot.querySelector('.gatesFrontGround').style.transform = `rotate(${this.__angle}deg)`;
         this.shadowRoot.querySelector('#gate1').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${this.__angle}deg)`;
@@ -1108,7 +1055,7 @@ class GameGates extends HTMLElement {
             this.shadowRoot.querySelector('#inf4').textContent = ' buildings block ';
         }
     }
-    
+
     animation2(indx) {
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#b').classList.remove('animatedImg11');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#b').classList.add('animatedImg1');
@@ -1119,14 +1066,14 @@ class GameGates extends HTMLElement {
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#b').classList.remove('animatedBigGate2');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#b').classList.add('animatedBigGate');
     }
-    
+
     animation3(indx) {
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#a').classList.remove('animatedImg00');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#a').classList.add('animatedImg0');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#c').classList.remove('animatedBigGate2');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#c').classList.add('animatedBigGate');
     }
-    
+
     animation4(indx) {
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#a').classList.remove('animatedImg0');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#c').classList.remove('animatedImg22', 'animatedImg222');
@@ -1135,12 +1082,12 @@ class GameGates extends HTMLElement {
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#d').classList.remove('animatedBigGate2');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#d').classList.add('animatedBigGate');
     }
-    
+
     animation5(indx) {
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#c').classList.remove('animatedImg2', 'animatedImg22');
         this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#c').classList.add('animatedImg222');
     }
-    
+
     animateView1(deltaY) {
         if (deltaY > 0)   this.__switch = (this.__switch + 1) % 6;
         else                this.__switch = (this.__switch + 5) % 6;
@@ -1151,13 +1098,13 @@ class GameGates extends HTMLElement {
         if (this.__switch === 3)    this.fillCords(-50, 0, 100, -200, 0, -30, 0);
         if (this.__switch === 4)    this.fillCords(0, -400, 0, -800, -500, 0, -60);
         if (this.__switch === 5)    this.fillCords(0, -300, 0, -1000, -100, 0, -10);
-        
+
         this.shadowRoot.querySelector('.gates__content').style.transform = `translateY(${this.__t_y}px) translateZ(${this.__t_z}px) translateX(${this.__t_x}px) rotate(${this.__r}deg) rotateX(${this.__r_x}deg)`;
         this.shadowRoot.querySelector('.bgWrapper2Wrapper').classList.remove('bgWrapper2WrapperAnimated');
         this.shadowRoot.querySelector('.bgWrapper2Wrapper').offsetWidth;
         this.shadowRoot.querySelector('.bgWrapper2Wrapper').style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${this.__y}px`;
     }
-    
+
     animateView2() {
         this.shadowRoot.querySelector('.bgWrapper2Wrapper').style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${this.__y}px`;
         this.shadowRoot.querySelector('.bgWrapper2Wrapper').classList.remove('bgWrapper2WrapperAnimated');

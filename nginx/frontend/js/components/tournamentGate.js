@@ -35,6 +35,7 @@ class TournamentGate extends HTMLElement {
                 background-image: url('../app/assets/images/tournamentGate/bg.jpeg');
                 background-size: cover;
                 perspective: 1000px;
+                overflow: hidden;
                 animation: start 4s linear forwards;
             }
             .tournamentGate > img {
