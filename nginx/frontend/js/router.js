@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", function() {
     let location = "";
 
     function navigateTo(pathname) {
+
+        if (pathname === '/profile') {
+            context.initProfileOfUser("hel-mefe");
+        }
+
         const timeInterval = setInterval(() => {
             if (context.api.loading === false) {
                 const routes = {
@@ -81,4 +86,8 @@ document.addEventListener("DOMContentLoaded", function() {
     };
     // Initial page load
     navigateTo(window.location.pathname);
+});
+
+window.addEventListener('beforeunload', function(event) {
+    alert("You are leaving the page");
 });

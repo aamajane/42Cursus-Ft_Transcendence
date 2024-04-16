@@ -58,6 +58,18 @@ class Player {
     }
 }
 
+// class Notification {
+//     constructor() {
+//         this.id = null;
+//         this.type = null;
+//         this.message = null;
+//         this.createdAt = null;
+//         this.sender = new Player();
+//         this.receiver = new Player();
+//     }
+
+// }
+
 /*********************************************************************/
 /* Tournament is representing the tournament object
 /*  - id: this represents the id of the tournament
@@ -194,6 +206,67 @@ class APIContext {
 }
 
 /***************************************************************************************
+ * Profile is representing the profile of the user
+ *  - games1v1: this represents the 1v1 games of the user
+ * - games2v2: this represents the 2v2 games of the user
+ * - tournaments: this represents the tournaments of the user
+ * - followers: this represents the followers of the user
+ * - following: this represents the following of the user
+ * - player: this represents the user object
+* ************************************************
+*/
+class Profile {
+    constructor() {
+        this.games1v1 = [] ; // array of games Game[]
+        this.games2v2 = [] ; // array of games Game[]
+        this.tournaments = [] ; // array of tournaments Tournament[]
+        this.followers = [] ; // array of players Player[]
+        this.following = [] ; // array of players Player[]
+        this.player = new Player() ; // a user object
+        this.isLoggedUser = false ; // boolean value that represents if the user is the logged user
+    }
+
+}
+
+class trackPlayer {
+    constructor() {
+        this.id = undefined;
+        this.avatar = undefined;
+        this.name = undefined;
+        this.score = undefined;
+    }
+}
+
+class trackGame {
+    constructor() {
+        this.id = undefined;
+        this.map = undefined;
+        this.status = undefined;
+        this.player1 = undefined;
+        this.player2 = undefined;
+        this.winner = undefined;
+    }
+}
+
+class Track {
+    constructor() {
+        this.gameId = undefined;
+        this.gameMap = undefined;
+        this.gameMode = undefined;
+        this.gameStatus = undefined;
+        this.gameScore = undefined;
+
+        this.tournamentId = undefined;
+        this.tournamentMode = undefined;
+        this.tournamentStatus = undefined;
+        this.tournamentData = {
+            players: [],
+            games: []
+        };
+    }
+}
+
+/***************************************************************************************
  * Context is encapsulating everything about the current user
  *   - route: this represents the current route the user is in
  *   - user: this represents the current user data
@@ -208,9 +281,12 @@ class Context {
         this.friends = undefined ; // array of players Player[]
         this.tournamentsHistory = [] ; // array of tournaments Tournament[]
         this.gamesHistory = [] ; // array of games Game[]
+        this.notifications = [] ; // array of notifications Notification[]
         this.tournamentId = undefined ; // a tournament object
         this.gameId = undefined ; // a game object
         this.api = new APIContext() ; // an APIContext object
+        this.profileOfUser = undefined ; // a Profile object
+        this.track = new Track() ; // a Track object
     }
     get User() {
         const timeInterval = setInterval(() => {
@@ -306,6 +382,40 @@ class Context {
 
         // return true ;
     }
+
+    async initProfileOfUser(username) {
+        context.api.loading = true ;
+        setTimeout(() => {
+            context.api.loading = false ;
+        }, 3000);
+        /************************************************************************
+         * data to be fetched:
+         * - list of games 1v1
+         * - list of games 2v2
+         * - list of tournaments
+         * - list of followers
+         * - list of following
+         * - user data (username, avatar, score, level, winRate, rank)
+         * - isOnline
+         * - isPlaying
+         * - status = "online" | "offline" | "playing"
+         * - isLoggedUser
+         */
+
+        context.profileOfUser.player.isLoggedUser = context.user.username === context.profileOfUser.player.username
+    }
+
+    // state = "enable" | "disable"
+    async setTwoFactorAuthentication(state) {
+        // set the two factor authentication
+    }
+
+    // status = "online" | "offline" | "playing"
+    async setUserStatus(status) {
+        // set the user status
+    }
+
+    
 
     async getProfileData() {
         const query = `query { getUserByUsername(username: "${this.user.username}") { username, firstName, lastName } }`
