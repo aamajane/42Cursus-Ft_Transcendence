@@ -1,4 +1,4 @@
-export class Score {
+class Score {
     constructor(x, y) {
         this.value = 0;
         this.x = x;

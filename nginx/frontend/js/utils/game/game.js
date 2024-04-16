@@ -1,10 +1,4 @@
-import { AI } from "./ai.js";
-import { Socket } from "./socket.js";
-import { Paddle } from "./paddle.js";
-import { Score } from "./score.js";
-import { Ball } from "./ball.js";
-
-export class AIGame {
+class AIGame {
     constructor(map) {
         this.startTime = Date.now();
         this.status = COUNTDOWN;
@@ -75,7 +69,7 @@ export class AIGame {
     }
 }
 
-export class MultiplayerGame {
+class MultiplayerGame {
     constructor(id, mode, map) {
         this.startTime = null;
         this.status = PENDING;

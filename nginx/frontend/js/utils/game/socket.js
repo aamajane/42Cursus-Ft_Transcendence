@@ -1,4 +1,4 @@
-export class Socket {
+class Socket {
     constructor(game) {
         this.game = game;
         this.url = `ws://${window.location.host}/ws/game/${game.mode}/${game.id}/`;

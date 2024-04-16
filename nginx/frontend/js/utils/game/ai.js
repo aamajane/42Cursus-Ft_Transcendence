@@ -1,11 +1,4 @@
-import {
-    ballPaddleColliding,
-    calculateBallVelocity,
-    simulateKeyPress,
-    simulateKeyRelease,
-} from "./utils.js";
-
-export class AI {
+class AI {
     constructor(game, leftKey, rightKey) {
         this.game = game;
         this.leftKey = leftKey;

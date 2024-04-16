@@ -1,4 +1,4 @@
-export function calculateBallVelocity(ball, paddle, level = 1) {
+function calculateBallVelocity(ball, paddle, level = 1) {
     const paddleXCenter = paddle.x + PADDLE_WIDTH / 2;
     const collidePoint = (ball.x - paddleXCenter) / (PADDLE_WIDTH / 2);
     const angleRad = (Math.PI / 4) * collidePoint;
@@ -12,7 +12,7 @@ export function calculateBallVelocity(ball, paddle, level = 1) {
     }
 }
 
-export function ballPaddleColliding(ball, paddle) {
+function ballPaddleColliding(ball, paddle) {
     return (
         ball.top < paddle.bottom &&
         ball.bottom > paddle.top &&
@@ -21,7 +21,7 @@ export function ballPaddleColliding(ball, paddle) {
     );
 }
 
-export function simulateKeyPress(key) {
+function simulateKeyPress(key) {
     if (key === null) {
         return;
     }
@@ -35,7 +35,7 @@ export function simulateKeyPress(key) {
     document.dispatchEvent(keyPressEvent);
 }
 
-export function simulateKeyRelease(key) {
+function simulateKeyRelease(key) {
     if (key === null) {
         return;
     }
@@ -49,21 +49,21 @@ export function simulateKeyRelease(key) {
     document.dispatchEvent(keyReleaseEvent);
 }
 
-export function applyShadow(context, blur, offsetX, offsetY) {
+function applyShadow(context, blur, offsetX, offsetY) {
     context.shadowColor = "#000000";
     context.shadowBlur = blur;
     context.shadowOffsetX = offsetX;
     context.shadowOffsetY = offsetY;
 }
 
-export function resetShadow(context) {
+function resetShadow(context) {
     context.shadowColor = "#000000";
     context.shadowBlur = 0;
     context.shadowOffsetX = 0;
     context.shadowOffsetY = 0;
 }
 
-export function changeImageColor(image, color) {
+function changeImageColor(image, color) {
     const offscreenCanvas = document.createElement("canvas");
     const context = offscreenCanvas.getContext("2d");
 

@@ -1,12 +1,13 @@
-export class Map {
+class Map {
     constructor(map) {
-        this.backgroundImage = document.getElementById(`${map}_background`);
-        this.playerPaddleImage = document.getElementById(`${map}_player_paddle`);
-        this.opponentPaddleImage = document.getElementById(`${map}_opponent_paddle`);
+        const shadowRoot = document.getElementById("game-body").shadowRoot;
+        this.backgroundImage = shadowRoot.getElementById(`${map}_background`);
+        this.playerPaddleImage = shadowRoot.getElementById(`${map}_player_paddle`);
+        this.opponentPaddleImage = shadowRoot.getElementById(`${map}_opponent_paddle`);
 
         this.ballImage = [];
         for (let i = 0; i <= 14; i++) {
-            this.ballImage.push(document.getElementById(`ball_${i}`));
+            this.ballImage.push(shadowRoot.getElementById(`ball_${i}`));
         }
 
         switch (map) {

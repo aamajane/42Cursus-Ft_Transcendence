@@ -1,10 +1,11 @@
-import { AIGame, MultiplayerGame } from "./game.js";
-import { Map } from "./map.js";
-
-window.addEventListener("load", function () {
-    const canvasContainer = document.getElementById("pong-container");
-    const canvas = document.getElementById("pong");
+function startGame() {
+    const shadowRoot = document.getElementById("game-body").shadowRoot;
+    const canvasContainer = shadowRoot.getElementById("pong-container");
+    console.log(canvasContainer);
+    const canvas = shadowRoot.getElementById("pong");
+    console.log(canvas);
     const context = canvas.getContext("2d");
+    console.log(context);
     const gameID = canvas.getAttribute("data-game-id");
     const gameMode = canvas.getAttribute("data-game-mode");
     const gameMap = new Map(canvas.getAttribute("data-game-map"));
@@ -14,7 +15,7 @@ window.addEventListener("load", function () {
     canvas.height = GAME_HEIGHT;
 
     const game =
-        gameMode === AI
+        gameMode === AIMode
             ? new AIGame(gameMap)
             : new MultiplayerGame(gameID, gameMode, gameMap);
 
@@ -81,4 +82,4 @@ window.addEventListener("load", function () {
     }
 
     render();
-});
+}

@@ -1,4 +1,4 @@
-export class Input {
+class Input {
     constructor(leftKey, rightKey) {
         this.currentKey = null;
         this.touchStartX = null;

@@ -1,12 +1,4 @@
-import {
-    ballPaddleColliding,
-    calculateBallVelocity,
-    applyShadow,
-    resetShadow,
-    changeImageColor,
-} from "./utils.js";
-
-export class Ball {
+class Ball {
     constructor(
         image,
         color,

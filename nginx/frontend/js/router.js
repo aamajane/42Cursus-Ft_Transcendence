@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", function() {
         homePage: createDashboard,
         gamePage: createGates,
         profilePage: openProfilePopup,
-        tournamentpage: createtouranmentGate
+        tournamentpage: createtouranmentGate,
+        game: createGamePage
     };
 
     function showPage(pageId) {
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
             '/tournament': 'tournamentpage',
             '/game/aiBot': 'gamePage',
             '/profile': 'profilePage',
-            '/play' : 'tournamentpage'
+            '/play' : 'game'
         };
 
         const pageId = routes[pathname];

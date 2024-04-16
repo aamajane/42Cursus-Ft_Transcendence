@@ -1034,7 +1034,6 @@ class GameGates extends HTMLElement {
             this.shadowRoot.querySelector('#inf1').textContent = 'Set your belt and get ready. The time machine will sand you to the past :';
             this.shadowRoot.querySelector('#inf2').innerHTML = '<em>⇝</em> To 3000 years BC. ';
             this.shadowRoot.querySelector('#inf3').textContent = ' Silent guardians, mummies beckon with secrets preserved through millennia. ';
-            this.shadowRoot.querySelector('#inf4').textContent = ' Mummy catch ';
         }
         if (this.__direction === 0) {
             this.shadowRoot.querySelector('#gate2').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${120 + this.__angle}deg)`;
@@ -1043,7 +1042,6 @@ class GameGates extends HTMLElement {
             this.shadowRoot.querySelector('#inf1').textContent = 'Set your belt and get ready. The time machine will sand you to the future :';
             this.shadowRoot.querySelector('#inf2').innerHTML = '<em>⇝</em> To 3000 years AD. ';
             this.shadowRoot.querySelector('#inf3').textContent = ' Humanity thrives in vast space habitats, forging a cosmic legacy. ';
-            this.shadowRoot.querySelector('#inf4').textContent = ' black hole ';
         }
         if (this.__direction === 2) {
             this.shadowRoot.querySelector('#gate3').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${240 + this.__angle}deg)`;
@@ -1052,7 +1050,6 @@ class GameGates extends HTMLElement {
             this.shadowRoot.querySelector('#inf1').textContent = 'Set your belt and get ready. The time machine will sand you to the present :';
             this.shadowRoot.querySelector('#inf2').innerHTML = '<em>⇝</em> To 2045. ';
             this.shadowRoot.querySelector('#inf3').textContent = ' A world of industry and progress, where the air is thick with promise. ';
-            this.shadowRoot.querySelector('#inf4').textContent = ' buildings block ';
         }
     }
 

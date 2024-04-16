@@ -1,7 +1,4 @@
-import { Input } from "./input.js";
-import { applyShadow, resetShadow } from "./utils.js";
-
-export class Paddle {
+class Paddle {
     constructor(image, x, y, leftKey, rightKey) {
         this.image = image;
         this.speed = PADDLE_SPEED;

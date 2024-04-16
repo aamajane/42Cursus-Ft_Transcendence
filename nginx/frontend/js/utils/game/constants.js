@@ -1,13 +1,13 @@
 /* *************************** GAME CONSTANTS *************************** */
-const GAME_WIDTH = document.getElementById("pong").offsetWidth;
-const GAME_HEIGHT = document.getElementById("pong").offsetHeight;
+const GAME_WIDTH = 900;
+const GAME_HEIGHT = 2100;
 
 const PENDING = "pending";
 const COUNTDOWN = "countdown";
 const ONGOING = "ongoing";
 const OVER = "over";
 
-const AI = "ai";
+const AIMode = "ai";
 const ONE_VS_ONE = "one_vs_one";
 const TWO_VS_TWO = "two_vs_two";
 
