@@ -425,7 +425,7 @@ class DashboardPage extends HTMLElement {
                             </svg>
                             <div class="Pcdr">
                                 <a href="/profile" id="pages" class="profilePage"></a>
-                                <h1>@abdellah</h1>
+                                <h1 id="user-id">@${context.user?.name}</h1>
                             </div>
                             
                         </div>
@@ -529,6 +529,10 @@ class DashboardPage extends HTMLElement {
                 tenor.style.transform = 'translate(-50%, -50%)';
             });
         });
+
+        // setInterval(() => {
+        //     this.shadowRoot.getElementById('user-id').innerText = context.user?.name;
+        // }, 1000);
         
     }
 }

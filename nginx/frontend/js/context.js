@@ -47,10 +47,10 @@ class Game {
 /*  - rank: this represents the rank of the player
 /*********************************************************************/
 class Player {
-    constructor() {
+    constructor(data) {
         this.id = null;
-        this.name = null;
-        this.avatar = null;
+        this.name = data?.username || null;
+        this.avatarUrl = data?.avatarUrl || null;
         this.score = null;
         this.level = null;
         this.winRate = null;
@@ -98,11 +98,21 @@ class Tournament {
 
 class User {
 
-    constructor() {
-        this.id = 50;
-        this.name = null;
-        this.avatar = null; 
-    }       
+    constructor(data) {
+        this.id = data?.id || null ;
+        this.name = data?.username || null ;
+        this.avatar = data?.avatarUrl || null ; 
+    }
+    // get Name() {
+    //     const timeInterval = s
+    //     return this.name ;
+
+    // }
+    // get friends() {
+
+    // set f1(name) {
+    //     //name and avatar
+    // }
 }
 
 /***************************************************************************************
@@ -126,7 +136,7 @@ class APIResponse {
 class APIContext {
     constructor() {
         this.websocketEndpoint = "localhost:80/ws";
-        this.graphqlEndpoint = "http://localhost:8000/api/graphql/";
+        this.graphqlEndpoint = "http://localhost:80/api/graphql/";
         this.loading = false ;
         this.response = undefined ;
         this.error = undefined
@@ -146,7 +156,7 @@ class APIContext {
         let jsonQuery = JSON.stringify({ query: queryOrMutation })
         let res = await fetch(this.graphqlEndpoint, {
             method: 'POST',
-            // credentials: 'include',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -168,6 +178,8 @@ class APIContext {
         }
 
         this.response = await res.json()
+        this.response = this.response.data ;
+        console.log(this.response)
         this.loading = false ;
         this.error = null ;
     }
@@ -200,61 +212,117 @@ class Context {
         this.gameId = undefined ; // a game object
         this.api = new APIContext() ; // an APIContext object
     }
-
+    get User() {
+        const timeInterval = setInterval(() => {
+            if (this.api.loading === false) {
+                clearInterval(timeInterval) ;
+                return this.user ;
+            }
+        }, 1000);
+    }
 
     // takes a test user for testing purposes
     async initContext(testUser) {
-        console.log("[CONTEXT FIRST INITIALIZATION]")
-        const query = `query { getUserByUsername(username: "${testUser.username}") { username, firstName, lastName } }`
+
+        // retrieve the user name and avatar
+        let query = `query { 
+            getUserByUsername(username: "${testUser.username}") 
+            { 
+                username,
+                avatarUrl,
+            }
+        }`
 
         await this.api.graphqlFetch(query)
-        console.log("USERNAME: ", testUser.username)
+        if (this.api.error)
+        {
+            alert("Error occured while fetching user data [CONTEXT]")
+            return ;
+        }
+        // console.log("CONTEXT => ", this.api.response.getUserByUsername)
+        // alert("USER DATA: ", this.api.response)
+        this.user = new User(this.api.response.getUserByUsername) ;
 
-        console.log("[CONTEXT SECOND INITIALIZATION]")
+        query = `query {
+            getAllFriends(username: "${testUser.username}") {
+                followedBy {
+                    username,
+                    avatarUrl
+                }
+            }
+        }`
+
+        await this.api.graphqlFetch(query)
+        
+        if (this.api.error)
+        {
+            alert("Error occured while fetching friends data [CONTEXT]")
+            return ;
+        }
+        this.friends = this.api.response.getAllFriends ;
+    
+        // console.log("USERNAME: ", testUser.username)
+
+        // console.log("[CONTEXT SECOND INITIALIZATION]")
+        // if (this.api.error) {
+        //     console.log("Error occured while fetching user data [CONTEXT]")
+        //     return false ;
+        // }
+
+        // console.log("RESPONSE IS OK => ", this.api.response.data)
+        // this.user = this.api.response.getUserByUsername ;
+        // // this.user = this.api.response.data ;
+        // console.log("USER IS SET => ", this.user)        
+        // // is the user query set
+        // // if (!this.user) {
+        // //     alert("User not set!")
+        // //     return false ;
+        // // }
+
+        // this.api.resetAPIContext() ;
+
+        // // fetching the friends of the user
+        // await this.api.graphqlFetch(`query {
+        //         getFriendsOfUser(username: "${testUser.username}") {
+        //             username,
+        //             firstName,
+        //             lastName,
+        //         }
+        //     }
+        // `);
+
+        // if (this.api.error) {
+        //     console.log("2nd Query Error occured while fetching user data [CONTEXT]", this.api.error)
+        //     return false ;
+        // }
+
+        // this.friends = this.api.response.data.getFriendsOfUser ;
+        // // is the friends query set
+        // if (!this.friends) {
+        //     alert("Friends not set!") ;
+        //     return false ; 
+        // }
+        // console.log("FRIENDS ARE SET => ", this.friends)
+
+        // return true ;
+    }
+
+    async getProfileData() {
+        const query = `query { getUserByUsername(username: "${this.user.username}") { username, firstName, lastName } }`
+        await this.api.graphqlFetch(query)
         if (this.api.error) {
             console.log("Error occured while fetching user data [CONTEXT]")
             return false ;
         }
-
-        console.log("RESPONSE IS OK => ", this.api.response.data)
         this.user = this.api.response.getUserByUsername ;
-        // this.user = this.api.response.data ;
-        console.log("USER IS SET => ", this.user)        
-        // is the user query set
-        // if (!this.user) {
-        //     alert("User not set!")
-        //     return false ;
-        // }
-
         this.api.resetAPIContext() ;
-
-        // fetching the friends of the user
-        await this.api.graphqlFetch(`query {
-                getFriendsOfUser(username: "${testUser.username}") {
-                    username,
-                    firstName,
-                    lastName,
-                }
-            }
-        `);
-
-        if (this.api.error) {
-            console.log("2nd Query Error occured while fetching user data [CONTEXT]", this.api.error)
-            return false ;
-        }
-
-        this.friends = this.api.response.data.getFriendsOfUser ;
-        // is the friends query set
-        if (!this.friends) {
-            alert("Friends not set!") ;
-            return false ; 
-        }
-        console.log("FRIENDS ARE SET => ", this.friends)
-
         return true ;
     }
+
+
+
 
 }
 
 const context = new Context()
-context.initContext({username: "hel-mefe"})
+context.initContext({ username: "hel-mefe" })
