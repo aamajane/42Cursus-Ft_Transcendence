@@ -27,17 +27,24 @@ document.addEventListener("DOMContentLoaded", function() {
             context.track.tournamentStatus = true;
         }
         if (pathname === '/game/1v1') {
-            context.track.gameMode = "OneVsOne";
+            context.track.gameId = "1";
+            context.track.gameMode = "1v1";
         }
         if (pathname === '/game/2v2') {
-            context.track.gameMode = "TwoVsTwo";
+            context.track.gameId = "2";
+            context.track.gameMode = "2v2";
         }
         if (pathname === '/game/aiBot') {
+            context.track.gameId = "";
             context.track.gameMode = "ai";
         }
 
         const timeInterval = setInterval(() => {
             if (context.api.loading === false) {
+                const gamePath1v1 = `/game/1v1/${context.track.gameId}`;
+                const gamePath2v2 = `/game/2v2/${context.track.gameId}`;
+                const gamePathAi = `/game/aiBot/${context.track.gameId}`;
+                console.log(gamePath1v1, gamePath2v2, gamePathAi, pathname);
                 const routes = {
                     '/': 'homePage',
                     '/home': 'homePage',
@@ -45,11 +52,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     '/game/2v2': 'gamePage',
                     '/tournament': 'tournamentpage',
                     '/game/aiBot': 'gamePage',
-                    '/profile': 'profilePage',
-                    '/play' : 'game'
+                    '/profile': 'profilePage'
                 };
-
+                routes[gamePath1v1] = 'game';
+                routes[gamePath2v2] = 'game';
+                routes[gamePathAi] = 'game';
+                
                 const pageId = routes[pathname];
+                console.log(pathname, pageId);
                 location = "";
                 if (pageId) {
                     showPage(pageId);
@@ -58,8 +68,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         const shadowRoot = document.querySelector("game-gates").shadowRoot;
                         shadowRoot.querySelectorAll("a#pages").forEach(a => a.addEventListener("click", (event) => {
                             event.preventDefault();
-                            event.target.setAttribute("href", '/play');
-                            location = '/play';
+
+                            location = `${pathname}/${context.track.gameId}`;
+                            alert(location);
                             setTimeout(() => {
                                 handleLinkClick(event);
                             }, 1000);

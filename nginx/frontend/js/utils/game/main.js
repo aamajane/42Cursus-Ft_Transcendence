@@ -1,14 +1,11 @@
 function startGame() {
     const shadowRoot = document.getElementById("game-body").shadowRoot;
     const canvasContainer = shadowRoot.getElementById("pong-container");
-    console.log(canvasContainer);
     const canvas = shadowRoot.getElementById("pong");
-    console.log(canvas);
-    const context = canvas.getContext("2d");
-    console.log(context);
-    const gameID = canvas.getAttribute("data-game-id");
-    const gameMode = canvas.getAttribute("data-game-mode");
-    const gameMap = new Map(canvas.getAttribute("data-game-map"));
+    const ctx = canvas.getContext("2d");
+    const gameID = context.track.gameId;
+    const gameMode = context.track.gameMode;
+    const gameMap = new Map(context.track.gameMap);
 
     canvasContainer.style.backgroundImage = `url(${gameMap.backgroundImage.src})`;
     canvas.width = GAME_WIDTH;
@@ -20,7 +17,7 @@ function startGame() {
             : new MultiplayerGame(gameID, gameMode, gameMap);
 
     function render() {
-        context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
         switch (game.status) {
             case PENDING:
@@ -43,11 +40,11 @@ function startGame() {
     function gamePending() {
         const message = "Waiting for opponent...";
 
-        context.font = "50px sans-serif";
-        context.fillStyle = "white";
-        context.textAlign = "center";
+        ctx.font = "50px sans-serif";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
 
-        context.fillText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        ctx.fillText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2);
     }
 
     function gameCountdown() {
@@ -58,11 +55,11 @@ function startGame() {
         if (timeElapsed < countdownTime) {
             const countdown = Math.ceil((countdownTime - timeElapsed) / 1000);
 
-            context.font = "100px sans-serif";
-            context.fillStyle = "white";
-            context.textAlign = "center";
+            ctx.font = "100px sans-serif";
+            ctx.fillStyle = "white";
+            ctx.textAlign = "center";
 
-            context.fillText(countdown, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+            ctx.fillText(countdown, GAME_WIDTH / 2, GAME_HEIGHT / 2);
         } else {
             game.status = ONGOING;
         }
@@ -70,15 +67,15 @@ function startGame() {
 
     function gameOngoing() {
         game.update();
-        game.draw(context);
+        game.draw(ctx);
     }
 
     function gameOver() {
-        context.font = "100px sans-serif";
-        context.fillStyle = "white";
-        context.textAlign = "center";
+        ctx.font = "100px sans-serif";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
 
-        context.fillText(game.status, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        ctx.fillText(game.status, GAME_WIDTH / 2, GAME_HEIGHT / 2);
     }
 
     render();

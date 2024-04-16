@@ -8,8 +8,8 @@ const ONGOING = "ongoing";
 const OVER = "over";
 
 const AIMode = "ai";
-const ONE_VS_ONE = "one_vs_one";
-const TWO_VS_TWO = "two_vs_two";
+const ONE_VS_ONE = "1v1";
+const TWO_VS_TWO = "2v2";
 
 /* *************************** BALL CONSTANTS *************************** */
 const BALL_MAX_FRAME = 15;
