@@ -22,6 +22,19 @@ document.addEventListener("DOMContentLoaded", function() {
         if (pathname === '/profile') {
             context.initProfileOfUser("hel-mefe");
         }
+        if (pathname === '/tournament') {
+            context.initTournament();
+            context.track.tournamentStatus = true;
+        }
+        if (pathname === '/game/1v1') {
+            context.track.gameMode = "OneVsOne";
+        }
+        if (pathname === '/game/2v2') {
+            context.track.gameMode = "TwoVsTwo";
+        }
+        if (pathname === '/game/aiBot') {
+            context.track.gameMode = "ai";
+        }
 
         const timeInterval = setInterval(() => {
             if (context.api.loading === false) {
