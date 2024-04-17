@@ -1112,6 +1112,8 @@ class TournamentGate extends HTMLElement {
                 }
             }, 500);
         }, 6000);
+
+        startTournament();
     }
 
     game1() {

@@ -1,5 +1,5 @@
-window.addEventListener("load", function () {
-    const tournamentID = document.getElementById("tournament").getAttribute("data-tournament-id");
+function startTournament() {
+    const tournamentID = context.track.tournamentId;
     const url = `ws://${window.location.host}/ws/tournament/${tournamentID}/`;
     const socket = new WebSocket(url);
     let tournamentStatus = "pending";
@@ -67,20 +67,29 @@ window.addEventListener("load", function () {
                 console.log("Tournament over");
                 break;
             case "play_game1":
-                const game1ID = 1;
-                window.location.href = `/game/1v1/${game1ID}/`;
+                const game1ID = 500505;
+                context.track.gameId = game1ID;
+                context.track.gameMode = "1v1";
+                context.track.gameMap = "egypt";
+                navigation(`/game/1v1/${game1ID}/`);
                 console.log("Playing game 1");
                 break;
             case "play_game2":
-                const game2ID = 2;
-                window.location.href = `/game/1v1/${game2ID}/`;
+                const game2ID = 605005;
+                context.track.gameId = game2ID;
+                context.track.gameMode = "1v1";
+                context.track.gameMap = "factory";
+                navigation(`/game/1v1/${game2ID}/`);
                 console.log("Playing game 2");
                 break;
             case "play_game3":
-                const game3ID = 3;
-                window.location.href = `/game/1v1/${game3ID}/`;
+                const game3ID = 700605;
+                context.track.gameId = game3ID;
+                context.track.gameMode = "1v1";
+                context.track.gameMap = "space";
+                navigation(`/game/1v1/${game3ID}/`);
                 console.log("Playing game 3");
                 break;
         }
     };
-});
+}

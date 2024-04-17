@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+function navigation(mainPath) {
     const pages = {
         homePage: createDashboardPage,
         gatePage: createGatePage,
@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let location = "";
 
     function navigateTo(pathname) {
+        console.log("mainPath: " + mainPath, "pathname: " + pathname);
         if (pathname === "/profile") {
             context.initProfileOfUser("hel-mefe");
         }
@@ -24,35 +25,35 @@ document.addEventListener("DOMContentLoaded", function () {
         //     context.track.tournamentStatus = true;
         // }
         if (pathname === "/game/1v1") {
-            context.track.gameId = "1";
             context.track.gameMode = "1v1";
         }
         if (pathname === "/game/2v2") {
-            context.track.gameId = "2";
             context.track.gameMode = "2v2";
         }
         if (pathname === "/game/aiBot") {
-            context.track.gameId = "";
             context.track.gameMode = "ai";
         }
+        if (pathname === `/tournament/${context.track.tournamentId}`)
+            context.track.gameId = undefined;
 
         const timeInterval = setInterval(() => {
             if (context.api.loading === false) {
                 const gamePath1v1 = `/game/1v1/${context.track.gameId}`;
                 const gamePath2v2 = `/game/2v2/${context.track.gameId}`;
                 const gamePathAi = `/game/aiBot/${context.track.gameId}`;
+                const tournamentPath = `/tournament/${context.track.tournamentId}`;
                 const routes = {
                     "/": "homePage",
                     "/home": "homePage",
                     "/profile": "profilePage",
                     "/game/1v1": "gatePage",
                     "/game/2v2": "gatePage",
-                    "/game/aiBot": "gatePage",
-                    "/tournament": "tournamentPage",
+                    "/game/aiBot": "gatePage"
                 };
                 routes[gamePath1v1] = "gamePage";
                 routes[gamePath2v2] = "gamePage";
                 routes[gamePathAi] = "gamePage";
+                routes[tournamentPath] = "tournamentPage";
 
                 const pageId = routes[pathname];
                 location = "";
@@ -64,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
                             a.addEventListener("click", (event) => {
                                 event.preventDefault();
+                                context.track.gameId = 15;
                                 location = `${pathname}/${context.track.gameId}`;
                                 setTimeout(() => {
                                     handleLinkClick(event);
@@ -91,6 +93,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleLinkClick(event) {
         event.preventDefault();
         let pathname = event.target.getAttribute("href");
+        if (pathname === "/tournament") {
+            context.track.tournamentId = "123545679";
+            pathname = `${pathname}/${context.track.tournamentId}`;
+        }
         if (location !== "") pathname = location;
         window.history.pushState(
             {},
@@ -104,9 +110,10 @@ document.addEventListener("DOMContentLoaded", function () {
         navigateTo(window.location.pathname);
     };
     // Initial page load
-    navigateTo(window.location.pathname);
-});
+    if (window.location.pathname === `/tournament/${context.track.tournamentId}` && context.track.gameId !== undefined)
+        navigateTo(`/game/1v1/${context.track.gameId}`);
+    else
+        navigateTo(window.location.pathname);
+}
 
-window.addEventListener("beforeunload", function (event) {
-    alert("You are leaving the page");
-});
+document.addEventListener("DOMContentLoaded", navigation);
