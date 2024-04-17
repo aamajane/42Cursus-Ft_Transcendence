@@ -259,73 +259,73 @@ class CustomDiv extends HTMLElement {
             
             @keyframes gradientAnimation1 {
                 0% {
-                    stop-color: rgb(93, 45, 110);
+                    stop-color: #64ffb5;
                 }
                 50% {
-                    stop-color: rgb(220, 125, 255);
+                    stop-color: #0d7e75;
                 }
                 100% {
-                    stop-color: rgb(93, 45, 110);
+                    stop-color: #64ffb5;
                 }
             }
             
             @keyframes gradientAnimation2 {
                 0% {
-                    stop-color: rgba(187, 0, 255, 0.537);
+                    stop-color: #bafffa;
                 }
                 50% {
-                    stop-color: rgb(95, 0, 129);
+                    stop-color: #64ffb5;
                 }
                 100% {
-                    stop-color: rgba(187, 0, 255, 0.537);
+                    stop-color: #bafffa;
                 }
             }
             
             @keyframes gradientAnimation3 {
                 0% {
-                    stop-color: rgba(187, 0, 255, 0.537);
+                    stop-color: #226666;
                 }
                 50% {
-                    stop-color: rgba(187, 0, 255, 0.291);
+                    stop-color: #bbccdd;
                 }
                 100% {
-                    stop-color: rgba(187, 0, 255, 0.17);
+                    stop-color: #bafffa;
                 }
             }
             
             @keyframes gradientAnimation4 {
                 0% {
-                    stop-color: rgba(224, 139, 255, 0.537);
+                    stop-color: #bbccdd;
                 }
                 50% {
-                    stop-color: rgba(187, 0, 255, 0.537);
+                    stop-color: #226666;
                 }
                 100% {
-                    stop-color: rrgba(224, 139, 255, 0.537);
+                    stop-color: #bbccdd;
                 }
             }
             
             @keyframes gradientAnimation5 {
                 0% {
-                    stop-color: rgba(62, 2, 84, 0.537);
+                    stop-color: #2af4e5;
                 }
                 50% {
-                    stop-color: rgba(187, 0, 255, 0.537);
+                    stop-color: #226666;
                 }
                 100% {
-                    stop-color: rgba(62, 2, 84, 0.537);
+                    stop-color: #2af4e5;
                 }
             }
             
             @keyframes gradientAnimation6 {
                 0% {
-                    stop-color: rgba(62, 2, 84, 0.537);
+                    stop-color: #2af4e5;
                 }
                 50% {
-                    stop-color: rgba(187, 0, 255, 0.537);
+                    stop-color: #226666;
                 }
                 100% {
-                    stop-color: rgba(62, 2, 84, 0.537);
+                    stop-color: #2af4e5;
                 }
             }
         </style>
