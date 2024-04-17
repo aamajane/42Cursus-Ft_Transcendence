@@ -1103,6 +1103,12 @@ class PopUpProfile extends HTMLElement {
             font-size: 1em;
             color: #ff0;
         }
+        a#pages {
+            position: absolute;
+            width: 100%;
+            height: 50px;
+            z-index: 10;
+        }
         </style>
         <div class="popup">
             <img src="../../app/assets/images/tenor.gif">
@@ -1496,7 +1502,8 @@ class PopUpProfile extends HTMLElement {
                             </svg>
                         </div>
                     </div>
-                    <div class="info" onclick="createProfilePage(${i})">
+                    <div class="info">
+                        <a href="/profile" id="pages" class="profilePage" playerName="hel-mefe"></a>
                         <img src="../../app/assets/images/nameScreen.svg" alt="profile">
                         <div class="infoWrapper">
                             <h3>show</h3>

@@ -333,8 +333,11 @@ class DashboardPage extends HTMLElement {
                 position: absolute;
                 width: 400px;
                 height: 200px;
-                top: 20px;
+                top: 30px;
                 left: 0;
+                display: grid;
+                gap: 10px;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
                 background-color: #0ff4;
                 backdrop-filter: saturate(300%) blur(20px) invert(100%) hue-rotate(200deg);
                 box-shadow: 0 0 10px 5px #0af,
@@ -373,21 +376,6 @@ class DashboardPage extends HTMLElement {
                 line-height: 50px;
                 font-size: 20px;
             }
-            .searchResults > div {
-                position: relative;
-                width: 100%;
-                height: 60px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                z-index: -1;
-                // border-bottom: 1px solid #000;
-                background-image: linear-gradient(to bottom, #0af3, #fff0 10%, #fff0 90%, #0af3);
-            }
-            .searchResults > div:hover {
-                background-color: #0556;
-            }
             .bob {
                 transition: all 1s ease-in-out;
                 z-index: 1;
@@ -404,11 +392,118 @@ class DashboardPage extends HTMLElement {
             a.pages > * {
                 z-index: -100;
             }
+            .searchResults .searchResults-profile {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                width: 100px;
+                height: 200px;
+                // border : 1px solid #ff0;
+                margin: 0 auto;
+            }
+            .searchResults .searchResults-profile .searchResults-avatar {
+                position: relative;
+                width: 100%;
+                height: 70%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // border: 1px solid blue;
+            }
+            .searchResults .searchResults-profile .searchResults-info {
+                position: relative;
+                height: 40px;
+                cursor: pointer;
+                flex-direction: column;
+                justify-content: center;
+                // border: 1px solid red;
+            }
+            .searchResults .searchResults-profile .searchResults-info img {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                filter: hue-rotate(60deg);
+            }
+            .searchResults .searchResults-profile .searchResults-avatar > img {
+                position: absolute;
+                width: 100%;
+                object-fit: cover;
+                object-position: center;
+                filter: hue-rotate(60deg);
+            }
+            .searchResults .searchResults-profile .searchResults-avatar .searchResults-avatarInfo {
+                position: absolute;
+                width: 84%;
+                height: 84%;
+                display: flex;
+                flex-direction: column;
+                transform: translateY(-2px);
+                justify-content: center;
+                align-items: center;
+                clip-path: url(#userMask);
+            }
+            .searchResults .searchResults-profile .searchResults-avatar .searchResults-avatarInfo img {
+                position: relative;
+                width: 100%;
+                height: 50%;
+                object-fit: cover;
+                filter: hue-rotate(60deg);
+            }
+            .searchResults .searchResults-profile .searchResults-avatar .searchResults-avatarInfo h3 {
+                position: relative;
+                width: 100%;
+                height: 50%;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #00e5ff;
+                font-size: 14px;
+                font-weight: 600;
+                text-shadow: 0 0 5px #00e5ff;
+                border: 1px solid #00e5ff55;
+            }
+            .searchResults .searchResults-profile .searchResults-avatar .searchResults-avatarInfo svg{
+                position: absolute;
+                top: -5%;
+                left: -10%;
+                width: 100%;
+                height: 100%;
+                fill: #00e5ff;
+            }
+            .searchResults .searchResults-profile .searchResults-info .searchResults-infoWrapper {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #00e5ff;
+                // border: 1px solid white; 
+            }
+            .searchResults .searchResults-profile .searchResults-info .searchResults-infoWrapper h3 {
+                position: relative;
+                width: 100%;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 16px;
+                font-weight: 700;
+                text-shadow: 0 0 5px #00e5ff;
+            }
+            .searchResults a#pages {
+                position: absolute;
+                width: 100%;
+                height: 50px;
+                z-index: 10;
+            }
         </style>
         <div class="dashboard">
                     <nav>
                         <div class="profile">
-                            <a href="/profile" id="pages" class="profilePage"></a>
+                            <a href="/profile" id="pages" class="profilePage" playerName="${context.user?.name}"></a>
                             <img src="../../app/assets/images/dashboardGate/avatar.svg" alt="avatar">
                             <img class="plAvatar" src="../../app/assets/images/anonimous.jpeg">
                             <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -488,24 +583,32 @@ class DashboardPage extends HTMLElement {
         const searchResults = this.shadowRoot.querySelector(".searchResults");
 
         search.addEventListener("click", () => {
-            searchResults.style.display = "block";
-            searchResults.innerHTML = `
-                <div>
-                    <h1> Search Results </h1>
-                </div>
-                <div>
-                    <h1> Search Results </h1>
-                </div>
-                <div>
-                    <h1> Search Results </h1>
-                </div>
-                <div>
-                    <h1> Search Results </h1>
-                </div>
-                <div>
-                    <h1> Search Results </h1>
-                </div>
-            `;
+            searchResults.style.display = "grid";
+            for (let i = 0; i < 20; i++) {
+                searchResults.innerHTML += `
+                    <div class="searchResults-profile" id="profile${i}">
+                        <div class="searchResults-avatar">
+                            <img src="../../app/assets/images/profileScreen.svg" alt="profile">
+                            <div class="searchResults-avatarInfo">
+                                <img src="../../app/assets/images/devCard/amajan.png" alt="profile">
+                                <h3>Username</h3>
+                                <svg viewBox="0 0 277 363" fill="none">
+                                    <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
+                                        <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
+                                    </clipPath>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="searchResults-info">
+                            <a href="/profile" id="pages" class="searchResults-profilePage" playerName="hel-mefe"></a>
+                            <img src="../../app/assets/images/nameScreen.svg" alt="profile">
+                            <div class="searchResults-infoWrapper">
+                                <h3>show</h3>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
         });
         this.shadowRoot.addEventListener("click", (event) => {
             if (

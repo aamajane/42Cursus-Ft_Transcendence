@@ -402,7 +402,7 @@ class Context {
          * - isLoggedUser
          */
 
-        context.profileOfUser.player.isLoggedUser = context.user.username === context.profileOfUser.player.username
+        // context.profileOfUser.player.isLoggedUser = context.user.username === context.profileOfUser.player.username
     }
 
     // state = "enable" | "disable"

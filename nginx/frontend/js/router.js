@@ -42,18 +42,21 @@ function navigation(mainPath) {
                 const gamePath2v2 = `/game/2v2/${context.track.gameId}`;
                 const gamePathAi = `/game/aiBot/${context.track.gameId}`;
                 const tournamentPath = `/tournament/${context.track.tournamentId}`;
+                const profilePath = `/profile/null`;
+
                 const routes = {
                     "/": "homePage",
                     "/home": "homePage",
-                    "/profile": "profilePage",
                     "/game/1v1": "gatePage",
                     "/game/2v2": "gatePage",
                     "/game/aiBot": "gatePage"
                 };
+
                 routes[gamePath1v1] = "gamePage";
                 routes[gamePath2v2] = "gamePage";
                 routes[gamePathAi] = "gamePage";
                 routes[tournamentPath] = "tournamentPage";
+                routes[profilePath] = "profilePage";
 
                 const pageId = routes[pathname];
                 location = "";
@@ -71,6 +74,12 @@ function navigation(mainPath) {
                                     handleLinkClick(event);
                                 }, 1000);
                             })
+                        );
+                    }
+                    if (pageId === "profilePage") {
+                        const shadowRoot = document.querySelector("custom-profile").shadowRoot;
+                        shadowRoot.querySelectorAll("a#pages").forEach((a) =>
+                            a.addEventListener("click", handleLinkClick)
                         );
                     }
                 } else {
@@ -97,6 +106,13 @@ function navigation(mainPath) {
             context.track.tournamentId = "123545679";
             pathname = `${pathname}/${context.track.tournamentId}`;
         }
+
+        if (pathname === "/profile") {
+            context.initProfileOfUser("hel-mefe");
+            // context.track.initProfileOfUser.player.name = event.target.getAttribute("playerName");
+            pathname = `${pathname}/${event.target.getAttribute("playerName")}`;
+        }
+        console.log("pathname:::::::: " + pathname);
         if (location !== "") pathname = location;
         window.history.pushState(
             {},
