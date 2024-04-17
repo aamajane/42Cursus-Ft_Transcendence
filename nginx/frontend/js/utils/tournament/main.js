@@ -68,17 +68,17 @@ window.addEventListener("load", function () {
                 break;
             case "play_game1":
                 const game1ID = 1;
-                window.location.href = `/game/one_vs_one/${game1ID}/`;
+                window.location.href = `/game/1v1/${game1ID}/`;
                 console.log("Playing game 1");
                 break;
             case "play_game2":
                 const game2ID = 2;
-                window.location.href = `/game/one_vs_one/${game2ID}/`;
+                window.location.href = `/game/1v1/${game2ID}/`;
                 console.log("Playing game 2");
                 break;
             case "play_game3":
                 const game3ID = 3;
-                window.location.href = `/game/one_vs_one/${game3ID}/`;
+                window.location.href = `/game/1v1/${game3ID}/`;
                 console.log("Playing game 3");
                 break;
         }
