@@ -1,7 +1,7 @@
 class PopUpProfile extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: "open" });
         this.__show = false;
         this.__toShow = 0;
         this.__choice = "1v1";
@@ -10,7 +10,7 @@ class PopUpProfile extends HTMLElement {
         this.render();
     }
     render() {
-        const id = this.getAttribute('id');
+        const id = this.getAttribute("id");
         this.shadowRoot.innerHTML = `
         <style>
         .popup {
@@ -1480,7 +1480,7 @@ class PopUpProfile extends HTMLElement {
         this.fillHistory();
     }
     fillFriends() {
-        const friendWrapper = this.shadowRoot.querySelector('.friendWrapper');
+        const friendWrapper = this.shadowRoot.querySelector(".friendWrapper");
         for (let i = 0; i < 20; i++) {
             friendWrapper.innerHTML += `
                 <div class="profile" id="profile${i}">
@@ -1496,7 +1496,7 @@ class PopUpProfile extends HTMLElement {
                             </svg>
                         </div>
                     </div>
-                    <div class="info" onclick="openProfilePopup(${i})">
+                    <div class="info" onclick="createProfilePage(${i})">
                         <img src="../../app/assets/images/nameScreen.svg" alt="profile">
                         <div class="infoWrapper">
                             <h3>show</h3>
@@ -1508,7 +1508,8 @@ class PopUpProfile extends HTMLElement {
     }
     fillStatistics() {
         const winRate = 10;
-        const statisticsWrapper = this.shadowRoot.querySelector('.statisticsWrapper');
+        const statisticsWrapper =
+            this.shadowRoot.querySelector(".statisticsWrapper");
         statisticsWrapper.innerHTML = `
             <div class="title">
                 <h3>Your Summary</h3>
@@ -1566,13 +1567,13 @@ class PopUpProfile extends HTMLElement {
         `;
     }
     fillHistory() {
-        const contentWrapper = this.shadowRoot.querySelector('.contentWrapper');
+        const contentWrapper = this.shadowRoot.querySelector(".contentWrapper");
         if (!this.__show) {
-            if (this.__choice === '1v1')
+            if (this.__choice === "1v1")
                 showGame1Vs1HistoryProfile(contentWrapper);
-            else if (this.__choice === 'tournament')
+            else if (this.__choice === "tournament")
                 showTournamentHistoryProfile(contentWrapper);
-            else if (this.__choice === '2v2')
+            else if (this.__choice === "2v2")
                 showGame2Vs2HistoryProfile(contentWrapper);
         }
     }
@@ -1585,124 +1586,123 @@ class PopUpProfile extends HTMLElement {
 }
 
 function changeHistory(choice) {
-    const popup = document.querySelector('popup-profile');
+    const popup = document.querySelector("custom-profile");
     popup.__choice = choice;
     popup.__show = false;
     popup.fillHistory();
 }
 
-customElements.define('popup-profile', PopUpProfile);
+customElements.define("custom-profile", PopUpProfile);
 
-function openProfilePopup() {
+function createProfilePage() {
+    const div = document.createElement("div");
+    const popup = document.createElement("custom-profile");
 
-    const div = document.createElement('div');
-    const popup = document.createElement('popup-profile');
-    
-    popup.setAttribute('id', 0);
-    
+    popup.setAttribute("id", 0);
+
     div.appendChild(popup);
-    div.setAttribute('class', 'page profilePage');
+    div.setAttribute("class", "page profilePage");
     document.body.appendChild(div);
 }
 
 function showGame1Vs1HistoryProfile(data) {
     const game1vs1Data = [
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 1',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 1",
             score1: 20,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 2',
-            score2: 15
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 2",
+            score2: 15,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 3',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 3",
             score1: 10,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 4',
-            score2: 5
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 4",
+            score2: 5,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 5',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 5",
             score1: 30,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 6',
-            score2: 25
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 6",
+            score2: 25,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 7',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 7",
             score1: 20,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 8',
-            score2: 15
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 8",
+            score2: 15,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 9',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 9",
             score1: 10,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 10',
-            score2: 5
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 10",
+            score2: 5,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 11',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 11",
             score1: 30,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 12',
-            score2: 25
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 12",
+            score2: 25,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 13',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 13",
             score1: 20,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 14',
-            score2: 15
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 14",
+            score2: 15,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 15',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 15",
             score1: 10,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 16',
-            score2: 5
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 16",
+            score2: 5,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 17',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 17",
             score1: 30,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 18',
-            score2: 25
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 18",
+            score2: 25,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 19',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 19",
             score1: 20,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 20',
-            score2: 15
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 20",
+            score2: 15,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 21',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 21",
             score1: 10,
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 22',
-            score2: 5
-        }
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 22",
+            score2: 5,
+        },
     ];
     data.innerHTML = `
-            ${game1vs1Data.map((game) => `
+            ${game1vs1Data
+                .map(
+                    (game) => `
                 <div class="game">
                     <div class="player">
-                        <img src="${
-                            game.avatar1
-                        }" alt="friend">
+                        <img src="${game.avatar1}" alt="friend">
                         <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                             <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                             <clipPath id="clip10" transform="translate(2.500642 6.576274)">
@@ -1715,26 +1715,16 @@ function showGame1Vs1HistoryProfile(data) {
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <h1>${
-                            game.player1
-                        }</h1>
+                        <h1>${game.player1}</h1>
                     </div>
                     <div>
-                        <h1>${
-                            game.score1
-                        }</h1>
+                        <h1>${game.score1}</h1>
                         <h1>Vs</h1>
-                        <h1> ${
-                            game.score2
-                        }</h1>
+                        <h1> ${game.score2}</h1>
                     </div>
                     <div class="player">
-                        <h1>${
-                            game.player2
-                        }</h1>
-                        <img src="${
-                            game.avatar2
-                        }" alt="friend">
+                        <h1>${game.player2}</h1>
+                        <img src="${game.avatar2}" alt="friend">
                         <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                             <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                             <defs>
@@ -1752,69 +1742,70 @@ function showGame1Vs1HistoryProfile(data) {
                         <img src="../../app/assets/images/lose.jpeg" alt="lose">
                     </div>
                 </div>
-            `).join('')}
+            `
+                )
+                .join("")}
         `;
-
 }
 function showGame2Vs2HistoryProfile(data) {
     const game2vs2Data = [
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 1',
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 2',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 1",
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 2",
             score1: 15,
-            avatar3: '../app/assets/images/devCard/avatar1.svg',
-            player3: 'Player 3',
-            avatar4: '../app/assets/images/devCard/avatar3.svg',
-            player4: 'Player 4',
-            score2: 5
+            avatar3: "../app/assets/images/devCard/avatar1.svg",
+            player3: "Player 3",
+            avatar4: "../app/assets/images/devCard/avatar3.svg",
+            player4: "Player 4",
+            score2: 5,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 5',
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 6',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 5",
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 6",
             score1: 25,
-            avatar3: '../app/assets/images/devCard/avatar1.svg',
-            player3: 'Player 7',
-            avatar4: '../app/assets/images/devCard/avatar3.svg',
-            player4: 'Player 8',
-            score2: 10
+            avatar3: "../app/assets/images/devCard/avatar1.svg",
+            player3: "Player 7",
+            avatar4: "../app/assets/images/devCard/avatar3.svg",
+            player4: "Player 8",
+            score2: 10,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 9',
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 10',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 9",
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 10",
             score1: 35,
-            avatar3: '../app/assets/images/devCard/avatar1.svg',
-            player3: 'Player 11',
-            avatar4: '../app/assets/images/devCard/avatar3.svg',
-            player4: 'Player 12',
-            score2: 15
+            avatar3: "../app/assets/images/devCard/avatar1.svg",
+            player3: "Player 11",
+            avatar4: "../app/assets/images/devCard/avatar3.svg",
+            player4: "Player 12",
+            score2: 15,
         },
         {
-            avatar1: '../app/assets/images/devCard/avatar1.svg',
-            player1: 'Player 13',
-            avatar2: '../app/assets/images/devCard/avatar3.svg',
-            player2: 'Player 14',
+            avatar1: "../app/assets/images/devCard/avatar1.svg",
+            player1: "Player 13",
+            avatar2: "../app/assets/images/devCard/avatar3.svg",
+            player2: "Player 14",
             score1: 45,
-            avatar3: '../app/assets/images/devCard/avatar1.svg',
-            player3: 'Player 15',
-            avatar4: '../app/assets/images/devCard/avatar3.svg',
-            player4: 'Player 16',
-            score2: 20
-        }
+            avatar3: "../app/assets/images/devCard/avatar1.svg",
+            player3: "Player 15",
+            avatar4: "../app/assets/images/devCard/avatar3.svg",
+            player4: "Player 16",
+            score2: 20,
+        },
     ];
     data.innerHTML = `
-            ${game2vs2Data.map((game, index) => `
+            ${game2vs2Data
+                .map(
+                    (game, index) => `
                 <div class="game2">
                     <div class="team">
                         <div class="teamPlayer">
-                            <img src="${
-                                game.avatar1
-                            }" alt="friend">
+                            <img src="${game.avatar1}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <clipPath id="clip12" transform="translate(24.500642 1.076274)">
@@ -1827,17 +1818,11 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </
                             </svg>
-                            <h1>${
-                                game.player1
-                            }</h1>
+                            <h1>${game.player1}</h1>
                         </div>
                         <div class="teamPlayer">
-                            <img src="${
-                                game.avatar2
-                            }" alt="friend">
-                            <h1>${
-                                game.player2
-                            }</h1>
+                            <img src="${game.avatar2}" alt="friend">
+                            <h1>${game.player2}</h1>
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -1850,22 +1835,14 @@ function showGame2Vs2HistoryProfile(data) {
                         </div>
                     </div>
                     <div>
-                        <h1>${
-                            game.score1
-                        }</h1>
+                        <h1>${game.score1}</h1>
                         <h1>Vs</h1>
-                        <h1> ${
-                            game.score2
-                        }</h1>
+                        <h1> ${game.score2}</h1>
                     </div>
                     <div class="team">
                         <div class="teamPlayer">
-                            <h1>${
-                                game.player3
-                            }</h1>
-                            <img src="${
-                                game.avatar3
-                            }" alt="friend">
+                            <h1>${game.player3}</h1>
+                            <img src="${game.avatar3}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -1887,12 +1864,8 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <h1>${
-                                game.player4
-                            }</h1>
-                            <img src="${
-                                game.avatar4
-                            }" alt="friend">
+                            <h1>${game.player4}</h1>
+                            <img src="${game.avatar4}" alt="friend">
                         </div>
                     </div>
                     <div class="win">
@@ -1902,7 +1875,9 @@ function showGame2Vs2HistoryProfile(data) {
                         <img src="../../app/assets/images/lose.jpeg" alt="lose">
                     </div>
                 </div>
-            `).join('')}
+            `
+                )
+                .join("")}
         `;
 }
 
@@ -1910,124 +1885,126 @@ function showTournamentHistoryProfile(data) {
     const tournamentData = [
         [
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 1',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 1",
                 score: 20,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 2',
-                score: 15
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 2",
+                score: 15,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 3',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 3",
                 score: 10,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 4',
-                score: 5
-            }
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 4",
+                score: 5,
+            },
         ],
         [
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 5',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 5",
                 score: 30,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 6',
-                score: 25
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 6",
+                score: 25,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 7',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 7",
                 score: 20,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 8',
-                score: 15
-            }
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 8",
+                score: 15,
+            },
         ],
         [
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 9',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 9",
                 score: 10,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 10',
-                score: 5
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 10",
+                score: 5,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 11',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 11",
                 score: 30,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 12',
-                score: 25
-            }
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 12",
+                score: 25,
+            },
         ],
         [
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 13',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 13",
                 score: 20,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 14',
-                score: 15
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 14",
+                score: 15,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 15',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 15",
                 score: 10,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 16',
-                score: 5
-            }
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 16",
+                score: 5,
+            },
         ],
         [
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 17',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 17",
                 score: 30,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 18',
-                score: 25
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 18",
+                score: 25,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar1.svg',
-                player: 'Player 19',
+                avatar: "../app/assets/images/devCard/avatar1.svg",
+                player: "Player 19",
                 score: 20,
             },
             {
-                avatar: '../app/assets/images/devCard/avatar3.svg',
-                player: 'Player 20',
-                score: 15
-            }
-        ]
+                avatar: "../app/assets/images/devCard/avatar3.svg",
+                player: "Player 20",
+                score: 15,
+            },
+        ],
     ];
     const rankTitle = ["1st", "2nd", "3rd", "4th", "5th"];
     data.innerHTML = `
-            ${tournamentData.map(game => `
+            ${tournamentData
+                .map(
+                    (game) => `
                 <div class="tournament">
-                    ${game.map((player, index) => `
+                    ${game
+                        .map(
+                            (player, index) => `
                         <div class="rank${index + 1}">
-                            <img src="${
-                                player.avatar
-                            }" alt="friend">
+                            <img src="${player.avatar}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -2041,19 +2018,17 @@ function showTournamentHistoryProfile(data) {
                                 </defs>
                             </svg>
                             <div>
-                                <h1>${
-                                    player.player
-                                }</h1>
-                                <h1>Score : ${
-                                    player.score
-                                }</h1>
-                                <h1 class="rankTitle">${
-                                    rankTitle[index]
-                                }</h1>
+                                <h1>${player.player}</h1>
+                                <h1>Score : ${player.score}</h1>
+                                <h1 class="rankTitle">${rankTitle[index]}</h1>
                             </div>
                         </div>
-                    `).join('')}
+                    `
+                        )
+                        .join("")}
                 </div>
-            `).join('')}
+            `
+                )
+                .join("")}
     `;
 }

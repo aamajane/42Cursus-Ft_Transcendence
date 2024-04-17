@@ -1,8 +1,7 @@
-
 class GamePage extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: "open" });
     }
     connectedCallback() {
         this.render();
@@ -10,7 +9,7 @@ class GamePage extends HTMLElement {
     render() {
         this.shadowRoot.innerHTML = `
             <style>
-                game-body {
+                custom-game {
                     position: relative;
                     width: 100%;
                     height: 100%;
@@ -48,7 +47,7 @@ class GamePage extends HTMLElement {
                     }
                 }
             </style>
-            <div class="game-body">
+            <div class="custom-game">
                 <div class="pong-wrapper">
                     <div id="pong-container" class="pong-container">
                         <canvas id="pong" class="pong"></canvas>
@@ -89,15 +88,15 @@ class GamePage extends HTMLElement {
     }
 }
 
-customElements.define('game-body', GamePage);
+customElements.define("custom-game", GamePage);
 
 function createGamePage() {
-    const div = document.createElement('div');
-    const gamePage = document.createElement('game-body');
+    const div = document.createElement("div");
+    const gamePage = document.createElement("custom-game");
 
-    gamePage.id = 'game-body';
+    gamePage.id = "custom-game";
 
     div.appendChild(gamePage);
-    div.setAttribute('class', 'page homePage');
+    div.setAttribute("class", "page homePage");
     document.body.appendChild(div);
 }

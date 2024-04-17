@@ -1,13 +1,13 @@
 class DashboardPage extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: "open" });
     }
     connectedCallback() {
         this.render();
     }
     render() {
-        const id = this.getAttribute('id');
+        const id = this.getAttribute("id");
         this.shadowRoot.innerHTML = `
         <style>
             .dashboard {
@@ -449,28 +449,28 @@ class DashboardPage extends HTMLElement {
                                 <a href="/game/1v1" id="pages" class="game1v1page pages"></a>
                                 <h1> 1 Vs 1 </h1>
                                 <img src="../../app/assets/images/dashboardGate/1v1_1.png" alt="1v1">
-                                <button onclick="createDashboard('1v1')">Play</button>
+                                <button>Play</button>
                                 <h1> 1 Vs 1 </h1>
                             </div>
                             <div class="2v2">
                                 <a href="/game/2v2" id="pages" class="game2v2page pages"></a>
                                 <h1> 2 Vs 2 </h1>
                                 <img src="../../app/assets/images/dashboardGate/2v2.png" alt="2v2">
-                                <button onclick="createDashboard('2v2')">Play</button>
+                                <button>Play</button>
                                 <h1> 2 Vs 2 </h1>
                             </div>
                             <div class="tournament">
                                 <a href="/tournament" id="pages" class="tournamentpage pages"></a>
                                 <h1> Tournament </h1>
                                 <img src="../../app/assets/images/dashboardGate/tournament.png" alt="tournament">
-                                <button onclick="createDashboard('tournament')">Enter</button>
+                                <button>Enter</button>
                                 <h1> Tournament </h1>
                             </div>
                             <div class="1vbot">
                                 <a href="/game/aiBot" id="pages" class="aiBotPage pages"></a>
                                 <h1> Vs Bot </h1>
                                 <img src="../../app/assets/images/dashboardGate/r2.png" alt="1vbot">
-                                <button onclick="createDashboard('1vbot')">Train</button>
+                                <button>Train</button>
                                 <h1> Vs Bot </h1>
                             </div>
                             <span class="bob">
@@ -484,11 +484,11 @@ class DashboardPage extends HTMLElement {
         this.tenor();
     }
     search() {
-        const search = this.shadowRoot.querySelector('.search');
-        const searchResults = this.shadowRoot.querySelector('.searchResults');
+        const search = this.shadowRoot.querySelector(".search");
+        const searchResults = this.shadowRoot.querySelector(".searchResults");
 
-        search.addEventListener('click', () => {
-            searchResults.style.display = 'block';
+        search.addEventListener("click", () => {
+            searchResults.style.display = "block";
             searchResults.innerHTML = `
                 <div>
                     <h1> Search Results </h1>
@@ -507,46 +507,48 @@ class DashboardPage extends HTMLElement {
                 </div>
             `;
         });
-        this.shadowRoot.addEventListener('click', (event) => {
-            if (!search.contains(event.target) && !searchResults.contains(event.target)) {
-                searchResults.style.display = 'none';
+        this.shadowRoot.addEventListener("click", (event) => {
+            if (
+                !search.contains(event.target) &&
+                !searchResults.contains(event.target)
+            ) {
+                searchResults.style.display = "none";
             }
         });
     }
     tenor() {
-        const tenor = this.shadowRoot.querySelector('.bob');
-        const listOfGames = this.shadowRoot.querySelectorAll('.listOfGames > div');
+        const tenor = this.shadowRoot.querySelector(".bob");
+        const listOfGames =
+            this.shadowRoot.querySelectorAll(".listOfGames > div");
 
         listOfGames.forEach((div, index) => {
             const offsetX = index % 2 === 0 ? -100 : 0;
             const offsetY = Math.floor(index / 2) % 2 === 0 ? -100 : 0;
 
-            div.addEventListener('mouseenter', () => {
+            div.addEventListener("mouseenter", () => {
                 tenor.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.5)`;
             });
 
-            div.addEventListener('mouseleave', () => {
-                tenor.style.transform = 'translate(-50%, -50%)';
+            div.addEventListener("mouseleave", () => {
+                tenor.style.transform = "translate(-50%, -50%)";
             });
         });
 
         // setInterval(() => {
         //     this.shadowRoot.getElementById('user-id').innerText = context.user?.name;
         // }, 1000);
-        
     }
 }
 
-customElements.define('popup-dashboard', DashboardPage);
+customElements.define("custom-dashboard", DashboardPage);
 
-function createDashboard() {
+function createDashboardPage() {
+    const div = document.createElement("div");
+    const popup = document.createElement("custom-dashboard");
 
-    const div = document.createElement('div');
-    const popup = document.createElement('popup-dashboard');
-
-    popup.setAttribute('id', 0);
+    popup.setAttribute("id", 0);
 
     div.appendChild(popup);
-    div.setAttribute('class', 'page homePage');
+    div.setAttribute("class", "page homePage");
     document.body.appendChild(div);
 }

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong</title>
     <link rel="icon" href="../../app/assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/backgroundBody.css">
     <link href="https://fonts.cdnfonts.com/css/esporte-personal-use" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +15,7 @@
         body {
             position: relative;
             height: 100vh;
-            width:  100vw;
+            width: 100vw;
             position: relative;
             user-select: none;
             background: #000;
@@ -38,7 +37,7 @@
         } */
         background-component {
             position: absolute;
-            transform-style:none;
+            transform-style: none;
             width: 100%;
             height: 100%;
             top: 0;
@@ -58,8 +57,8 @@
             transform-style: preserve-3d;
             padding: 0;
             margin: 0;
-            /* transition: 0.5s ease-in-out; */
-            /* border : 1px solid white;
+            /* transition: 0.5s ease-in-out;
+            border : 1px solid white;
             border-image: linear-gradient(-90deg, #ffffff3c 50%, transparent 100%) 1; */
         }
 
@@ -71,7 +70,7 @@
             height: 100vh;
             overflow-y: auto;
             backdrop-filter: blur(5px);
-            perspective: 1000px; 
+            perspective: 1000px;
             overflow: auto;
         }
         .home main {
@@ -81,9 +80,7 @@
             max-width: 1500px;
             display: flex;
             flex-direction: column;
-            
             /* padding-top: 200px; */
-            
         }
         .home main .searchContainer {
             position: relative;
@@ -91,7 +88,6 @@
             height: 100px;
             /* background: rgba(255, 255, 255, 0.5); */
             /* border: 1px solid white; */
-            
             transform: rotateX(0deg) translateY(164px) translateZ(-533px);
         }
         .home main .searchContainer .search {
@@ -125,7 +121,7 @@
             height: 100%;
             z-index: -2;
             opacity: 0.5;
-            backdrop-filter: blur(15px); 
+            backdrop-filter: blur(15px);
             /* background: linear-gradient(300deg, #000000 46%, #5c21c3 55%, #5c1a1a 60%)  no-repeat center center fixed; */
             background: #5c21c3;
             animation: animateColors3 20s linear infinite;
@@ -135,10 +131,10 @@
                 background: #036cc2;
             }
             50% {
-                background: #03c29955; 
+                background: #03c29955;
             }
             70% {
-                background: #03c29955; 
+                background: #03c29955;
             }
             100% {
                 background: #03c299;
@@ -164,11 +160,11 @@
             /* border-left: rgba(245, 222, 179, 0.268) 3px solid; */
             /* border-right: wheat 3px solid; */
             box-shadow: 0 -10px 10px rgb(0, 0, 0) inset,
-                        0 5px 10px rgb(0, 0, 0);
+                0 5px 10px rgb(0, 0, 0);
             transform: rotateX(50deg) translateY(-85px);
             transition: 0.5s ease-in-out;
         }
-        
+
         main .mainContainer > * {
             position: relative;
             display: flex;
@@ -287,8 +283,7 @@
             animation: animateColors 20s linear infinite;
         }
 
-        .boxx
-        {
+        .boxx {
             position: absolute;
             left: 0;
             top: 0;
@@ -297,8 +292,7 @@
             background-color: rgb(255, 255, 255); /* Color of the first box */
             animation: moveStars 25s linear infinite;
         }
-        .box
-        {
+        .box {
             position: absolute;
             left: 0;
             top: 0;
@@ -362,6 +356,9 @@
             transform: scale(0.9);
         }
         
+        
+
+
 
         .form-controler {
             width: 300px;
@@ -371,9 +368,7 @@
             background: rgba(255, 255, 255, 0.1);
             color: #00e5ff;
             text-shadow: 0 0 5px #0000008f;
-            box-shadow: 0 0 10px #00fbff8f inset,
-                        0 0 10px #00fbff8f;
-
+            box-shadow: 0 0 10px #00fbff8f inset, 0 0 10px #00fbff8f;
             font-size: 30px;
             text-indent: 10px;
         }
@@ -383,7 +378,6 @@
         }
         .profiles {
             position: relative;
-            
             /* flex-direction: grid; */
             justify-content: center;
             align-items: center;
@@ -411,8 +405,8 @@
             height: 300px;
             /* background: rgba(255, 255, 255, 0.1); */
             /* box-shadow: 0 0 10px #0000008f inset,
-                        0 -6px 10px #00fbff36,
-                        0 0 100px #0000007b; */
+                    0 -6px 10px #00fbff36,
+                    0 0 100px #0000007b; */
             margin: 0 50px;
             transform: rotateX(0deg) translateY(0px);
             transition: 0.5s ease-in-out;
@@ -472,7 +466,7 @@
             object-position: center;
             filter: hue-rotate(60deg);
         }
-        .profiles .profileWrapper .profile .avatar .avatarInfo svg{
+        .profiles .profileWrapper .profile .avatar .avatarInfo svg {
             position: absolute;
             top: -5%;
             left: -10%;
@@ -534,18 +528,15 @@
     <script src="./js/utils/game/game.js"></script>
     <script src="./js/utils/game/map.js"></script>
     <script src="./js/utils/game/main.js"></script>
-    <script src="./js/components/profile.js"></script>
-    <script src="./js/components/gameGate.js"></script>
-    <script src="./js/components/tournamentGate.js"></script>
-    <script src="./js/components/dashboard.js"></script>
-    <script src="./js/components/game.js"></script>
+    <script src="./js/components/profilePage.js"></script>
+    <script src="./js/components/gatePage.js"></script>
+    <script src="./js/components/tournamentPage.js"></script>
+    <script src="./js/components/dashboardPage.js"></script>
+    <script src="./js/components/gamePage.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/utils/backgroundBody.js"></script>
     <!-- <script src="./js/api/test.js"></script> -->
     <!-- <script src="./js/utils/tournament/main.js"></script> -->
-    <script>
-       
-        
-    </script>
+    <script></script>
 </body>
 </html>

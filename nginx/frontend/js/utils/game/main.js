@@ -1,5 +1,5 @@
 function startGame() {
-    const shadowRoot = document.getElementById("game-body").shadowRoot;
+    const shadowRoot = document.getElementById("custom-game").shadowRoot;
     const canvasContainer = shadowRoot.getElementById("pong-container");
     const canvas = shadowRoot.getElementById("pong");
     const ctx = canvas.getContext("2d");

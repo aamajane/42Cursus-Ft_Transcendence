@@ -1,7 +1,7 @@
 class GameGates extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: "open" });
         this.__angle = 0;
         this.__direction = 1;
         this.__switch = 0;
@@ -19,7 +19,7 @@ class GameGates extends HTMLElement {
         this.render();
     }
     render() {
-        const id = this.getAttribute('id');
+        const id = this.getAttribute("id");
         this.shadowRoot.innerHTML = `
         <style>
             * {
@@ -871,11 +871,14 @@ class GameGates extends HTMLElement {
             </div>
         </div>
         `;
-        const activateSpecialPower = this.shadowRoot.querySelector('#activateSpecialPower');
-        activateSpecialPower.addEventListener('click', () => {
-            this.shadowRoot.querySelector('.gates__content').style.transform = 'translateY(1010px) translateZ(70px) rotateX(10deg)';
+        const activateSpecialPower = this.shadowRoot.querySelector(
+            "#activateSpecialPower"
+        );
+        activateSpecialPower.addEventListener("click", () => {
+            this.shadowRoot.querySelector(".gates__content").style.transform =
+                "translateY(1010px) translateZ(70px) rotateX(10deg)";
         });
-        const gateWorld = this.shadowRoot.querySelectorAll('.gateWorld');
+        const gateWorld = this.shadowRoot.querySelectorAll(".gateWorld");
         gateWorld.forEach((gate, index) => {
             const gatePath = `
                 <div class='gatePath' id='gatePath${index + 1}'>
@@ -885,7 +888,11 @@ class GameGates extends HTMLElement {
                     <img id="a" src="../../app/assets/images/gameGate/portal0.gif" alt="gate">
                     <img id="b" src="../../app/assets/images/gameGate/portal2.gif" alt="gate">
                     <img id="c" src="${
-                        index === 0 ? '../../app/assets/images/gameGate/egypt.png' : index === 1 ? '../../app/assets/images/gameGate/space.png' : '../../app/assets/images/gameGate/factory.png'
+                        index === 0
+                            ? "../../app/assets/images/gameGate/egypt.png"
+                            : index === 1
+                            ? "../../app/assets/images/gameGate/space.png"
+                            : "../../app/assets/images/gameGate/factory.png"
                     }" alt="gate">
                     <div class="index">
                         <div class="indexWrapper">
@@ -893,7 +900,13 @@ class GameGates extends HTMLElement {
                             <img id="b" src="../../app/assets/images/gameGate/smoke.gif" alt="index">
                             <img id="c" src="../../app/assets/images/gameGate/waves.gif" alt="index">
                             <div class="indexWrapper2">
-                                <img id="d" src="../../app/assets/images/gameGate/${index === 0 ? 'past.png' : index === 2 ? 'present.jpeg' : 'future.jpeg'}" alt="index">
+                                <img id="d" src="../../app/assets/images/gameGate/${
+                                    index === 0
+                                        ? "past.png"
+                                        : index === 2
+                                        ? "present.jpeg"
+                                        : "future.jpeg"
+                                }" alt="index">
                                 <img id="e" src="../../app/assets/images/gameGate/blackHole1.gif" alt="index">
                             </div>
                         </div>
@@ -907,7 +920,7 @@ class GameGates extends HTMLElement {
         executedDate = executedDate2 = executedDate3 = new Date() - 2000;
 
         let timeOut1, timeOut2, timeOut3, timeOut4, timeOut5;
-        
+
         function triggerKey() {
             clearTimeout(timeOut1);
             clearTimeout(timeOut2);
@@ -915,44 +928,60 @@ class GameGates extends HTMLElement {
             clearTimeout(timeOut4);
             clearTimeout(timeOut5);
             this.resetAnimation();
-            
-            timeOut1 = setTimeout(() => {this.animation1();      }, 500);
-            let indx = this.__direction === 0 ? 1 : this.__direction === 1 ? 0 : 2;
-            timeOut2 = setTimeout(() => {this.animation2(indx);  }, 2000);
-            timeOut3 = setTimeout(() => {this.animation3(indx);  }, 2200);
-            timeOut4 = setTimeout(() => {this.animation4(indx);  }, 2700);
-            timeOut5 = setTimeout(() => {this.animation5(indx);  }, 3500);
+
+            timeOut1 = setTimeout(() => {
+                this.animation1();
+            }, 500);
+            let indx =
+                this.__direction === 0 ? 1 : this.__direction === 1 ? 0 : 2;
+            timeOut2 = setTimeout(() => {
+                this.animation2(indx);
+            }, 2000);
+            timeOut3 = setTimeout(() => {
+                this.animation3(indx);
+            }, 2200);
+            timeOut4 = setTimeout(() => {
+                this.animation4(indx);
+            }, 2700);
+            timeOut5 = setTimeout(() => {
+                this.animation5(indx);
+            }, 3500);
         }
         triggerKey.call(this);
 
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener("keydown", (e) => {
             if (new Date() - executedDate > 1400) {
                 executedDate = new Date();
-                (e.key === 'ArrowLeft')     &&  this.pressLeft();
-                (e.key === 'ArrowRight')    &&  this.pressRight();
+                e.key === "ArrowLeft" && this.pressLeft();
+                e.key === "ArrowRight" && this.pressRight();
 
-                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                    this.shadowRoot.querySelector('.bgWrapper2Wrapper').classList.remove('bgWrapper2WrapperAnimated');
-                    this.shadowRoot.querySelector('.bgWrapper2Wrapper').offsetWidth;
+                if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+                    this.shadowRoot
+                        .querySelector(".bgWrapper2Wrapper")
+                        .classList.remove("bgWrapper2WrapperAnimated");
+                    this.shadowRoot.querySelector(".bgWrapper2Wrapper")
+                        .offsetWidth;
                     triggerKey.call(this);
                 }
             }
-            if (new Date() - executedDate3 > 700) { 
+            if (new Date() - executedDate3 > 700) {
                 executedDate3 = new Date();
-                (e.key === 'ArrowUp')       &&  this.pressUp();
-                (e.key === 'ArrowDown')     &&  this.pressDown();
+                e.key === "ArrowUp" && this.pressUp();
+                e.key === "ArrowDown" && this.pressDown();
 
-                (e.key === 'ArrowUp'
-                || e.key === 'ArrowDown')   && this.animateView2();
+                (e.key === "ArrowUp" || e.key === "ArrowDown") &&
+                    this.animateView2();
             }
         });
-        document.addEventListener('wheel', (e) => {
+        document.addEventListener("wheel", (e) => {
             if (new Date() - executedDate2 > 500) {
                 executedDate2 = new Date();
                 this.animateView1(e.deltaY);
             }
         });
-        this.shadowRoot.querySelector('.gatesFrontGround').style.transform = `rotate(${this.__angle}deg)`;
+        this.shadowRoot.querySelector(
+            ".gatesFrontGround"
+        ).style.transform = `rotate(${this.__angle}deg)`;
     }
 
     fillCords(x, y, t_x, t_y, t_z, r, r_x) {
@@ -988,140 +1017,333 @@ class GameGates extends HTMLElement {
     }
 
     resetAnimation() {
-        this.shadowRoot.querySelector('.frontGroundGatesBase').style.transform = `rotate(${-this.__angle}deg)`;
-        this.shadowRoot.querySelector('.laserHoloWrapper').classList.remove('animated');
-        this.shadowRoot.querySelector('.laserHologram#laser').classList.remove('animated2');
-        this.shadowRoot.querySelector('.laserHologram#base').classList.remove('animated3');
-        void this.shadowRoot.querySelector('.laserHoloWrapper').offsetWidth;
-        void this.shadowRoot.querySelector('.laserHologram#laser').offsetWidth;
-        void this.shadowRoot.querySelector('.laserHologram#base').offsetWidth;
-        this.shadowRoot.querySelector('.laserHoloWrapper').classList.add('animated');
-        this.shadowRoot.querySelector('.laserHologram#laser').classList.add('animated2');
-        this.shadowRoot.querySelector('.laserHologram#base').classList.add('animated3');
-        this.shadowRoot.querySelectorAll('.gatePath').forEach((gatePathC, index) => {
-
-            gatePathC.querySelector('#a').classList.remove('animatedImg0');
-            gatePathC.querySelector('#a').classList.add('animatedImg00');
-            gatePathC.querySelector('#b').classList.remove('animatedImg1');
-            gatePathC.querySelector('#b').classList.add('animatedImg11');
-            gatePathC.querySelector('#c').classList.remove('animatedImg2', 'animatedImg222');
-            gatePathC.querySelector('#c').classList.add('animatedImg22');
-            gatePathC.querySelector('.indexWrapper').style.boxShadow = 'none';
-            gatePathC.querySelector('.index').querySelector('#a').classList.remove('animatedBigGate');
-            gatePathC.querySelector('.index').querySelector('#b').classList.remove('animatedBigGate');
-            gatePathC.querySelector('.index').querySelector('#c').classList.remove('animatedBigGate');
-            gatePathC.querySelector('.index').querySelector('#d').classList.remove('animatedBigGate');
-            gatePathC.querySelector('.indexWrapper').classList.remove('animatedBigGate');
-            gatePathC.querySelector('.index').querySelector('#a').classList.add('animatedBigGate2');
-            gatePathC.querySelector('.index').querySelector('#b').classList.add('animatedBigGate2');
-            gatePathC.querySelector('.index').querySelector('#c').classList.add('animatedBigGate2');
-            gatePathC.querySelector('.index').querySelector('#d').classList.add('animatedBigGate2');
-            gatePathC.querySelector('.indexWrapper').classList.add('animatedBigGate2');
-        });
+        this.shadowRoot.querySelector(
+            ".frontGroundGatesBase"
+        ).style.transform = `rotate(${-this.__angle}deg)`;
+        this.shadowRoot
+            .querySelector(".laserHoloWrapper")
+            .classList.remove("animated");
+        this.shadowRoot
+            .querySelector(".laserHologram#laser")
+            .classList.remove("animated2");
+        this.shadowRoot
+            .querySelector(".laserHologram#base")
+            .classList.remove("animated3");
+        void this.shadowRoot.querySelector(".laserHoloWrapper").offsetWidth;
+        void this.shadowRoot.querySelector(".laserHologram#laser").offsetWidth;
+        void this.shadowRoot.querySelector(".laserHologram#base").offsetWidth;
+        this.shadowRoot
+            .querySelector(".laserHoloWrapper")
+            .classList.add("animated");
+        this.shadowRoot
+            .querySelector(".laserHologram#laser")
+            .classList.add("animated2");
+        this.shadowRoot
+            .querySelector(".laserHologram#base")
+            .classList.add("animated3");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .forEach((gatePathC, index) => {
+                gatePathC.querySelector("#a").classList.remove("animatedImg0");
+                gatePathC.querySelector("#a").classList.add("animatedImg00");
+                gatePathC.querySelector("#b").classList.remove("animatedImg1");
+                gatePathC.querySelector("#b").classList.add("animatedImg11");
+                gatePathC
+                    .querySelector("#c")
+                    .classList.remove("animatedImg2", "animatedImg222");
+                gatePathC.querySelector("#c").classList.add("animatedImg22");
+                gatePathC.querySelector(".indexWrapper").style.boxShadow =
+                    "none";
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#a")
+                    .classList.remove("animatedBigGate");
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#b")
+                    .classList.remove("animatedBigGate");
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#c")
+                    .classList.remove("animatedBigGate");
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#d")
+                    .classList.remove("animatedBigGate");
+                gatePathC
+                    .querySelector(".indexWrapper")
+                    .classList.remove("animatedBigGate");
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#a")
+                    .classList.add("animatedBigGate2");
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#b")
+                    .classList.add("animatedBigGate2");
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#c")
+                    .classList.add("animatedBigGate2");
+                gatePathC
+                    .querySelector(".index")
+                    .querySelector("#d")
+                    .classList.add("animatedBigGate2");
+                gatePathC
+                    .querySelector(".indexWrapper")
+                    .classList.add("animatedBigGate2");
+            });
     }
 
     animation1() {
-        this.shadowRoot.querySelector('.gatesFrontGround').style.transform = `rotate(${this.__angle}deg)`;
-        this.shadowRoot.querySelector('#gate1').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${this.__angle}deg)`;
-        this.shadowRoot.querySelector('#gate2').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${120 + this.__angle}deg)`;
-        this.shadowRoot.querySelector('#gate3').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${240 + this.__angle}deg)`;
+        this.shadowRoot.querySelector(
+            ".gatesFrontGround"
+        ).style.transform = `rotate(${this.__angle}deg)`;
+        this.shadowRoot.querySelector(
+            "#gate1"
+        ).style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${this.__angle}deg)`;
+        this.shadowRoot.querySelector(
+            "#gate2"
+        ).style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${
+            120 + this.__angle
+        }deg)`;
+        this.shadowRoot.querySelector(
+            "#gate3"
+        ).style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${
+            240 + this.__angle
+        }deg)`;
 
-        this.shadowRoot.querySelector('.bgWrapper2Wrapper').style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${this.__y}px`;
+        this.shadowRoot.querySelector(
+            ".bgWrapper2Wrapper"
+        ).style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${
+            this.__y
+        }px`;
         if (this.__direction === 1) {
-            this.shadowRoot.querySelector('#gate1').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${this.__angle}deg)`;
-            this.shadowRoot.querySelector('.gateDescription #timeLine').src = '../../app/assets/images/gameGate/pastInfo.svg';
-            this.shadowRoot.querySelector('.gateDescriptionTitle').textContent = 'Egypt';
-            this.shadowRoot.querySelector('#inf1').textContent = 'Set your belt and get ready. The time machine will sand you to the past :';
-            this.shadowRoot.querySelector('#inf2').innerHTML = '<em>⇝</em> To 3000 years BC. ';
-            this.shadowRoot.querySelector('#inf3').textContent = ' Silent guardians, mummies beckon with secrets preserved through millennia. ';
-            context.track.gameMap = 'egypt';
+            this.shadowRoot.querySelector(
+                "#gate1"
+            ).style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${this.__angle}deg)`;
+            this.shadowRoot.querySelector(".gateDescription #timeLine").src =
+                "../../app/assets/images/gameGate/pastInfo.svg";
+            this.shadowRoot.querySelector(".gateDescriptionTitle").textContent =
+                "Egypt";
+            this.shadowRoot.querySelector("#inf1").textContent =
+                "Set your belt and get ready. The time machine will sand you to the past :";
+            this.shadowRoot.querySelector("#inf2").innerHTML =
+                "<em>⇝</em> To 3000 years BC. ";
+            this.shadowRoot.querySelector("#inf3").textContent =
+                " Silent guardians, mummies beckon with secrets preserved through millennia. ";
+            context.track.gameMap = "egypt";
         }
         if (this.__direction === 0) {
-            this.shadowRoot.querySelector('#gate2').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${120 + this.__angle}deg)`;
-            this.shadowRoot.querySelector('.gateDescription #timeLine').src = '../../app/assets/images/gameGate/futureInfo.svg';
-            this.shadowRoot.querySelector('.gateDescriptionTitle').textContent = 'Space';
-            this.shadowRoot.querySelector('#inf1').textContent = 'Set your belt and get ready. The time machine will sand you to the future :';
-            this.shadowRoot.querySelector('#inf2').innerHTML = '<em>⇝</em> To 3000 years AD. ';
-            this.shadowRoot.querySelector('#inf3').textContent = ' Humanity thrives in vast space habitats, forging a cosmic legacy. ';
-            context.track.gameMap = 'space';
+            this.shadowRoot.querySelector(
+                "#gate2"
+            ).style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${
+                120 + this.__angle
+            }deg)`;
+            this.shadowRoot.querySelector(".gateDescription #timeLine").src =
+                "../../app/assets/images/gameGate/futureInfo.svg";
+            this.shadowRoot.querySelector(".gateDescriptionTitle").textContent =
+                "Space";
+            this.shadowRoot.querySelector("#inf1").textContent =
+                "Set your belt and get ready. The time machine will sand you to the future :";
+            this.shadowRoot.querySelector("#inf2").innerHTML =
+                "<em>⇝</em> To 3000 years AD. ";
+            this.shadowRoot.querySelector("#inf3").textContent =
+                " Humanity thrives in vast space habitats, forging a cosmic legacy. ";
+            context.track.gameMap = "space";
         }
         if (this.__direction === 2) {
-            this.shadowRoot.querySelector('#gate3').style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${240 + this.__angle}deg)`;
-            this.shadowRoot.querySelector('.gateDescription #timeLine').src = '../../app/assets/images/gameGate/presentInfo.svg';
-            this.shadowRoot.querySelector('.gateDescriptionTitle').textContent = 'Factory';
-            this.shadowRoot.querySelector('#inf1').textContent = 'Set your belt and get ready. The time machine will sand you to the present :';
-            this.shadowRoot.querySelector('#inf2').innerHTML = '<em>⇝</em> To 2045. ';
-            this.shadowRoot.querySelector('#inf3').textContent = ' A world of industry and progress, where the air is thick with promise. ';
-            context.track.gameMap = 'factory';
+            this.shadowRoot.querySelector(
+                "#gate3"
+            ).style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${
+                240 + this.__angle
+            }deg)`;
+            this.shadowRoot.querySelector(".gateDescription #timeLine").src =
+                "../../app/assets/images/gameGate/presentInfo.svg";
+            this.shadowRoot.querySelector(".gateDescriptionTitle").textContent =
+                "Factory";
+            this.shadowRoot.querySelector("#inf1").textContent =
+                "Set your belt and get ready. The time machine will sand you to the present :";
+            this.shadowRoot.querySelector("#inf2").innerHTML =
+                "<em>⇝</em> To 2045. ";
+            this.shadowRoot.querySelector("#inf3").textContent =
+                " A world of industry and progress, where the air is thick with promise. ";
+            context.track.gameMap = "factory";
         }
     }
 
     animation2(indx) {
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#b').classList.remove('animatedImg11');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#b').classList.add('animatedImg1');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.indexWrapper').classList.remove('animatedBigGate2');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.indexWrapper').classList.add('animatedBigGate');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#a').classList.remove('animatedBigGate2');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#a').classList.add('animatedBigGate');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#b').classList.remove('animatedBigGate2');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#b').classList.add('animatedBigGate');
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#b")
+            .classList.remove("animatedImg11");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#b")
+            .classList.add("animatedImg1");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".indexWrapper")
+            .classList.remove("animatedBigGate2");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".indexWrapper")
+            .classList.add("animatedBigGate");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#a")
+            .classList.remove("animatedBigGate2");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#a")
+            .classList.add("animatedBigGate");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#b")
+            .classList.remove("animatedBigGate2");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#b")
+            .classList.add("animatedBigGate");
     }
 
     animation3(indx) {
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#a').classList.remove('animatedImg00');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#a').classList.add('animatedImg0');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#c').classList.remove('animatedBigGate2');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#c').classList.add('animatedBigGate');
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#a")
+            .classList.remove("animatedImg00");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#a")
+            .classList.add("animatedImg0");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#c")
+            .classList.remove("animatedBigGate2");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#c")
+            .classList.add("animatedBigGate");
     }
 
     animation4(indx) {
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#a').classList.remove('animatedImg0');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#c').classList.remove('animatedImg22', 'animatedImg222');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#c').classList.add('animatedImg2');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.indexWrapper').style.boxShadow = ' 0 0 100px 10px #0cf, 0 0 100px 100px #007';
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#d').classList.remove('animatedBigGate2');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('.index').querySelector('#d').classList.add('animatedBigGate');
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#a")
+            .classList.remove("animatedImg0");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#c")
+            .classList.remove("animatedImg22", "animatedImg222");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#c")
+            .classList.add("animatedImg2");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".indexWrapper").style.boxShadow =
+            " 0 0 100px 10px #0cf, 0 0 100px 100px #007";
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#d")
+            .classList.remove("animatedBigGate2");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector(".index")
+            .querySelector("#d")
+            .classList.add("animatedBigGate");
     }
 
     animation5(indx) {
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#c').classList.remove('animatedImg2', 'animatedImg22');
-        this.shadowRoot.querySelectorAll('.gatePath').item(indx).querySelector('#c').classList.add('animatedImg222');
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#c")
+            .classList.remove("animatedImg2", "animatedImg22");
+        this.shadowRoot
+            .querySelectorAll(".gatePath")
+            .item(indx)
+            .querySelector("#c")
+            .classList.add("animatedImg222");
     }
 
     animateView1(deltaY) {
-        if (deltaY > 0)   this.__switch = (this.__switch + 1) % 6;
-        else                this.__switch = (this.__switch + 5) % 6;
+        if (deltaY > 0) this.__switch = (this.__switch + 1) % 6;
+        else this.__switch = (this.__switch + 5) % 6;
 
-        if (this.__switch === 0)    this.fillCords(0, 0, 0, 0, 0, 0, 0);
-        if (this.__switch === 1)    this.fillCords(100, 100, 0, -500, -100, 30, 0);
-        if (this.__switch === 2)    this.fillCords(-100, 90, -100, -500, 0, -30, 0);
-        if (this.__switch === 3)    this.fillCords(-50, 0, 100, -200, 0, -30, 0);
-        if (this.__switch === 4)    this.fillCords(0, -400, 0, -800, -500, 0, -60);
-        if (this.__switch === 5)    this.fillCords(0, -300, 0, -1000, -100, 0, -10);
+        if (this.__switch === 0) this.fillCords(0, 0, 0, 0, 0, 0, 0);
+        if (this.__switch === 1) this.fillCords(100, 100, 0, -500, -100, 30, 0);
+        if (this.__switch === 2)
+            this.fillCords(-100, 90, -100, -500, 0, -30, 0);
+        if (this.__switch === 3) this.fillCords(-50, 0, 100, -200, 0, -30, 0);
+        if (this.__switch === 4) this.fillCords(0, -400, 0, -800, -500, 0, -60);
+        if (this.__switch === 5)
+            this.fillCords(0, -300, 0, -1000, -100, 0, -10);
 
-        this.shadowRoot.querySelector('.gates__content').style.transform = `translateY(${this.__t_y}px) translateZ(${this.__t_z}px) translateX(${this.__t_x}px) rotate(${this.__r}deg) rotateX(${this.__r_x}deg)`;
-        this.shadowRoot.querySelector('.bgWrapper2Wrapper').classList.remove('bgWrapper2WrapperAnimated');
-        this.shadowRoot.querySelector('.bgWrapper2Wrapper').offsetWidth;
-        this.shadowRoot.querySelector('.bgWrapper2Wrapper').style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${this.__y}px`;
+        this.shadowRoot.querySelector(
+            ".gates__content"
+        ).style.transform = `translateY(${this.__t_y}px) translateZ(${this.__t_z}px) translateX(${this.__t_x}px) rotate(${this.__r}deg) rotateX(${this.__r_x}deg)`;
+        this.shadowRoot
+            .querySelector(".bgWrapper2Wrapper")
+            .classList.remove("bgWrapper2WrapperAnimated");
+        this.shadowRoot.querySelector(".bgWrapper2Wrapper").offsetWidth;
+        this.shadowRoot.querySelector(
+            ".bgWrapper2Wrapper"
+        ).style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${
+            this.__y
+        }px`;
     }
 
     animateView2() {
-        this.shadowRoot.querySelector('.bgWrapper2Wrapper').style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${this.__y}px`;
-        this.shadowRoot.querySelector('.bgWrapper2Wrapper').classList.remove('bgWrapper2WrapperAnimated');
-        this.shadowRoot.querySelector('.bgWrapper2Wrapper').offsetWidth;
-        this.shadowRoot.querySelector('.gates__content').style.transform = `translateY(${this.__t_y}px) translateZ(${this.__t_z}px) translateX(${this.__t_x}px) rotate(${this.__r}deg) rotateX(${this.__r_x}deg)`;
+        this.shadowRoot.querySelector(
+            ".bgWrapper2Wrapper"
+        ).style.backgroundPosition = `${this.__dir * 400 + this.__x}px ${
+            this.__y
+        }px`;
+        this.shadowRoot
+            .querySelector(".bgWrapper2Wrapper")
+            .classList.remove("bgWrapper2WrapperAnimated");
+        this.shadowRoot.querySelector(".bgWrapper2Wrapper").offsetWidth;
+        this.shadowRoot.querySelector(
+            ".gates__content"
+        ).style.transform = `translateY(${this.__t_y}px) translateZ(${this.__t_z}px) translateX(${this.__t_x}px) rotate(${this.__r}deg) rotateX(${this.__r_x}deg)`;
     }
 }
 
-customElements.define('game-gates', GameGates);
+customElements.define("custom-gate", GameGates);
 
-function createGates() {
-    const div = document.createElement('div');
-    const gates = document.createElement('game-gates');
+function createGatePage() {
+    const div = document.createElement("div");
+    const gates = document.createElement("custom-gate");
 
-    gates.setAttribute('id', 'gates');
+    gates.setAttribute("id", "gates");
 
     div.appendChild(gates);
-    div.setAttribute('class', 'page gamePage');
+    div.setAttribute("class", "page gamePage");
     document.body.appendChild(div);
 }
