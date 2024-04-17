@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 const gamePath1v1 = `/game/1v1/${context.track.gameId}`;
                 const gamePath2v2 = `/game/2v2/${context.track.gameId}`;
                 const gamePathAi = `/game/aiBot/${context.track.gameId}`;
-                console.log(gamePath1v1, gamePath2v2, gamePathAi, pathname);
                 const routes = {
                     '/': 'homePage',
                     '/home': 'homePage',
@@ -57,9 +56,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 routes[gamePath1v1] = 'game';
                 routes[gamePath2v2] = 'game';
                 routes[gamePathAi] = 'game';
-                
+
                 const pageId = routes[pathname];
-                console.log(pathname, pageId);
                 location = "";
                 if (pageId) {
                     showPage(pageId);
@@ -70,11 +68,9 @@ document.addEventListener("DOMContentLoaded", function() {
                             event.preventDefault();
 
                             location = `${pathname}/${context.track.gameId}`;
-                            alert(location);
                             setTimeout(() => {
                                 handleLinkClick(event);
                             }, 1000);
-                            
                         }));
                     }
                 } else {
@@ -90,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.querySelector("background-component").style.display = "block";
                 clearInterval(timeInterval);
             }
-            
         }, 100);
     }
 
