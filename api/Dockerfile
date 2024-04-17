@@ -5,7 +5,6 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# COPY venv /app/venv
 # COPY manage.py /app/manage.py
 # COPY games /app/games
 # COPY tournaments /app/tournaments
