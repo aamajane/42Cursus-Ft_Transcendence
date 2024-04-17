@@ -151,8 +151,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Custom settings
 SUPPORTED_OAUTH2_PLATFORMS = ['intra42', 'google']
 
-INTRA42_CLIENT_ID = 'u-s4t2ud-4b53afbd167d9d1633c7c3ecc2937f1bcebd5008f991a79c093b17801937470c'
-INTRA42_CLIENT_SECRET = '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'
+INTRA42_CLIENT_ID = os.environ.get('INTRA42_CLIENT_ID')
+INTRA42_CLIENT_SECRET = os.environ.get('INTRA42_CLIENT_SECRET')
 
 GOOGLE_CLIENT_ID = 'google-client-id'
 GOOGLE_CLIENT_SECRET = 'google-client-secret'
