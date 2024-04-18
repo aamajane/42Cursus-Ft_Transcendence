@@ -288,6 +288,7 @@ class Context {
         this.api = new APIContext() ; // an APIContext object
         this.profileOfUser = undefined ; // a Profile object
         this.track = new Track() ; // a Track object
+        this.navigation = undefined ; // a function that navigates to a page
     }
     get User() {
         const timeInterval = setInterval(() => {

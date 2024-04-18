@@ -499,6 +499,12 @@ class DashboardPage extends HTMLElement {
                 height: 50px;
                 z-index: 10;
             }
+            @media screen and (max-width: 1300px) {
+                .listOfGames {
+                    grid-template-columns: 1fr;
+                    padding: 200px;
+                }
+            }
         </style>
         <div class="dashboard">
                     <nav>
@@ -576,7 +582,6 @@ class DashboardPage extends HTMLElement {
         </div>
         `;
         this.search();
-        this.tenor();
     }
     search() {
         const search = this.shadowRoot.querySelector(".search");
@@ -600,7 +605,7 @@ class DashboardPage extends HTMLElement {
                             </div>
                         </div>
                         <div class="searchResults-info">
-                            <a href="/profile" id="pages" class="searchResults-profilePage" playerName="hel-mefe"></a>
+                            <a href="/profile" id="pages" class="searchResults-profilePage" playerName="null"></a>
                             <img src="../../app/assets/images/nameScreen.svg" alt="profile">
                             <div class="searchResults-infoWrapper">
                                 <h3>show</h3>
@@ -609,7 +614,17 @@ class DashboardPage extends HTMLElement {
                     </div>
                 `;
             }
+            this.shadowRoot.querySelectorAll("a#pages").forEach((a) => {
+                a.addEventListener("click", (event) => {
+                    context.navigation(event);
+                });
+            } );
         });
+        this.shadowRoot.querySelectorAll("a#pages").forEach((a) => {
+            a.addEventListener("click", (event) => {
+                context.navigation(event);
+            });
+        } );
         this.shadowRoot.addEventListener("click", (event) => {
             if (
                 !search.contains(event.target) &&
@@ -618,28 +633,6 @@ class DashboardPage extends HTMLElement {
                 searchResults.style.display = "none";
             }
         });
-    }
-    tenor() {
-        const tenor = this.shadowRoot.querySelector(".bob");
-        const listOfGames =
-            this.shadowRoot.querySelectorAll(".listOfGames > div");
-
-        listOfGames.forEach((div, index) => {
-            const offsetX = index % 2 === 0 ? -100 : 0;
-            const offsetY = Math.floor(index / 2) % 2 === 0 ? -100 : 0;
-
-            div.addEventListener("mouseenter", () => {
-                tenor.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.5)`;
-            });
-
-            div.addEventListener("mouseleave", () => {
-                tenor.style.transform = "translate(-50%, -50%)";
-            });
-        });
-
-        // setInterval(() => {
-        //     this.shadowRoot.getElementById('user-id').innerText = context.user?.name;
-        // }, 1000);
     }
 }
 

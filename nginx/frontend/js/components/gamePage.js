@@ -24,7 +24,11 @@ class GamePage extends HTMLElement {
                     justify-content: center;
                     align-items: center;
                     min-height: 100vh;
-                    background-color: rgb(0, 0, 0);
+                    // background-color: rgba(0, 0, 0, 0);
+                    // background-image: url('../../../app/assets/images/tournamentGate/ground.svg');
+                    // background-size: 100px 100px;
+                    perspective: 1000px;
+                    overflow: hidden;
                 }
         
                 .pong-container {
@@ -32,6 +36,8 @@ class GamePage extends HTMLElement {
                     width: 900px;
                     height: 1200px;
                     animation: cameraTransition 5s;
+                    border: 5px solid #00FFFF;
+                    // transform-style: preserve-3d;
                 }
         
                 .pong {
@@ -46,14 +52,52 @@ class GamePage extends HTMLElement {
                         transform: perspective(1000px) translateY(-80px) translateZ(1000px) rotateX(-25deg) scaleX(0.5);
                     }
                 }
+                .sides {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background-image: url('../../../app/assets/images/tournamentGate/ground.svg');
+                    background-size: 100px 100px;
+                    z-index: 10;
+                }
+                .sides#up, .sides#down {
+                    background-size: 300px 300px;
+                }
+                #up {
+                    top: 0;
+                    left: 0;
+                    transform: perspective(1000px)  translateY(-100%) rotateX(-133.5deg);
+                    transform-origin: bottom;
+                }
+                #down {
+                    bottom: 0;
+                    left: 0;
+                    transform: perspective(1000px)  translateY(100%) rotateX(133.5deg);
+                    transform-origin: top;
+                }
+                #left {
+                    top: 0;
+                    left: 0;
+                    transform: perspective(1000px)  translateX(-100%) rotateY(80deg);
+                    transform-origin: right;
+                }
+                #right {
+                    top: 0;
+                    right: 0;
+                    transform: perspective(1000px)  translateX(100%) rotateY(-80deg);
+                    transform-origin: left;
+                }
             </style>
             <div class="custom-game">
                 <div class="pong-wrapper">
                     <div id="pong-container" class="pong-container">
                         <canvas id="pong" class="pong"></canvas>
+                        <div id="up" class="sides"></div>
+                        <div id="down" class="sides"></div>
+                        <div id="left" class="sides"></div>
+                        <div id="right" class="sides"></div>
                     </div>
                 </div>
-
                 <img src="../../app/assets/images/game/egypt_background.webp" id="egypt_background" style="display: none;">
                 <img src="../../app/assets/images/game/egypt_player_paddle.webp" id="egypt_player_paddle" style="display: none;">
                 <img src="../../app/assets/images/game/egypt_opponent_paddle.webp" id="egypt_opponent_paddle" style="display: none;">

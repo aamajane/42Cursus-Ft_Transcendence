@@ -85,12 +85,6 @@ function navigation(mainPath) {
                 } else {
                     showPage("homePage"); // Default to home page if route not found
                     document.querySelector("background-component").style.display = "block";
-                    if (document.querySelector("custom-dashboard") !== null) {
-                        const shadowRoot = document.querySelector("custom-dashboard").shadowRoot;
-                        shadowRoot.querySelectorAll("a#pages").forEach((a) =>
-                            a.addEventListener("click", handleLinkClick)
-                        );
-                    }
                 }
                 if (pageId === "profilePage" || pageId === "homePage")
                     document.querySelector("background-component").style.display = "block";
@@ -121,6 +115,7 @@ function navigation(mainPath) {
         );
         navigateTo(pathname);
     }
+    context.navigation = handleLinkClick;
 
     window.onpopstate = function (event) {
         navigateTo(window.location.pathname);
@@ -131,5 +126,6 @@ function navigation(mainPath) {
     else
         navigateTo(window.location.pathname);
 }
+
 
 document.addEventListener("DOMContentLoaded", navigation);
