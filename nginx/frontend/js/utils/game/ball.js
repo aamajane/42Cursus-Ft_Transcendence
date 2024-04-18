@@ -63,15 +63,15 @@ class Ball {
         }
     }
 
-    draw(context) {
-        context.save();
+    draw(ctx) {
+        ctx.save();
 
-        applyShadow(context, 20, (this.x - GAME_WIDTH / 2) / BALL_SIZE, 10);
+        applyShadow(ctx, 20, (this.x - GAME_WIDTH / 2) / BALL_SIZE, 10);
 
         const currentImage = this.image[(this.frame += 1) % BALL_MAX_FRAME];
         const newImage = changeImageColor(currentImage, this.color);
 
-        context.drawImage(
+        ctx.drawImage(
             newImage,
             this.x - this.radius,
             this.y - this.radius,
@@ -79,8 +79,8 @@ class Ball {
             this.radius * 2
         );
 
-        resetShadow(context);
+        resetShadow(ctx);
 
-        context.restore();
+        ctx.restore();
     }
 }

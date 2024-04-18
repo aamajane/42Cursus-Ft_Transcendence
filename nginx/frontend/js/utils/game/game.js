@@ -56,14 +56,14 @@ class AIGame {
         }
     }
 
-    draw(context) {
+    draw(ctx) {
         this.opponent.paddle.height += 30;
 
-        this.player.score.draw(context);
-        this.opponent.score.draw(context);
-        this.opponent.paddle.draw(context);
-        this.ball.draw(context);
-        this.player.paddle.draw(context);
+        this.player.score.draw(ctx);
+        this.opponent.score.draw(ctx);
+        this.opponent.paddle.draw(ctx);
+        this.ball.draw(ctx);
+        this.player.paddle.draw(ctx);
 
         this.opponent.paddle.height -= 30;
     }
@@ -162,17 +162,17 @@ class MultiplayerGame {
         }
     }
 
-    draw(context) {
+    draw(ctx) {
         this.opponent.paddle1.height += 30;
         if (this.opponent.paddle2) this.opponent.paddle2.height += 30;
 
-        this.player.score.draw(context);
-        this.opponent.score.draw(context);
-        this.opponent.paddle1.draw(context);
-        if (this.opponent.paddle2) this.opponent.paddle2.draw(context);
-        this.ball.draw(context);
-        this.player.paddle1.draw(context);
-        if (this.player.paddle2) this.player.paddle2.draw(context);
+        this.player.score.draw(ctx);
+        this.opponent.score.draw(ctx);
+        this.opponent.paddle1.draw(ctx);
+        if (this.opponent.paddle2) this.opponent.paddle2.draw(ctx);
+        this.ball.draw(ctx);
+        this.player.paddle1.draw(ctx);
+        if (this.player.paddle2) this.player.paddle2.draw(ctx);
 
         this.opponent.paddle1.height -= 30;
         if (this.opponent.paddle2) this.opponent.paddle2.height -= 30;

@@ -9,9 +9,9 @@ class Score {
         this.value++;
     }
 
-    draw(context) {
-        context.font = "180px sans-serif";
-        context.fillStyle = "hsla(0, 0%, 100%, 0.5)";
-        context.fillText(this.value, this.x, this.y);
+    draw(ctx) {
+        ctx.font = "180px sans-serif";
+        ctx.fillStyle = "hsla(0, 0%, 100%, 0.5)";
+        ctx.fillText(this.value, this.x, this.y);
     }
 }

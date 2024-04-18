@@ -38,11 +38,11 @@ class Paddle {
         this.right = this.x + this.width;
     }
 
-    draw(context) {
-        applyShadow(context, 20, (this.x - GAME_WIDTH / 2) / this.width, 20);
+    draw(ctx) {
+        applyShadow(ctx, 20, (this.x - GAME_WIDTH / 2) / this.width, 20);
 
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
-        resetShadow(context);
+        resetShadow(ctx);
     }
 }

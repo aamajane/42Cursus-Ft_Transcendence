@@ -49,30 +49,30 @@ function simulateKeyRelease(key) {
     document.dispatchEvent(keyReleaseEvent);
 }
 
-function applyShadow(context, blur, offsetX, offsetY) {
-    context.shadowColor = "#000000";
-    context.shadowBlur = blur;
-    context.shadowOffsetX = offsetX;
-    context.shadowOffsetY = offsetY;
+function applyShadow(ctx, blur, offsetX, offsetY) {
+    ctx.shadowColor = "#000000";
+    ctx.shadowBlur = blur;
+    ctx.shadowOffsetX = offsetX;
+    ctx.shadowOffsetY = offsetY;
 }
 
-function resetShadow(context) {
-    context.shadowColor = "#000000";
-    context.shadowBlur = 0;
-    context.shadowOffsetX = 0;
-    context.shadowOffsetY = 0;
+function resetShadow(ctx) {
+    ctx.shadowColor = "#000000";
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
 }
 
 function changeImageColor(image, color) {
     const offscreenCanvas = document.createElement("canvas");
-    const context = offscreenCanvas.getContext("2d");
+    const ctx = offscreenCanvas.getContext("2d");
 
     offscreenCanvas.width = image.width;
     offscreenCanvas.height = image.height;
 
-    context.drawImage(image, 0, 0, image.width, image.height);
+    ctx.drawImage(image, 0, 0, image.width, image.height);
 
-    const imageData = context.getImageData(0, 0, image.width, image.height);
+    const imageData = ctx.getImageData(0, 0, image.width, image.height);
     const data = imageData.data;
 
     for (let i = 0; i < data.length; i += 4) {
@@ -81,7 +81,7 @@ function changeImageColor(image, color) {
         data[i + 2] *= color.b;
     }
 
-    context.putImageData(imageData, 0, 0);
+    ctx.putImageData(imageData, 0, 0);
 
     return offscreenCanvas;
 }
