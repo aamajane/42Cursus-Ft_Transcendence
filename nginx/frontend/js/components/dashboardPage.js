@@ -90,21 +90,6 @@ class DashboardPage extends HTMLElement {
                 text-decoration: underline;
             }
 
-            .WatchLive {
-                position: relative;
-                margin-top: 100px;
-                width: 1000px;
-                height: 300px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border: 1px solid #0ffa;
-                background-image: linear-gradient(to bottom, #0af3, #fff4, #0af3);
-                box-shadow: 0 0 100px 5px #0af4 inset,
-                            0 0 10px 5px #0af4;
-                border-radius: 20px;
-
-            }
             .robot {
                 position: absolute;
                 left: 100%;
@@ -141,6 +126,7 @@ class DashboardPage extends HTMLElement {
                 border-radius: 20px;
                 background-image: linear-gradient(to top, #0af7, #00f0);
                 transition: all .8s cubic-bezier(0.1, 0.2, 0.3, 3.5);
+                transform: scale(0.8);
                 cursor: pointer;
                 z-index: 1;
             }
@@ -149,7 +135,7 @@ class DashboardPage extends HTMLElement {
                 box-shadow: 0 0 10px 5px #0af,
                             0 0 100px 5px #0af inset,
                             0 0 10px 5px #0af;
-                transform: scale(1.1);
+                transform: scale(0.9);
             }
             .listOfGames > div:hover img {
                 transform: translate(0, -50px);
@@ -499,10 +485,18 @@ class DashboardPage extends HTMLElement {
                 height: 50px;
                 z-index: 10;
             }
-            @media screen and (max-width: 1300px) {
+            @media screen and (max-width: 1400px) {
+                .listOfGames {
+                    // grid-template-columns: 1fr;
+                    padding: 150px;
+                    grid-gap: 100px;
+                }
+            }
+            @media screen and (max-width: 1100px) {
                 .listOfGames {
                     grid-template-columns: 1fr;
-                    padding: 200px;
+                    padding: 150px;
+                    grid-gap: 200px;
                 }
             }
         </style>
@@ -541,10 +535,6 @@ class DashboardPage extends HTMLElement {
                         </div>
                     </nav>
                     <main>
-                        <div class="WatchLive">
-                            <h1> No Live Stream Available </h1>
-                            <img src="../../app/assets/images/dashboardGate/r.png" alt="r" class="robot">
-                        </div>
                         <div class="listOfGames">
                             <div class="1v1">
                                 <a href="/game/1v1" id="pages" class="game1v1page pages"></a>

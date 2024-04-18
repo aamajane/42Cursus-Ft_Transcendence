@@ -386,10 +386,10 @@ class Context {
     }
 
     async initProfileOfUser(username) {
-        context.api.loading = true ;
-        setTimeout(() => {
-            context.api.loading = false ;
-        }, 3000);
+        // context.api.loading = true ;
+        // setTimeout(() => {
+        //     context.api.loading = false ;
+        // }, 3000);
         /************************************************************************
          * data to be fetched:
          * - list of games 1v1
