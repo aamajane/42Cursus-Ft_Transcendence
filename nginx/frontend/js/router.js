@@ -68,7 +68,7 @@ function navigation(mainPath) {
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
                             a.addEventListener("click", (event) => {
                                 event.preventDefault();
-                                context.track.gameId = 15;
+                                context.track.gameId = 100;
                                 location = `${pathname}/${context.track.gameId}`;
                                 setTimeout(() => {
                                     handleLinkClick(event);

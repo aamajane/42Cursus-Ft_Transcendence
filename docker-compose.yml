@@ -54,6 +54,8 @@ services:
             - "80:80"
         networks:
             - my_network
+        env_file:
+            - .env
         depends_on:
             - api
             - websockets

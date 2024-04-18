@@ -147,8 +147,8 @@ class APIResponse {
  ******************************************************************************/
 class APIContext {
     constructor() {
-        this.websocketEndpoint = "localhost:80/ws";
-        this.graphqlEndpoint = "http://localhost:80/api/graphql/";
+        this.websocketEndpoint = "http://" + window.location.host + ":80/ws";
+        this.graphqlEndpoint = "http://" + window.location.host + ":80/api/graphql/";
         this.loading = false ;
         this.response = undefined ;
         this.error = undefined
@@ -166,6 +166,7 @@ class APIContext {
         this.loading = true ;
 
         let jsonQuery = JSON.stringify({ query: queryOrMutation })
+
         let res = await fetch(this.graphqlEndpoint, {
             method: 'POST',
             credentials: 'include',
