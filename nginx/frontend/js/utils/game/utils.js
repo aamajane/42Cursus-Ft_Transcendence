@@ -50,14 +50,14 @@ function simulateKeyRelease(key) {
 }
 
 function applyShadow(ctx, blur, offsetX, offsetY) {
-    ctx.shadowColor = "#000000";
+    ctx.shadowColor = "rgb(0, 0, 0)";
     ctx.shadowBlur = blur;
     ctx.shadowOffsetX = offsetX;
     ctx.shadowOffsetY = offsetY;
 }
 
 function resetShadow(ctx) {
-    ctx.shadowColor = "#000000";
+    ctx.shadowColor = "rgb(0, 0, 0)";
     ctx.shadowBlur = 0;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;

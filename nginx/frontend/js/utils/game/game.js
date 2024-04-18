@@ -12,6 +12,8 @@ class AIGame {
                 PLAYER_RIGHT_KEY
             ),
             score: new Score(PLAYER_SCORE_X, PLAYER_SCORE_Y),
+            username: new Username("You", PLAYER_NAME_X, PLAYER_NAME_Y),
+            avatar: new Avatar(USER_AVATAR, PLAYER_AVATAR_X, PLAYER_AVATAR_Y),
         };
         this.opponent = {
             paddle: new Paddle(
@@ -22,6 +24,8 @@ class AIGame {
                 OPPONENT_RIGHT_KEY
             ),
             score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y),
+            username: new Username("AI", OPPONENT_NAME_X, OPPONENT_NAME_Y),
+            avatar: new Avatar(AI_AVATAR, OPPONENT_AVATAR_X, OPPONENT_AVATAR_Y),
         };
         this.ball = new Ball(
             map.ballImage,
@@ -61,6 +65,10 @@ class AIGame {
 
         this.player.score.draw(ctx);
         this.opponent.score.draw(ctx);
+        this.player.username.draw(ctx);
+        this.opponent.username.draw(ctx);
+        this.player.avatar.draw(ctx);
+        this.opponent.avatar.draw(ctx);
         this.opponent.paddle.draw(ctx);
         this.ball.draw(ctx);
         this.player.paddle.draw(ctx);

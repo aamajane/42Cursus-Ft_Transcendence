@@ -11,7 +11,7 @@ class Score {
 
     draw(ctx) {
         ctx.font = "180px sans-serif";
-        ctx.fillStyle = "hsla(0, 0%, 100%, 0.5)";
+        ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
         ctx.fillText(this.value, this.x, this.y);
     }
 }

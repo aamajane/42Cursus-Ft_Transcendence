@@ -49,7 +49,7 @@ class GamePage extends HTMLElement {
         
                 @keyframes cameraTransition {
                     0% {
-                        transform: perspective(1000px) translateY(-80px) translateZ(1000px) rotateX(-25deg) scaleX(0.5);
+                        transform: perspective(1000px) translateZ(-1000px);
                     }
                 }
                 .sides {
@@ -125,6 +125,8 @@ class GamePage extends HTMLElement {
                 <img src="../../app/assets/images/game/ball_12.webp" id="ball_12" style="display: none;">
                 <img src="../../app/assets/images/game/ball_13.webp" id="ball_13" style="display: none;">
                 <img src="../../app/assets/images/game/ball_14.webp" id="ball_14" style="display: none;">
+
+                <img src="../../app/assets/images/game/ai_avatar.webp" id="ai_avatar" style="display: none;">
             <div>
         `;
 

@@ -57,6 +57,49 @@ const OPPONENT_SCORE_Y = 180;
 
 const WINNING_SCORE = 10;
 
+/* *************************** NAME CONSTANTS *************************** */
+const PLAYER_NAME_X = GAME_WIDTH - 110;
+const PLAYER_NAME_Y = GAME_HEIGHT - 20;
+
+const OPPONENT_NAME_X = 120;
+const OPPONENT_NAME_Y = 230;
+
+// const PLAYER1_NAME_X = GAME_WIDTH / 4;
+// const PLAYER1_NAME_Y = GAME_HEIGHT - 100;
+
+// const PLAYER2_NAME_X = GAME_WIDTH - GAME_WIDTH / 4;
+// const PLAYER2_NAME_Y = GAME_HEIGHT - 100;
+
+// const OPPONENT1_NAME_X = GAME_WIDTH - GAME_WIDTH / 4;
+// const OPPONENT1_NAME_Y = 100;
+
+// const OPPONENT2_NAME_X = GAME_WIDTH / 4;
+// const OPPONENT2_NAME_Y = 100;
+
+/* *************************** AVATAR CONSTANTS *************************** */
+const AVATAR_SIZE = 140;
+
+const PLAYER_AVATAR_X = GAME_WIDTH - 180;
+const PLAYER_AVATAR_Y = GAME_HEIGHT - 200;
+
+const OPPONENT_AVATAR_X = 50;
+const OPPONENT_AVATAR_Y = 40;
+
+// const PLAYER1_AVATAR_X = GAME_WIDTH / 4;
+// const PLAYER1_AVATAR_Y = GAME_HEIGHT - 200;
+
+// const PLAYER2_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 4;
+// const PLAYER2_AVATAR_Y = GAME_HEIGHT - 200;
+
+// const OPPONENT1_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 4;
+// const OPPONENT1_AVATAR_Y = 200;
+
+// const OPPONENT2_AVATAR_X = GAME_WIDTH / 4;
+// const OPPONENT2_AVATAR_Y = 200;
+
+const AI_AVATAR = "../../app/assets/images/game/ai_avatar.webp";
+const USER_AVATAR = "https://cdn.intra.42.fr/users/6e08f820a216e1a2a90e377609109946/aamajane.jpg";
+
 /* *************************** INPUT CONSTANTS *************************** */
 const PLAYER_LEFT_KEY = "ArrowLeft";
 const PLAYER_RIGHT_KEY = "ArrowRight";
