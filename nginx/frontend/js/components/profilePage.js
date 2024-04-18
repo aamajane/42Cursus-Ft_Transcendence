@@ -24,6 +24,7 @@ class PopUpProfile extends HTMLElement {
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            overflow: auto;
         }
         .popup > img {
             position: absolute;
@@ -1052,41 +1053,16 @@ class PopUpProfile extends HTMLElement {
             height: 50px;
             z-index: 10;
         }
-        @media screen and (max-width: 1600px) {
-            .popup-inner {
-                top: 15%;
-                scale: 0.9;
-            }
-        }
         @media screen and (max-width: 1200px) {
             .popup-inner {
-                top: 15%;
-                scale: 0.8;
-            }
-        }
-        @media screen and (max-width: 1000px) {
-            .popup-inner {
-                top: 15%;
-                scale: 0.7;
-            }
-        }
-        @media screen and (max-width: 900px) {
-            .popup-inner {
-                top: 15%;
-                scale: 0.6;
-            }
-        }
-        @media screen and (max-width: 800px) {
-            .popup-inner {
-                top: 15%;
-                scale: 0.5;
+                left: 0;
             }
         }
         </style>
         <div class="popup">
             <img src="../../app/assets/images/tenor.gif">
             <div class="popup-inner">
-                <img src="../../app/assets/images/profile/screen.svg">
+                <img src="../../app/assets/images/profile/screen.svg" id="bg">
                 <img id="avBg" src="../../app/assets/images/profile/avatarScreen.svg">
                 <div class="avatar">
                     <img src="../../app/assets/images/bg3.gif">
