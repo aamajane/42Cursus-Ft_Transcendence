@@ -29,6 +29,14 @@ class Query(graphene.ObjectType):
     # to retrieve all the tournaments
     get_all_tournaments = graphene.List(TournamentType)
 
+    # input object type used to retrieve all the tournaments by user
+    class AllTournamentsByUserInput(graphene.InputObjectType):
+        username = graphene.String(required=True)
+
+    # to retrieve all the tournaments played by the user username
+    get_tournaments_played_by_user = graphene.List(TournamentType, data=AllTournamentsByUserInput(required=True))
+
+
     ################################################
     ### Tournament resolvers to retrieve data
     ################################################
@@ -44,3 +52,18 @@ class Query(graphene.ObjectType):
     
     def resolve_get_all_tournaments(self, info):
         return Tournament.objects.all()
+    
+
+    def resolve_get_tournaments_played_by_user(self, info, data):
+        try:
+            user = User.objects.get(username=data.username)
+            return Tournament.objects.filter(demi_final_first_game__player_1=user)\
+                | Tournament.objects.filter(demi_final_first_game__player_2=user)\
+                | Tournament.objects.filter(demi_final_first_game__player_3=user)\
+                | Tournament.objects.filter(demi_final_first_game__player_4=user)\
+                | Tournament.objects.filter(demi_final_second_game__player_1=user)\
+                | Tournament.objects.filter(demi_final_second_game__player_2=user)\
+                | Tournament.objects.filter(demi_final_second_game__player_3=user)\
+                | Tournament.objects.filter(demi_final_second_game__player_4=user)
+        except ObjectDoesNotExist:
+            return None

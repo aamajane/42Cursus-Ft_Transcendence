@@ -184,6 +184,10 @@ class GetTournamentAvailable(graphene.Mutation):
                 demi_final_second_game.save()
                 demi_final_first_game.save()
                 final_game.save()
+                tournament.demi_final_first_game = demi_final_first_game
+                tournament.demi_final_second_game = demi_final_second_game
+                tournament.final_game = final_game
+                tournament.save()
                 return GetTournamentAvailable(tournament_id=tournament.id, success='Tournament available', error=None)
             except Exception as e:
                 print("EXCEPTION => ", e)
@@ -213,6 +217,7 @@ class SetTournamentState(graphene.Mutation):
     class Arguments:
         tournament_id = graphene.ID(required=True)
         state = graphene.String(required=True)
+
     
     success = graphene.String()
     error = graphene.String()

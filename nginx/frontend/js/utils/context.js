@@ -298,14 +298,7 @@ class Search {
  **************************************************************************************/
 class Context {
     constructor() {
-        this.route = undefined ; 
         this.user = undefined ;
-        this.followers = undefined ; // array of players Player[]
-        this.tournamentsHistory = [] ; // array of tournaments Tournament[]
-        this.gamesHistory = [] ; // array of games Game[]
-        this.notifications = [] ; // array of notifications Notification[]
-        this.tournamentId = undefined ; // a tournament object
-        this.gameId = undefined ; // a game object
         this.api = new APIContext() ; // an APIContext object
         this.profileOfUser = undefined ; // a Profile object
         this.track = new Track() ; // a Track object
@@ -426,9 +419,6 @@ class Context {
         console.log("GAMES => ", this.api.response.getAllGamesPlayedByPlayer)
         this.profileOfUser.games1v1 = this.api.response.getAllGamesPlayedByPlayer.filter(game => game.is2x2 === false).map(game => new Game(game));
         this.profileOfUser.games2v2 = this.api.response.getAllGamesPlayedByPlayer.filter(game => game.is2x2 === true).map(game => new Game(game));
-
-        console.log("GAMES 1V1 => ", this.profileOfUser.games1v1)
-        console.log("GAMES 2V2 => ", this.profileOfUser.games2v2)
 
         // fetch the list of all tournaments
         const queryListOfAllTournaments = `
