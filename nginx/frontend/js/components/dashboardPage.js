@@ -434,7 +434,7 @@ class DashboardPage extends HTMLElement {
                 width: 100%;
                 height: 50%;
                 object-fit: cover;
-                filter: hue-rotate(60deg);
+                // filter: hue-rotate(60deg);
             }
             .searchResults .searchResults-profile .searchResults-avatar .searchResults-avatarInfo h3 {
                 position: relative;
@@ -505,7 +505,7 @@ class DashboardPage extends HTMLElement {
                         <div class="profile">
                             <a href="/profile" id="pages" class="profilePage" playerName="${context.user?.name}"></a>
                             <img src="../../app/assets/images/dashboardGate/avatar.svg" alt="avatar">
-                            <img class="plAvatar" src="../../app/assets/images/anonimous.jpeg">
+                            <img class="plAvatar" src="${context.user?.avatar}">
                             <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M99.1936 22.7831L67.5 4.48483C60.3838 0.376274 51.6162 0.376274 44.5 4.48483L12.8064 22.7831C5.6902 26.8917 1.30642 34.4846 1.30642 42.7017V79.2983C1.30642 87.5154 5.6902 95.1083 12.8064 99.2169L44.5 117.515C51.6162 121.624 60.3838 121.624 67.5 117.515L99.1936 99.2169C106.31 95.1083 110.694 87.5154 110.694 79.2983V42.7017C110.694 34.4846 106.31 26.8917 99.1936 22.7831Z" fill="url(#pattern0)" stroke="url(#paint0_linear_255_519)" stroke-width="2"/>
                                 <defs>
@@ -519,7 +519,7 @@ class DashboardPage extends HTMLElement {
                                 </defs>
                             </svg>
                             <div class="Pcdr">
-                                <a href="/profile" id="pages" class="profilePage"></a>
+                                <a href="/profile" id="pages" class="profilePage" playerName="${context.user?.name}"></a>
                                 <h1 id="user-id">@${context.user?.name}</h1>
                             </div>
                             
@@ -576,17 +576,20 @@ class DashboardPage extends HTMLElement {
     search() {
         const search = this.shadowRoot.querySelector(".search");
         const searchResults = this.shadowRoot.querySelector(".searchResults");
-
-        search.addEventListener("click", () => {
+        const input = this.shadowRoot.querySelector("input");
+        search.addEventListener("click", async () => {
             searchResults.style.display = "grid";
-            for (let i = 0; i < 20; i++) {
+            await context.search(input.value);
+            console.log(context.searchResults, "searchResultssssssss");
+            searchResults.innerHTML = "";
+            for (let i = 0; i < context.searchResults.length; i++) {
                 searchResults.innerHTML += `
                     <div class="searchResults-profile" id="profile${i}">
                         <div class="searchResults-avatar">
                             <img src="../../app/assets/images/profileScreen.svg" alt="profile">
                             <div class="searchResults-avatarInfo">
-                                <img src="../../app/assets/images/devCard/amajan.png" alt="profile">
-                                <h3>Username</h3>
+                                <img src="${context.searchResults[i].avatarUrl}" alt="profile">
+                                <h3>${context.searchResults[i].username}</h3>
                                 <svg viewBox="0 0 277 363" fill="none">
                                     <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
                                         <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
@@ -595,7 +598,7 @@ class DashboardPage extends HTMLElement {
                             </div>
                         </div>
                         <div class="searchResults-info">
-                            <a href="/profile" id="pages" class="searchResults-profilePage" playerName="null"></a>
+                            <a href="/profile" id="pages" class="searchResults-profilePage" playerName="${context.searchResults[i].username}"></a>
                             <img src="../../app/assets/images/nameScreen.svg" alt="profile">
                             <div class="searchResults-infoWrapper">
                                 <h3>show</h3>
@@ -605,13 +608,21 @@ class DashboardPage extends HTMLElement {
                 `;
             }
             this.shadowRoot.querySelectorAll("a#pages").forEach((a) => {
-                a.addEventListener("click", (event) => {
+                a.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
+                    // await context.initProfileOfUser(context.track.initProfileOfUser.name);
                     context.navigation(event);
                 });
             } );
         });
         this.shadowRoot.querySelectorAll("a#pages").forEach((a) => {
-            a.addEventListener("click", (event) => {
+            a.addEventListener("click", async (event) => {
+                event.preventDefault();
+                if (event.target.getAttribute("class") === "profilePage") {
+                    context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
+                    // await context.initProfileOfUser(context.track.initProfileOfUser.name);
+                }
                 context.navigation(event);
             });
         } );

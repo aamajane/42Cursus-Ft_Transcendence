@@ -14,7 +14,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class UserType(DjangoObjectType):
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email", "avatar_url", "created_at", "is_online", "is_playing", "points_earned", "number_of_followers")
+        fields = ("username", "first_name", "last_name", "email", "avatar_url", "created_at", "is_online", "is_playing", "points_earned", "number_of_followers", "number_of_following")
 
 ######## Documentation: ##############################################
 ### FriendType class to define the fields that can be queried by the user
@@ -88,6 +88,8 @@ class Query(graphene.ObjectType):
     # to retrieve the users that a user is following
     get_user_followings = graphene.List(FollowershipType, username=graphene.String(required=True), limit=graphene.Int())
 
+    # to retrieve users that has a substring in their username
+    get_users_by_substring = graphene.List(UserType, substring=graphene.String(required=True))
 
     ################################################
     ### GraphQL resolvers for the queries        ###
@@ -175,3 +177,7 @@ class Query(graphene.ObjectType):
             return Notification.objects.filter(user=user, is_read=False).count()
         except ObjectDoesNotExist:
             return None  # Return None if the user does not exist
+    
+    # to retrieve users that has a substring in their username
+    def resolve_get_users_by_substring(root, info, substring):
+        return User.objects.filter(username__contains=substring)

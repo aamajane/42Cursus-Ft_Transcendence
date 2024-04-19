@@ -17,7 +17,7 @@ function navigation(mainPath) {
 
     function navigateTo(pathname) {
         if (pathname === "/profile") {
-            context.initProfileOfUser("hel-mefe");
+            context.initProfileOfUser(context.track.initProfileOfUser.name);
         }
         // if (pathname === "/tournament") {
         //     context.initTournament();
@@ -41,7 +41,7 @@ function navigation(mainPath) {
                 const gamePath2v2 = `/game/2v2/${context.track.gameId}`;
                 const gamePathAi = `/game/aiBot/${context.track.gameId}`;
                 const tournamentPath = `/tournament/${context.track.tournamentId}`;
-                const profilePath = `/profile/null`;
+                const profilePath = `/profile/${context.track.initProfileOfUser.name}`;
 
                 const routes = {
                     "/": "homePage",
@@ -102,8 +102,7 @@ function navigation(mainPath) {
         }
 
         if (pathname === "/profile") {
-            context.initProfileOfUser("hel-mefe");
-            // context.track.initProfileOfUser.player.name = event.target.getAttribute("playerName");
+            context.initProfileOfUser(context.track.initProfileOfUser.name);
             pathname = `${pathname}/${event.target.getAttribute("playerName")}`;
         }
         console.log("pathname:::::::: " + pathname);
@@ -115,7 +114,8 @@ function navigation(mainPath) {
         );
         navigateTo(pathname);
     }
-    context.navigation = handleLinkClick;
+    // if (context.navigation === undefined)
+        context.navigation = handleLinkClick;
 
     window.onpopstate = function (event) {
         navigateTo(window.location.pathname);

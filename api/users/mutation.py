@@ -398,6 +398,30 @@ class DeleteNotification(graphene.Mutation):
         except Exception as e:
             return DeleteNotification(success=None, error='Error occured during deleting the notification!')
 
+##### Documentation: ##############################################
+#### - Set user avatar
+### - a mutation that sets the user avatar, always
+### returns success and error return values fields
+#####################################################################
+        
+class UpdateUser(graphene.Mutation):
+    class Arguments:
+        username = graphene.String(required=True)
+        avatar_url = graphene.String(required=True)
+
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info, username, avatar_url):
+        try:
+            user = User.objects.filter(username=username).first()
+            user.avatar_url = avatar_url
+            user.save()
+            return UpdateUser(success='User updated successfully!', error=None)
+        except Exception as e:
+            return UpdateUser(success=None, error='Error occured during updating the user!')
+
+
 ####### Documentation: ##############################################
 #### - Mutation class
 ### - a class that contains all the mutations
@@ -424,6 +448,9 @@ class Mutation(ObjectType):
 
     # delete user if needed
     delete_user = DeleteUser.Field()
+
+    # update user avatar
+    update_user = UpdateUser.Field()
 
     ##############################################
     ### Followership mutations

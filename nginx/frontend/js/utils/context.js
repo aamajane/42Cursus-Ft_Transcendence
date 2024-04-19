@@ -51,10 +51,10 @@ class Player {
         this.id = null;
         this.name = data?.username || null;
         this.avatarUrl = data?.avatarUrl || null;
-        this.score = null;
-        this.level = null;
-        this.winRate = null;
-        this.rank = null;
+        this.score = data?.pointsEarned || null;
+        this.level = undefined;
+        this.winRate = undefined;
+        this.matches = undefined;
     }
 }
 
@@ -275,6 +275,14 @@ class Track {
             players: [],
             games: []
         };
+        this.initProfileOfUser = new trackPlayer();
+    }
+}
+
+class Search {
+    constructor(data) {
+        this.username = data?.username || null ;
+        this.avatarUrl = data?.avatarUrl || null ;
     }
 }
 
@@ -300,14 +308,7 @@ class Context {
         this.profileOfUser = undefined ; // a Profile object
         this.track = new Track() ; // a Track object
         this.navigation = undefined ; // a function that navigates to a page
-    }
-    get User() {
-        const timeInterval = setInterval(() => {
-            if (this.api.loading === false) {
-                clearInterval(timeInterval) ;
-                return this.user ;
-            }
-        }, 1000);
+        this.searchResults = []; // array of Users
     }
 
     // takes a test user for testing purposes
@@ -347,23 +348,43 @@ class Context {
     }
 
     async initProfileOfUser(username) {
-        context.api.loading = true ;
-        setTimeout(() => {
-            context.api.loading = false ;
-        }, 3000);
+
         /************************************************************************
          * data to be fetched:
+         * - user data (username, avatar, score, level, winRate, rank)
          * - list of games 1v1
          * - list of games 2v2
          * - list of tournaments
          * - list of followers
          * - list of following
-         * - user data (username, avatar, score, level, winRate, rank)
          * - isOnline
          * - isPlaying
          * - status = "online" | "offline" | "playing"
          * - isLoggedUser
          */
+
+        // fetch the user data
+        const queryUserData = `
+            query {
+                getUserByUsername(username: "${username}") {
+                    username,
+                    avatarUrl,
+                    pointsEarned,
+                    numberOfFollowers,
+                    numberOfFollowing,
+                    createdAt,
+                }
+            }
+        `
+        await this.api.graphqlFetch(queryUserData)
+        if (this.api.error) {
+            alert("Error occured while fetching user data [CONTEXT]")
+            return false ;
+        }
+        
+        this.profileOfUser = new Profile() ;
+        this.profileOfUser.player = new Player(this.api.response.getUserByUsername) ;
+
 
         // fetch the list of all games
         const queryListOfAllGames = `
@@ -510,12 +531,34 @@ class Context {
         // set the two factor authentication
     }
 
-    // status = "online" | "offline" | "playing"
+    // status = true | false
     async setUserStatus(status) {
         // set the user status
+        const changeStatus = undefined ;
+
+        if (status === true)
+            changeStatus = `mutation { setUserPlaying(username: "${this.user.username}") { success, error } }`
+        else
+            changeStatus = `mutation { setUserNotPlaying(username: "${this.user.username}") { success, error } }`
+
+        await this.api.graphqlFetch(changeStatus)
+
+        if (this.api.error) {
+            alert("Error occured while changing user status")
+            return false ;
+        }
     }
 
-    
+    async getUserStatus() {
+        // get the user status
+        const query = `query { getUserByUsername(username: "${this.user.username}") { isPlaying } }`
+        await this.api.graphqlFetch(query)
+        if (this.api.error) {
+            alert("Error occured while fetching user status")
+            return false ;
+        }
+        return this.api.response.getUserByUsername.isPlaying ;
+    }
 
     async getProfileData() {
         const query = `query { getUserByUsername(username: "${this.user.username}") { username, firstName, lastName } }`
@@ -560,7 +603,7 @@ class Context {
         // fetch the list of all games
         const ChangeGame = `
             mutation {
-                updateGame(data: { gameId: 1, score1: 10, score2: 5, winner: "hel-mefe" }) {
+                updateGame(data: { gameId: 1, score1: 10, score2: 5, winner: "hel-mefe", state: "finished" }) {
                     success,
                     error,
                     gameId
@@ -603,6 +646,25 @@ class Context {
         return true ;
     }
 
+    async search(username) {
+        const query = `
+            query {
+                getUsersBySubstring(substring: "${username}") {
+                    username,
+                    avatarUrl
+                }
+            }
+        `
+        await this.api.graphqlFetch(query)
+        if (this.api.error) {
+            console.log("Error occured while fetching search data")
+            return false ;
+        }
+
+        this.searchResults = [];
+
+        this.searchResults = this.api.response.getUsersBySubstring.map(user => new Search(user));
+    }
 }
 
 const context = new Context()

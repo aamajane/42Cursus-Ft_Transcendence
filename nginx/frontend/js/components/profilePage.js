@@ -1066,8 +1066,8 @@ class PopUpProfile extends HTMLElement {
                 <img id="avBg" src="../../app/assets/images/profile/avatarScreen.svg">
                 <div class="avatar">
                     <img src="../../app/assets/images/bg3.gif">
-                    <img src="../../app/assets/images/devCard/avatar3.svg">
-                    <h2>@7maad</h2>
+                    <img src="${context.profileOfUser.player.avatarUrl}">
+                    <h2>@${context.profileOfUser.player.name}</h2>
                     <span id="gradient"></span>
                 </div>
                 <div class="follow">
