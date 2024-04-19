@@ -28,10 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOWED_ORIGINS = [
-    "*",
-    # Add other origins as needed
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "*",
+#     # Add other origins as needed
+# ]
 
 CORS_ALLOW_CREDENETIALS = True
 CORS_ALLOW_ALL_ORIGINS = True

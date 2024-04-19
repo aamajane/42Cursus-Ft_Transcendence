@@ -560,7 +560,7 @@ class Context {
         // fetch the list of all games
         const ChangeGame = `
             mutation {
-                updateGame(data: { gameId: ${context.track.gameId}, score1: 10, score2: 5, winner: "hel-mefe" }) {
+                updateGame(data: { gameId: 1, score1: 10, score2: 5, winner: "hel-mefe" }) {
                     success,
                     error,
                     gameId
@@ -610,4 +610,4 @@ context.initContext({ username: "hel-mefe" })
 // console.log("CONTEXT: ", context)
 // context.getGameAvailable() ;
 context.updateGame() ;
-context.getGameById() ;
+context.getGameById(1) ;
