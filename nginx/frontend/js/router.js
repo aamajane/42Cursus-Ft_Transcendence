@@ -67,6 +67,7 @@ function navigation(mainPath) {
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
                             a.addEventListener("click", async (event) => {
                                 event.preventDefault();
+                                // this.context.
                                 await context.getGameAvailable() ;
                                 console.log("AFTER QUERY DONE => ", context.track.gameId)
                                 location = `${pathname}/${context.track.gameId}`;

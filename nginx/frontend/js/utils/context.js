@@ -33,6 +33,8 @@ class Game {
         this.tournamentId = data?.tournamentId || undefined ;
         this.createdAt = data?.createdAt || null ;
         this.winner = data?.winner || undefined ;
+        this.score1 = data?.score1 || null ;
+        this.score2 = data?.score2 || null ;
     }
 }
 
@@ -389,7 +391,7 @@ class Context {
         // fetch the list of all games
         const queryListOfAllGames = `
             query {
-                getAllGames(username: "$username") {
+                getAllGamesPlayedByPlayer(data: {player: "${username}"}) {
                     player1 {
                         username,
                         avatarUrl,
@@ -409,13 +411,24 @@ class Context {
                     isTeam1Won,
                     createdAt,
                     mode,
-                    isVsAi,
-                    is2X2, 
                     score1,
-                    score2
+                    score2,
+                    is2x2
                 }
             }
         `
+
+        await this.api.graphqlFetch(queryListOfAllGames)
+        if (this.api.error) {
+            alert("Error occured while fetching user games [CONTEXT]")
+            return false ;
+        }
+        console.log("GAMES => ", this.api.response.getAllGamesPlayedByPlayer)
+        this.profileOfUser.games1v1 = this.api.response.getAllGamesPlayedByPlayer.filter(game => game.is2x2 === false).map(game => new Game(game));
+        this.profileOfUser.games2v2 = this.api.response.getAllGamesPlayedByPlayer.filter(game => game.is2x2 === true).map(game => new Game(game));
+
+        console.log("GAMES 1V1 => ", this.profileOfUser.games1v1)
+        console.log("GAMES 2V2 => ", this.profileOfUser.games2v2)
 
         // fetch the list of all tournaments
         const queryListOfAllTournaments = `
@@ -441,7 +454,6 @@ class Context {
                         isTeam1Won,
                         createdAt,
                         mode,
-                        isVsAi,
                         is2X2,
                         state,
                         score1,
@@ -467,7 +479,6 @@ class Context {
                         isTeam1Won,
                         createdAt,
                         mode,
-                        isVsAi,
                         is2X2,
                         state,
                         score1,
@@ -493,7 +504,6 @@ class Context {
                         isTeam1Won,
                         createdAt,
                         mode,
-                        isVsAi,
                         is2X2,
                         state,
                         score1,
@@ -573,9 +583,10 @@ class Context {
     }
 
     async getGameAvailable() {
-        context.track.gameMap = "egypt" ; // egypt | factory | space
-        context.track.gameMode = "1v1" ; // 1v1 | 2v2
-
+        // context.track.gameMap = "egypt" ; // egypt | factory | space
+        // context.track.gameMode = "1v1" ; // 1v1 | 2v2
+        console.log("CONTEXT: ", context.track.gameMap)
+        console.log("CONTEXT: ", context.track.gameMode)
         // fetch the available games
         const gameQuery = `
             mutation {
@@ -671,5 +682,5 @@ const context = new Context()
 context.initContext({ username: "hel-mefe" })
 // console.log("CONTEXT: ", context)
 // context.getGameAvailable() ;
-context.updateGame() ;
-context.getGameById(1) ;
+// context.updateGame() ;
+// context.getGameById(1) ;

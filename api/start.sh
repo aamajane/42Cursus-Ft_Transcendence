@@ -3,7 +3,25 @@
 cd ./backend
 
 echo "Waiting for postgres..."
-sleep 2
+sleep 8
+# Database connection parameters
+
+# POSTGRES_DB='postgres_name'
+# POSTGRES_USER='postgres_user'
+# POSTGRES_PASSWORD='postgres_password'
+# POSTGRES_HOST='postgres'
+# POSTGRES_PORT='5432'
+
+DB_HOST="localhost"
+DB_PORT="5432"
+DB_NAME="postgres_name"
+DB_USER="postgres_user"
+DB_PASSWORD="postgres_password"
+
+# while ! nc -z localhost 5432; do sleep 2; done;
+
+echo "Database connection is ready. Proceeding with the script."
+
 
 echo "Applying database migrations..."
 python3 manage.py makemigrations

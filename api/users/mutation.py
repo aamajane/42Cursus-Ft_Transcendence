@@ -22,8 +22,11 @@ class CreateUser(graphene.Mutation):
         is_user_not_exist = not User.objects.filter(username=username).exists()
         
         if is_user_not_exist:
-            User.objects.create(username=username, avatar_url=avatar_url)
-            return CreateUser(success="User created successfully", error=None)
+            try:
+                User.objects.create(username=username, avatar_url=avatar_url)
+                return CreateUser(success="User created successfully", error=None)
+            except Exception as e:
+                return CreateUser(success=None, error="Error occured during creating the user!")
         return CreateUser(success=None, error="User already exists")
 
 # ####### Documentation: ##############################################
