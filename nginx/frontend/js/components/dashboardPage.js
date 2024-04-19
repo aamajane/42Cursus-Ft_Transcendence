@@ -612,7 +612,7 @@ class DashboardPage extends HTMLElement {
                     event.preventDefault();
                     context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
                     // await context.initProfileOfUser(context.track.initProfileOfUser.name);
-                    context.navigation(event);
+                    await context.navigation(event);
                 });
             } );
         });
@@ -623,7 +623,7 @@ class DashboardPage extends HTMLElement {
                     context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
                     // await context.initProfileOfUser(context.track.initProfileOfUser.name);
                 }
-                context.navigation(event);
+                await context.navigation(event);
             });
         } );
         this.shadowRoot.addEventListener("click", (event) => {

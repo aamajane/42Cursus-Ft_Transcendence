@@ -1196,14 +1196,14 @@ class PopUpProfile extends HTMLElement {
                                 </linearGradient>
                             </defs>
                             <circle
-                                cx = "calc(100 / 2)",
-                                cy = "calc(100 / 2)",
+                                cx = "${100 / 2}",
+                                cy = "${100 / 2}",
                                 r = 45
                                 class = 'circle-two'
                             />
                             <circle
-                                cx = "calc(100 / 2)",
-                                cy = "calc(100 / 2)",
+                                cx = "${100 / 2}",
+                                cy = "${100 / 2}",
                                 r = 45
                                 class = 'circle'
                                 stroke-dasharray = "calc(2 * 3.14 * 45 * ${winRate} / 100) calc(2 * 3.14 * 45)"

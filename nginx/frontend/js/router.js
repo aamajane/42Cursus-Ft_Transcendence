@@ -67,11 +67,10 @@ function navigation(mainPath) {
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
                             a.addEventListener("click", async (event) => {
                                 event.preventDefault();
-                                // this.context.
                                 await context.getGameAvailable() ;
-                                console.log("AFTER QUERY DONE => ", context.track.gameId)
-                                location = `${pathname}/${context.track.gameId}`;
-                                setTimeout(() => {
+                                setTimeout( () => {
+                                    console.log("AFTER QUERY DONE => ", context.track.gameId)
+                                    location = `${pathname}/${context.track.gameId}`;
                                     handleLinkClick(event);
                                 }, 1000);
                             })
@@ -80,7 +79,11 @@ function navigation(mainPath) {
                     if (pageId === "profilePage") {
                         const shadowRoot = document.querySelector("custom-profile").shadowRoot;
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
-                            a.addEventListener("click", handleLinkClick)
+                            a.addEventListener("click", async (event) => {
+                                event.preventDefault();
+                                context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
+                                await handleLinkClick(event);
+                            })
                         );
                     }
                 } else {
@@ -94,21 +97,21 @@ function navigation(mainPath) {
         }, 100);
     }
 
-    function handleLinkClick(event) {
-        event.preventDefault();
+    async function handleLinkClick(event) {
         let pathname = event.target.getAttribute("href");
         if (pathname === "/tournament") {
             context.track.tournamentId = "123545679";
             pathname = `${pathname}/${context.track.tournamentId}`;
         }
-
+        
         if (pathname === "/profile") {
-            context.initProfileOfUser(context.track.initProfileOfUser.name);
-            console.log(context.profileOfUser.player, "/////////////////");
             pathname = `${pathname}/${event.target.getAttribute("playerName")}`;
+            await context.initProfileOfUser(context.track.initProfileOfUser.name);
+            console.log(context.profileOfUser.player, "/////////////////");
         }
-        console.log("pathname:::::::: " + pathname);
         if (location !== "") pathname = location;
+        console.log("pathname:::::::: " + pathname);
+        console.log("handleLinkClick ++++++++++++++++++++", pathname);
         window.history.pushState(
             {},
             pathname,
