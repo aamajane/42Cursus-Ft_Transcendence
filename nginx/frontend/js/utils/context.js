@@ -110,24 +110,14 @@ class Tournament {
  *   - gamesHistory: this represents the games history of the current user
  **************************************************************************************/
 
-class User {
+// class User {
 
-    constructor(data) {
-        this.id = data?.id || null ;
-        this.name = data?.username || null ;
-        this.avatar = data?.avatarUrl || null ; 
-    }
-    // get Name() {
-    //     const timeInterval = s
-    //     return this.name ;
-
-    // }
-    // get friends() {
-
-    // set f1(name) {
-    //     //name and avatar
-    // }
-}
+//     constructor(data) {
+//         this.id = data?.id || null ;
+//         this.name = data?.username || null ;
+//         this.avatar = data?.avatarUrl || null ; 
+//     }
+// }
 
 /***************************************************************************************
  * APIResponse is representing the response from the API
@@ -267,11 +257,9 @@ class Track {
         this.gameId = undefined;
         this.gameMap = undefined;
         this.gameMode = undefined;
-        this.gameStatus = undefined;
-        this.gameScore = undefined;
+
 
         this.tournamentId = undefined;
-        this.tournamentMode = undefined;
         this.tournamentStatus = undefined;
         this.tournamentData = {
             players: [],
@@ -302,6 +290,8 @@ class Context {
         this.api = new APIContext() ; // an APIContext object
         this.profileOfUser = undefined ; // a Profile object
         this.track = new Track() ; // a Track object
+        this.currentGame = undefined ; // a Game object
+        this.currentTournament = undefined ; // a Tournament object
         this.navigation = undefined ; // a function that navigates to a page
         this.searchResults = []; // array of Users
     }
@@ -324,7 +314,7 @@ class Context {
             alert("Error occured while fetching user data [CONTEXT]")
             return ;
         }
-        this.user = new User(this.api.response.getUserByUsername) ;
+        this.user = new Player(this.api.response.getUserByUsername) ;
         query = `query {
             getUserFollowers(username: "${testUser.username}") {
                 user {

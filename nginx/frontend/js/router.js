@@ -104,6 +104,7 @@ function navigation(mainPath) {
 
         if (pathname === "/profile") {
             context.initProfileOfUser(context.track.initProfileOfUser.name);
+            console.log(context.profileOfUser.player, "/////////////////");
             pathname = `${pathname}/${event.target.getAttribute("playerName")}`;
         }
         console.log("pathname:::::::: " + pathname);
@@ -116,7 +117,7 @@ function navigation(mainPath) {
         navigateTo(pathname);
     }
     // if (context.navigation === undefined)
-        context.navigation = handleLinkClick;
+    context.navigation = handleLinkClick;
 
     window.onpopstate = function (event) {
         navigateTo(window.location.pathname);
