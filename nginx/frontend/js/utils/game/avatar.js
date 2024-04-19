@@ -1,13 +1,9 @@
 class Avatar {
-    constructor(image, x, y) {
+    constructor(url, x, y) {
         this.image =  new Image();
-        this.image.src = image;
+        this.image.src = url;
         this.x = x;
         this.y = y;
-    }
-
-    update(image) {
-        this.image.src = image;
     }
 
     draw(ctx) {

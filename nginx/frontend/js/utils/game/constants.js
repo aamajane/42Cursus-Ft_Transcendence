@@ -58,47 +58,38 @@ const OPPONENT_SCORE_Y = 180;
 const WINNING_SCORE = 10;
 
 /* *************************** NAME CONSTANTS *************************** */
-const PLAYER_NAME_X = GAME_WIDTH - 110;
-const PLAYER_NAME_Y = GAME_HEIGHT - 20;
+const PLAYER1_NAME_X = GAME_WIDTH - 110;
+const PLAYER1_NAME_Y = GAME_HEIGHT - 20;
 
-const OPPONENT_NAME_X = 120;
-const OPPONENT_NAME_Y = 230;
+const OPPONENT1_NAME_X = 120;
+const OPPONENT1_NAME_Y = 230;
 
-// const PLAYER1_NAME_X = GAME_WIDTH / 4;
-// const PLAYER1_NAME_Y = GAME_HEIGHT - 100;
+const PLAYER2_NAME_X = GAME_WIDTH - GAME_WIDTH / 4;
+const PLAYER2_NAME_Y = GAME_HEIGHT - 20;
 
-// const PLAYER2_NAME_X = GAME_WIDTH - GAME_WIDTH / 4;
-// const PLAYER2_NAME_Y = GAME_HEIGHT - 100;
-
-// const OPPONENT1_NAME_X = GAME_WIDTH - GAME_WIDTH / 4;
-// const OPPONENT1_NAME_Y = 100;
-
-// const OPPONENT2_NAME_X = GAME_WIDTH / 4;
-// const OPPONENT2_NAME_Y = 100;
+const OPPONENT2_NAME_X = GAME_WIDTH / 4;
+const OPPONENT2_NAME_Y = 230;
 
 /* *************************** AVATAR CONSTANTS *************************** */
 const AVATAR_SIZE = 140;
 
-const PLAYER_AVATAR_X = GAME_WIDTH - 180;
-const PLAYER_AVATAR_Y = GAME_HEIGHT - 200;
+const PLAYER1_AVATAR_X = GAME_WIDTH - 180;
+const PLAYER1_AVATAR_Y = GAME_HEIGHT - 200;
 
-const OPPONENT_AVATAR_X = 50;
-const OPPONENT_AVATAR_Y = 40;
+const OPPONENT1_AVATAR_X = 50;
+const OPPONENT1_AVATAR_Y = 40;
 
-// const PLAYER1_AVATAR_X = GAME_WIDTH / 4;
-// const PLAYER1_AVATAR_Y = GAME_HEIGHT - 200;
+const PLAYER2_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 4;
+const PLAYER2_AVATAR_Y = GAME_HEIGHT - 200;
 
-// const PLAYER2_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 4;
-// const PLAYER2_AVATAR_Y = GAME_HEIGHT - 200;
+const OPPONENT2_AVATAR_X = GAME_WIDTH / 4;
+const OPPONENT2_AVATAR_Y = 40;
 
-// const OPPONENT1_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 4;
-// const OPPONENT1_AVATAR_Y = 200;
-
-// const OPPONENT2_AVATAR_X = GAME_WIDTH / 4;
-// const OPPONENT2_AVATAR_Y = 200;
-
-const AI_AVATAR = "../../app/assets/images/game/ai_avatar.webp";
-const USER_AVATAR = "https://cdn.intra.42.fr/users/6e08f820a216e1a2a90e377609109946/aamajane.jpg";
+const AI_AVATAR_URL = "../../app/assets/images/game/ai_avatar.webp";
+const PLAYER1_AVATAR_URL = "https://cdn.intra.42.fr/users/6e08f820a216e1a2a90e377609109946/aamajane.jpg";
+const PLAYER2_AVATAR_URL = "https://cdn.intra.42.fr/users/c57fb67bd87763107a61aaf0ad1add71/ael-bekk.jpg";
+const OPPONENT1_AVATAR_URL = "https://cdn.intra.42.fr/users/664d497ee11b0a6944ae13c8cb222edd/hel-mefe.jpg";
+const OPPONENT2_AVATAR_URL = "https://cdn.intra.42.fr/users/a9ffdbbe14c28c2f6bbc7ff28b7ce717/anamajan.jpeg";
 
 /* *************************** INPUT CONSTANTS *************************** */
 const PLAYER_LEFT_KEY = "ArrowLeft";

@@ -1,4 +1,7 @@
 function startGame() {
+    // TODO: send query to get the user status playing, if it's true, refuse to start a new game
+    // TODO: send query to set the user status playing to true
+
     const shadowRoot = document.getElementById("custom-game").shadowRoot;
     const canvasContainer = shadowRoot.getElementById("pong-container");
     const canvas = shadowRoot.getElementById("pong");
@@ -31,6 +34,7 @@ function startGame() {
                 break;
             default:
                 gameOver();
+                // TODO: send query to set the user status playing to false
                 return;
         }
 

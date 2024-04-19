@@ -5,7 +5,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 class BaseGameConsumer(AsyncWebsocketConsumer):
     MAX_USERS = None
     user_count = {}
-    usernames = {}
+    # usernames = {}
     channels_names = {}
     game_status = {}
 
@@ -16,21 +16,20 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         self.user_count.setdefault(self.room_group_name, 0)
-        self.usernames.setdefault(self.room_group_name, [])
+        # self.usernames.setdefault(self.room_group_name, [])
         self.channels_names.setdefault(self.room_group_name, [])
         self.game_status.setdefault(self.room_group_name, 'pending')
 
         self.user_count[self.room_group_name] += 1
 
         if self.user_count[self.room_group_name] > self.MAX_USERS or \
-        self.scope['user'].username in self.usernames[self.room_group_name] or \
         self.game_status[self.room_group_name] == 'ongoing':
             await self.close()
             return
 
         await self.accept()
 
-        self.usernames[self.room_group_name].append(self.scope['user'].username)
+        # self.usernames[self.room_group_name].append(self.scope['user'].username)
         self.channels_names[self.room_group_name].append(self.channel_name)
 
         await self.send_host_message(self.user_count[self.room_group_name] == 1)
@@ -47,9 +46,9 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         self.user_count[self.room_group_name] -= 1
 
-        if self.game_status[self.room_group_name] == 'pending' and \
-        self.scope['user'].username in self.usernames[self.room_group_name]:
-            self.usernames[self.room_group_name].remove(self.scope['user'].username)
+        # if self.game_status[self.room_group_name] == 'pending' and \
+        # self.scope['user'].username in self.usernames[self.room_group_name]:
+        #     self.usernames[self.room_group_name].remove(self.scope['user'].username)
 
         if self.channel_name in self.channels_names[self.room_group_name]:
             self.channels_names[self.room_group_name].remove(self.channel_name)
@@ -67,7 +66,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         event = data.get('event')
 
-        if event in ['update_paddle', 'update_score', 'update_ball']:
+        if event in ['update_user_data', 'update_paddle', 'update_score', 'update_ball']:
             await self.channel_layer.group_send(self.room_group_name, {
                 'sender_channel_name': self.channel_name,
                 'type': 'send.message',

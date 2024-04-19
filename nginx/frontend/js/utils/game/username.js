@@ -1,17 +1,13 @@
 class Username {
-    constructor(username, x, y) {
-        this.username = username;
+    constructor(value, x, y) {
+        this.value = value;
         this.x = x;
         this.y = y;
-    }
-
-    update(username) {
-        this.username = username;
     }
 
     draw(ctx) {
         ctx.font = "50px sans-serif";
         ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-        ctx.fillText(this.username, this.x, this.y);
+        ctx.fillText(this.value, this.x, this.y);
     }
 }

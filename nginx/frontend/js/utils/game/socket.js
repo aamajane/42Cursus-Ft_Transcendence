@@ -54,13 +54,38 @@ class Socket {
                         this.game.player.paddle2.leftKey = null;
                         this.game.player.paddle2.rightKey = null;
                     }
+                    this.game.player.username1.value = this.game.username;
+                    this.game.player.avatar1.image.src = this.game.avatar;
                     break;
                 case "paddle_level_two":
                     this.game.paddleLevel = 2;
                     this.game.player.paddle1.leftKey = null;
                     this.game.player.paddle1.rightKey = null;
+                    this.game.player.username2.value = this.game.username;
+                    this.game.player.avatar2.image.src = this.game.avatar;
+                    break;
+                case "update_user_data":
+                    console.log("username: ", data.username);
+                    if (this.game.team === data.team) {
+                        if (data.paddle_level === 1) {
+                            this.game.player.username1.value = data.username;
+                            this.game.player.avatar1.image.src = data.avatar;
+                        } else {
+                            this.game.player.username2.value = data.username;
+                            this.game.player.avatar2.image.src = data.avatar;
+                        }
+                    } else {
+                        if (data.paddle_level === 1) {
+                            this.game.opponent.username1.value = data.username;
+                            this.game.opponent.avatar1.image.src = data.avatar;
+                        } else {
+                            this.game.opponent.username2.value = data.username;
+                            this.game.opponent.avatar2.image.src = data.avatar;
+                        }
+                    }
                     break;
                 case "start":
+                    this.updateUserData();
                     this.game.status = COUNTDOWN;
                     this.game.startTime = Date.now();
                     break;
@@ -103,6 +128,18 @@ class Socket {
                     break;
             }
         };
+    }
+
+    updateUserData() {
+        const message = {
+            event: "update_user_data",
+            team: this.game.team,
+            paddle_level: this.game.paddleLevel,
+            username: this.game.username,
+            avatar: this.game.avatar,
+        };
+
+        this.socket.send(JSON.stringify(message));
     }
 
     updatePaddle() {
