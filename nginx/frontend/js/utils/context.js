@@ -167,37 +167,48 @@ class APIContext {
 
         let jsonQuery = JSON.stringify({ query: queryOrMutation })
 
-        let res = await fetch(this.graphqlEndpoint, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: jsonQuery
-        });
+        try {
+            let res = await fetch(this.graphqlEndpoint, {
+                method: 'POST',
+                credentials: 'omit',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonQuery
+            }) ;
 
-        // if error occurs during the fetching of the data
-        if (!res || !res.ok) {
-            this.error = "Error occured while fetching data from the API";
+            // if error occurs during the fetching of the data
+            if (!res || !res.ok) {
+                this.error = "Error occured while fetching data from the API";
+                this.loading = false ;
+                return;
+            }
+
+            // if the data is fetched successfully
+            if (res.data?.error) {
+                this.loading = false ;
+                this.error = "Error returned from the API server"
+                return ;
+            }
+
+            this.response = await res.json()
+            this.response = this.response.data ;
+        } catch (err) { // api call failed, or json parsing failed
+            alert(err) 
             this.loading = false ;
-            return;
+            this.error = err.message ;
+            return 
         }
 
-        // if the data is fetched successfully
-        if (res.data?.error) {
-            this.loading = false ;
-            this.error = "Error returned from the API server"
-            return ;
-        }
-
-        this.response = await res.json()
-        this.response = this.response.data ;
-        console.log(this.response)
+        
         this.loading = false ;
         this.error = null ;
     }
 
-    // should be called after each API call
+    /********************************************************/
+    /* - method that resets the API context             *******/
+    /* - graphqlFetch always calls it before each fetch *******/
+    /********************************************************/
     resetAPIContext() {
         this.loading = false ;
         this.response = undefined ;
@@ -279,7 +290,7 @@ class Context {
     constructor() {
         this.route = undefined ; 
         this.user = undefined ;
-        this.friends = undefined ; // array of players Player[]
+        this.followers = undefined ; // array of players Player[]
         this.tournamentsHistory = [] ; // array of tournaments Tournament[]
         this.gamesHistory = [] ; // array of games Game[]
         this.notifications = [] ; // array of notifications Notification[]
@@ -317,79 +328,29 @@ class Context {
             alert("Error occured while fetching user data [CONTEXT]")
             return ;
         }
-        // console.log("CONTEXT => ", this.api.response.getUserByUsername)
-        // alert("USER DATA: ", this.api.response)
         this.user = new User(this.api.response.getUserByUsername) ;
-
         query = `query {
-            getAllFriends(username: "${testUser.username}") {
-                followedBy {
+            getUserFollowers(username: "${testUser.username}") {
+                user {
                     username,
                     avatarUrl
                 }
             }
         }`
-
         await this.api.graphqlFetch(query)
-        
         if (this.api.error)
         {
             alert("Error occured while fetching friends data [CONTEXT]")
             return ;
         }
-        this.friends = this.api.response.getAllFriends ;
-    
-        // console.log("USERNAME: ", testUser.username)
-
-        // console.log("[CONTEXT SECOND INITIALIZATION]")
-        // if (this.api.error) {
-        //     console.log("Error occured while fetching user data [CONTEXT]")
-        //     return false ;
-        // }
-
-        // console.log("RESPONSE IS OK => ", this.api.response.data)
-        // this.user = this.api.response.getUserByUsername ;
-        // // this.user = this.api.response.data ;
-        // console.log("USER IS SET => ", this.user)        
-        // // is the user query set
-        // // if (!this.user) {
-        // //     alert("User not set!")
-        // //     return false ;
-        // // }
-
-        // this.api.resetAPIContext() ;
-
-        // // fetching the friends of the user
-        // await this.api.graphqlFetch(`query {
-        //         getFriendsOfUser(username: "${testUser.username}") {
-        //             username,
-        //             firstName,
-        //             lastName,
-        //         }
-        //     }
-        // `);
-
-        // if (this.api.error) {
-        //     console.log("2nd Query Error occured while fetching user data [CONTEXT]", this.api.error)
-        //     return false ;
-        // }
-
-        // this.friends = this.api.response.data.getFriendsOfUser ;
-        // // is the friends query set
-        // if (!this.friends) {
-        //     alert("Friends not set!") ;
-        //     return false ; 
-        // }
-        // console.log("FRIENDS ARE SET => ", this.friends)
-
-        // return true ;
+        this.followers = this.api.response.getUserFollowers ;
     }
 
     async initProfileOfUser(username) {
-        // context.api.loading = true ;
-        // setTimeout(() => {
-        //     context.api.loading = false ;
-        // }, 3000);
+        context.api.loading = true ;
+        setTimeout(() => {
+            context.api.loading = false ;
+        }, 3000);
         /************************************************************************
          * data to be fetched:
          * - list of games 1v1
@@ -403,6 +364,143 @@ class Context {
          * - status = "online" | "offline" | "playing"
          * - isLoggedUser
          */
+
+        // fetch the list of all games
+        const queryListOfAllGames = `
+            query {
+                getAllGames(username: "$username") {
+                    player1 {
+                        username,
+                        avatarUrl,
+                    },
+                    player2 {
+                        username,
+                        avatarUrl,
+                    },
+                    player3 {
+                        username,
+                        avatarUrl,
+                    },
+                    player4 {
+                        username,
+                        avatarUrl,
+                    },
+                    isTeam1Won,
+                    createdAt,
+                    mode,
+                    isVsAi,
+                    is2X2, 
+                    score1,
+                    score2
+                }
+            }
+        `
+
+        // fetch the list of all tournaments
+        const queryListOfAllTournaments = `
+            query {
+                getAllTournaments(username: "$username") {
+                    demiFinalGame1 {
+                        player1 {
+                            username,
+                            avatarUrl,
+                        },
+                        player2 {
+                            username,
+                            avatarUrl,
+                        },
+                        player3 {
+                            username,
+                            avatarUrl,
+                        },
+                        player4 {
+                            username,
+                            avatarUrl,
+                        },
+                        isTeam1Won,
+                        createdAt,
+                        mode,
+                        isVsAi,
+                        is2X2,
+                        state,
+                        score1,
+                        score2
+                    },
+                    demiFinalGame2 {
+                        player1 {
+                            username,
+                            avatarUrl,
+                        },
+                        player2 {
+                            username,
+                            avatarUrl,
+                        },
+                        player3 {
+                            username,
+                            avatarUrl,
+                        },
+                        player4 {
+                            username,
+                            avatarUrl,
+                        },
+                        isTeam1Won,
+                        createdAt,
+                        mode,
+                        isVsAi,
+                        is2X2,
+                        state,
+                        score1,
+                        score2
+                    },
+                    finalGame {
+                        player1 {
+                            username,
+                            avatarUrl,
+                        },
+                        player2 {
+                            username,
+                            avatarUrl,
+                        },
+                        player3 {
+                            username,
+                            avatarUrl,
+                        },
+                        player4 {
+                            username,
+                            avatarUrl,
+                        },
+                        isTeam1Won,
+                        createdAt,
+                        mode,
+                        isVsAi,
+                        is2X2,
+                        state,
+                        score1,
+                        score2
+                    },
+                    winner {
+                        username,
+                        avatarUrl,
+                    },
+                    secondPlace {
+                        username,
+                        avatarUrl,
+                    },
+                    thirdPlace {
+                        username,
+                        avatarUrl,
+                    },
+                    fourthPlace {
+                        username,
+                        avatarUrl,
+                    },
+                    createdAt,
+                    mode,
+                    state,
+                }
+            }
+            `
+        
 
         // context.profileOfUser.player.isLoggedUser = context.user.username === context.profileOfUser.player.username
     }
@@ -431,10 +529,85 @@ class Context {
         return true ;
     }
 
+    async getGameAvailable() {
+        context.track.gameMap = "egypt" ; // egypt | factory | space
+        context.track.gameMode = "1v1" ; // 1v1 | 2v2
 
+        // fetch the available games
+        const gameQuery = `
+            mutation {
+                getAvailableGame(mode: "${context.track.gameMap}", is2x2: ${context.track.gameMode === "2v2"}) {
+                    success,
+                    error,
+                    gameId
+            }
+        }`
 
+        console.log(gameQuery)
+
+        await this.api.graphqlFetch(gameQuery)
+
+        if (this.api.error) {
+            alert("Error occured while fetching available games")
+            return false ;
+        }
+
+        context.track.gameId = this.api.response.getAvailableGame.gameId ;
+        console.log("GAME ID => ", context.track.gameId)
+    }
+
+    async updateGame() {
+        // fetch the list of all games
+        const ChangeGame = `
+            mutation {
+                updateGame(data: { gameId: ${context.track.gameId}, score1: 10, score2: 5, winner: "hel-mefe" }) {
+                    success,
+                    error,
+                    gameId
+                }
+            }`
+        await this.api.graphqlFetch(ChangeGame)
+        if (this.api.error) {
+            alert("Error occured while fetching available games")
+            return false ;
+        }
+        console.log(this.api.response.updateGame);
+    }
+
+    async getGameById(id) {
+        const query = `query { getGameById(gameId: ${id}) { id, mode, isVsAi, is2x2, state,
+            player1 {
+              username,
+                avatarUrl,  
+            },
+            player2 {
+                username,
+                avatarUrl,
+            }, player3 {
+            username,
+                avatarUrl,
+            }, player4 {
+            username,
+                avatarUrl,
+            }, isTeam1Won, isPartOfTournament, createdAt, score1, score2 } }`
+
+        await this.api.graphqlFetch(query)
+
+        if (this.api.error) {
+            console.log("Error occured while fetching game data getGameById")
+            return false ;
+        }
+        console.log("GAME ID => ", this.api.response)
+        this.gameId = this.api.response.getGameById ;
+        this.api.resetAPIContext() ;
+        return true ;
+    }
 
 }
 
 const context = new Context()
 context.initContext({ username: "hel-mefe" })
+// console.log("CONTEXT: ", context)
+// context.getGameAvailable() ;
+context.updateGame() ;
+context.getGameById() ;

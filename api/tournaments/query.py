@@ -10,7 +10,7 @@ from .models import Tournament
 class TournamentType(DjangoObjectType):
     class Meta:
         model = Tournament
-        fields = ('id', 'demi_final_first_game', 'demi_final_second_game', 'final_game', 'state', 'name', 'tournament_hoster', 'winner', 'second_place', 'third_place', 'fourth_place', 'created_at')
+        fields = ('id', 'demi_final_first_game', 'demi_final_second_game', 'final_game', 'state', 'tournament_hoster', 'winner', 'second_place', 'third_place', 'fourth_place', 'created_at')
 
 class Query(graphene.ObjectType):
 
@@ -21,14 +21,9 @@ class Query(graphene.ObjectType):
     ################################################
     ### Tournament queries to retrieve data
     ################################################
-
-    ### getTournamentByState ########################################################
-    # input object type used to retrieve all the tournaments by status
-    class TournamentByState(graphene.InputObjectType):
-        state = graphene.String(required=True)
     
     # to retrieve all the tournaments by status
-    get_tournament_by_state = graphene.Field(TournamentType, data=TournamentByState(required=True))
+    get_available_tournament = graphene.Field(TournamentType)
 
 
     # to retrieve all the tournaments
@@ -45,6 +40,7 @@ class Query(graphene.ObjectType):
             return Tournament.objects.get(state=data.state)
         except ObjectDoesNotExist:
             return None
+
     
     def resolve_get_all_tournaments(self, info):
         return Tournament.objects.all()

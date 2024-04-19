@@ -35,15 +35,15 @@ class CreateTournament(graphene.Mutation):
                 return CreateTournament(tournament_id=None, success=None, error='Invalid input for tournament hoster')
     
             # if demi_final_first_game_mode provided but not valid
-            if data.demi_final_first_game_mode is not None and data.demi_final_first_game_mode not in ['egypt', 'classic', 'space']:
+            if data.demi_final_first_game_mode is not None and data.demi_final_first_game_mode not in ['egypt', 'factory', 'space']:
                 return CreateTournament(tournament_id=None, success=None, error='Invalid input for demi final first game mode')
     
             # if demi_final_second_game_mode provided but not valid
-            if data.demi_final_second_game_mode is not None and data.demi_final_second_game_mode not in ['egypt', 'classic', 'space']:
+            if data.demi_final_second_game_mode is not None and data.demi_final_second_game_mode not in ['egypt', 'factory', 'space']:
                 return CreateTournament(tournament_id=None, success=None, error='Invalid input for demi final second game mode')
     
             # if final_game_mode provided but not valid
-            if data.final_game_mode is not None and data.final_game_mode not in ['egypt', 'classic', 'space']:
+            if data.final_game_mode is not None and data.final_game_mode not in ['egypt', 'factory', 'space']:
                 return CreateTournament(tournament_id=None, success=None, error='Invalid input for final game mode')
     
             try:
@@ -81,7 +81,7 @@ class CreateTournaments(graphene.Mutation):
 
             print('Before modes')
             # determining all the games modes for the tournament
-            modes = ['egypt', 'classic', 'space']
+            modes = ['egypt', 'factory', 'space']
             demi_final_first_game_mode = random.choice(modes)
             print('After first choice')
             modes.pop(modes.index(demi_final_first_game_mode))
@@ -158,6 +158,78 @@ class DeleteTournament(graphene.Mutation):
         except ObjectDoesNotExist:
             return DeleteTournament(success=None, error='Invalid input for tournament id')
 
+class GetTournamentAvailable(graphene.Mutation):
+    class Arguments:
+        pass
+
+    tournament_id = graphene.ID()
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info):
+        try:
+            tournaments = Tournament.objects.filter(state='pending')
+            if len(tournaments) >= 1:
+                return GetTournamentAvailable(tournament_id=tournaments[0].id, success='Tournament available', error=None)
+            raise Exception('No tournament available')
+        except Exception as e:
+
+            # create the 3 games
+            try:
+                tournament = Tournament(state='pending')
+                tournament.save()
+                demi_final_first_game = Game(mode='egypt', state='pending', is_part_of_tournament=True, tournament_id=tournament)
+                demi_final_second_game = Game(mode='factory', state='pending', is_part_of_tournament=True, tournament_id=tournament)
+                final_game = Game(mode='space', state='pending', is_part_of_tournament=True, tournament_id=tournament)
+                demi_final_second_game.save()
+                demi_final_first_game.save()
+                final_game.save()
+                return GetTournamentAvailable(tournament_id=tournament.id, success='Tournament available', error=None)
+            except Exception as e:
+                print("EXCEPTION => ", e)
+                return GetTournamentAvailable(tournament_id=None, success=None, error='Error creating games or the whole tournament!')
+
+class DeleteAllTournaments(graphene.Mutation):
+    class Arguments:
+        pass
+
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info):
+        try:
+            all_tournaments = Tournament.objects.all()
+            print('After all')
+            for e in all_tournaments:
+                print("ELEMENT => ", e)
+                e.delete()
+            print('All tournaments', all_tournaments)
+            return DeleteAllTournaments(success='All tournaments deleted successfully', error=None)
+        except Exception as e:
+            print("EXCEPTION => ", e)
+            return DeleteAllTournaments(success=None, error='Error deleting all tournaments')
+
+class SetTournamentState(graphene.Mutation):
+    class Arguments:
+        tournament_id = graphene.ID(required=True)
+        state = graphene.String(required=True)
+    
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info, tournament_id, state):
+        try:
+            if state not in ['pending', 'in_progress', 'finished']:
+                return SetTournamentState(success=None, error='Invalid input for tournament state')
+            tournament = Tournament.objects.get(id=tournament_id)
+            if ['pending', 'in_progress', 'finished'].index(tournament.state) > ['pending', 'in_progress', 'finished'].index(state):
+                return SetTournamentState(success=None, error='Invalid input for tournament state')
+            tournament.state = state
+            tournament.save()
+            return SetTournamentState(success='Tournament state changed successfully', error=None)
+        except ObjectDoesNotExist:
+            return SetTournamentState(success=None, error='Invalid input for tournament id')
+
 class Mutation(ObjectType):
     # to create a new tournament
     create_tournament = CreateTournament.Field()
@@ -170,3 +242,12 @@ class Mutation(ObjectType):
 
     # to delete the tournament
     delete_tournament = DeleteTournament.Field()
+
+    # to delete all tournaments
+    delete_all_tournaments = DeleteAllTournaments.Field()
+
+    # to get the available tournament
+    get_tournament_available = GetTournamentAvailable.Field()
+    
+    # set game state
+    set_tournament_state = SetTournamentState.Field()

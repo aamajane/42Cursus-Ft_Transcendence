@@ -10,11 +10,11 @@ from users.models import User
 #####################################################################
 
 class CreateGameInput(graphene.InputObjectType):
-    player_1 = graphene.String(required=True)
-    player_2 = graphene.String(required=True)
+    player_1 = graphene.String()
+    player_2 = graphene.String()
     player_3 = graphene.String()
     player_4 = graphene.String()
-    mode = graphene.String() # egypt, classic or space, random if not provided
+    mode = graphene.String() # egypt, factory or space, random if not provided
     is_2x2 = graphene.Boolean()
     is_vs_ai = graphene.Boolean()
     state = graphene.String()
@@ -29,38 +29,25 @@ class CreateGame(graphene.Mutation):
 
     def mutate(self, info, data):
 
-        # we cannot create a 2x2 game without player 3 and player 4
-        if data.is_2x2 and (data.player_3 is None or data.player_4 is None):
-            return CreateGame(game_id=None, success=None, error='Invalid input for 2x2 mode')
 
-        # we cannot create a vs AI game with player 3 or player 4
-        if data.is_vs_ai and (data.player_3 is not None or data.player_4 is not None):
-            return CreateGame(game_id=None, success=None, error='Invalid input for vs AI mode')
-
-        # # we cannot create a game if there is no player_1 or there is no player_2 provided
-        # if data.player_1 is None or data.player_2 is None:
-        #     return CreateGame(game_id=None, success=None, error='Invalid input for players')
-
-        # if status provided but not valid
-        if data.state is not None and data.state not in ['pending', 'playing', 'finished']:
+        if data.state is not None and data.state not in ['pending', 'in_progress', 'finished']:
             return CreateGame(game_id=None, success=None, error='Invalid input for state')
 
-        # if mode provided but not valid
-        if data.mode is not None and data.mode not in ['egypt', 'classic', 'space']:
+        if data.mode is not None and data.mode not in ['egypt', 'factory', 'space']:
             return CreateGame(game_id=None, success=None, error='Invalid input for mode')
 
         try:
-            player_1_user = User.objects.get(username=data.player_1)
-            player_2_user = User.objects.get(username=data.player_2)
+            player_1_user = User.objects.get(username=data.player_1) if data.player_1 is not None else None
+            player_2_user = User.objects.get(username=data.player_2) if data.player_2 is not None else None
             player_3_user = User.objects.get(username=data.player_3) if data.player_3 is not None else None
             player_4_user = User.objects.get(username=data.player_4) if data.player_4 is not None else None
 
             # creating a new game
             game = Game(player_1=player_1_user, 
                         player_2=player_2_user, 
-                        player_3=player_3_user, # if none then player_3 is none (1vs1 mode) 
-                        player_4=player_4_user, # if none then payer_4 is none (1vs1 mode)
-                        mode=data.mode if data.mode is not None else random.choice(['classic', 'egypt', 'space']), # egypt, classic or space
+                        player_3=player_3_user,
+                        player_4=player_4_user,
+                        mode=data.mode if data.mode is not None else random.choice(['factory', 'egypt', 'space']), # egypt, factory or space
                         is_2x2=True if data.is_2x2 else False,  # 2vs2 mode
                         is_vs_ai=True if data.is_vs_ai else False, # vs AI mode
                         state='pending' if data.state is None else data.state)
@@ -69,88 +56,143 @@ class CreateGame(graphene.Mutation):
         except User.DoesNotExist:
             return CreateGame(game_id=None, success=None, error='Invalid input for players')
 
-####### Documentation: ##############################################
-#### - SetGameStatus class
-### - a mutation that sets the state of the game
-#####################################################################
-
-class SetGameWinnerInput(graphene.InputObjectType):
-    game_id = graphene.Int(required=True)
-    state = graphene.String(required=True)
-
-class SetGameState(graphene.Mutation):
-    class Arguments:
-        data = SetGameWinnerInput(required=True)
-
-    game_id = graphene.ID()
-    success = graphene.String()
-    error = graphene.String()
-
-    def mutate(self, info, data):
-        # change the game state
-        try:
-            game = Game.objects.get(id=data.game_id)
-            game.state = data.state
-            game.save()
-            return SetGameState(game_id=data.game_id, success='Game state changed successfully', error=None)
-        except Game.DoesNotExist:
-            return SetGameState(game_id=None, success=None, error='Game does not exist')
-
-####### Documentation: ##############################################
-#### - SetGameWinner class
-### - a mutation that sets the winner of the game
-#####################################################################
-
-class SetGameWinnerInput(graphene.InputObjectType):
-    game_id = graphene.Int(required=True)
-    winner = graphene.String(required=True)
-
-class SetGameWinner(graphene.Mutation):
-    class Arguments:
-        data = SetGameWinnerInput(required=True)
-
-    game_id = graphene.ID()
-    success = graphene.String()
-    error = graphene.String()
-
-    def mutate(self, info, data):
-        # set the winner of the game
-        try:
-            game = Game.objects.get(id=data.game_id)
-            if game.player_1 == data.winner or game.player_3 == data.winner:
-                game.is_team1_won = True
-            else:
-                game.is_team1_won = False
-            game.save()
-            return SetGameWinner(game_id=data.game.id, success='Game winner set successfully', error=None)
-        except Game.DoesNotExist:
-            return SetGameWinner(game_id=None, success=None, error='Game does not exist')
-
-
-####### Documentation: ##############################################\
-#### - DeleteGame class
-### - a mutation that deletes a game
-#####################################################################
-
-class DeleteGameInput(graphene.InputObjectType):
-    game_id = graphene.Int(required=True)
-
 class DeleteGame(graphene.Mutation):
     class Arguments:
-        data = DeleteGameInput(required=True)
+        game_id = graphene.Int(required=True)
 
     game_id = graphene.ID()
     success = graphene.String()
     error = graphene.String()
 
-    def mutate(self, info, data):
+    def mutate(self, info, game_id):
         try:
-            game = Game.objects.get(id=data.game_id)
+            game = Game.objects.get(id=game_id)
             game.delete()
             return DeleteGame(success='Game deleted successfully', error=None)
         except Game.DoesNotExist:
             return DeleteGame(success=None, error='Game does not exist')
 
+class GetAvailableGame(graphene.Mutation):
+    class Arguments:
+        mode = graphene.String()
+        state = graphene.String()
+        is_2x2 = graphene.Boolean()
+        is_vs_ai = graphene.Boolean()
+
+    game_id = graphene.ID()
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info, mode=None, state='pending', is_2x2=False, is_vs_ai=False):
+        try:
+            games = Game.objects.filter(state='pending')
+            if len(games) >= 1:
+                return GetAvailableGame(game_id=games[0].id, success='Game found', error=None)
+            raise Exception('No available games found')
+        except Exception as e:
+            try:
+                game = Game.objects.create(
+                    mode= mode if mode else random.choice(['factory', 'egypt', 'space']),
+                    state=state,
+                    is_2x2=is_2x2,
+                    is_vs_ai=is_vs_ai
+                    )
+            except Exception as e:
+                return GetAvailableGame(game_id=None, success=None, error='Invalid input for game')
+            return GetAvailableGame(game_id=game.id, success="Game created successfully!", error=None)
+
+class UpdateGameInput(graphene.InputObjectType):
+    game_id = graphene.Int(required=True)
+    player_1 = graphene.String()
+    player_2 = graphene.String()
+    player_3 = graphene.String()
+    player_4 = graphene.String()
+    winner = graphene.String()
+    mode = graphene.String()
+    is_2x2 = graphene.Boolean()
+    is_vs_ai = graphene.Boolean()
+    state = graphene.String()
+    score1 = graphene.Int()
+    score2 = graphene.Int()
+
+class UpdateGame(graphene.Mutation):
+    class Arguments:
+        data = UpdateGameInput(required=True)
+
+    game_id = graphene.ID()
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info, data):
+        if data.state is not None and data.state not in ['pending', 'in_progress', 'finished']:
+            return UpdateGame(game_id=None, success=None, error='Invalid input for state')
+
+        if data.mode is not None and data.mode not in ['egypt', 'factory', 'space']:
+            return UpdateGame(game_id=None, success=None, error='Invalid input for mode')
+
+        try:
+            game = Game.objects.get(id=data.game_id)
+
+            if data.state is not None and ['pending', 'in_progress', 'finished'].index(game.state) > ['pending', 'in_progress', 'finished'].index(data.state):
+                return UpdateGame(game_id=None, success=None, error='Invalid state transition')
+
+            if data.player_1 is not None:
+                player_1_user = User.objects.get(username=data.player_1)
+                game.player_1 = player_1_user
+
+            if data.player_2 is not None:
+                player_2_user = User.objects.get(username=data.player_2)
+                game.player_2 = player_2_user
+
+            if data.player_3 is not None:
+                player_3_user = User.objects.get(username=data.player_3)
+                game.player_3 = player_3_user
+
+            if data.player_4 is not None:
+                player_4_user = User.objects.get(username=data.player_4)
+                game.player_4 = player_4_user
+
+            if data.winner is not None:
+                winner_user = User.objects.get(username=data.winner)
+                game.winner = winner_user
+
+            if data.mode is not None:
+                game.mode = data.mode
+
+            if data.is_2x2 is not None:
+                game.is_2x2 = data.is_2x2
+
+            if data.is_vs_ai is not None:
+                game.is_vs_ai = data.is_vs_ai
+
+            if data.state is not None:
+                game.state = data.state
+
+            if data.score1 is not None:
+                game.score1 = data.score1
+            
+            if data.score2 is not None:
+                game.score2 = data.score2
+
+            game.save()
+            return UpdateGame(game_id=game.id, success='Game updated successfully', error=None)
+        except User.DoesNotExist:
+            return UpdateGame(game_id=None, success=None, error='Invalid input for players')
+        except Game.DoesNotExist:
+            return UpdateGame(game_id=None, success=None, error='Game does not exist')
+
+class DeleteAllGames(graphene.Mutation):
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info):
+        try:
+            games = Game.objects.all()
+            for game in games:
+                game.delete()
+            return DeleteAllGames(success='All games deleted successfully', error=None)
+        except Game.DoesNotExist:
+            return DeleteAllGames(success=None, error='No games found')
 
 ####### Documentation: ##############################################
 #### - Mutation class
@@ -161,11 +203,14 @@ class Mutation(ObjectType):
     # for creating a new game
     create_game = CreateGame.Field()
 
-    # change game status
-    set_game_state = SetGameState.Field()
-
-    # set the winner of the game
-    set_game_winner = SetGameWinner.Field()
-
     # delete a game
     delete_game = DeleteGame.Field()
+
+    # get an available game for playing
+    get_available_game = GetAvailableGame.Field()
+
+    # update all the game parameters
+    update_game = UpdateGame.Field()
+
+    # delete all games
+    delete_all_games = DeleteAllGames.Field()

@@ -1,7 +1,7 @@
 import graphene
 from graphene.types import ObjectType
 from transcendence.db import users, in_users
-from users.models import User, Notification, Friend
+from users.models import User, Notification, Followership
 from transcendence.utils import hash_password, verify_password
 
 ####### Documentation: ##############################################
@@ -11,59 +11,57 @@ from transcendence.utils import hash_password, verify_password
 #####################################################################
 class CreateUser(graphene.Mutation):
     class Arguments:
-        first_name = graphene.String(required=True)
-        last_name = graphene.String(required=True)
         username = graphene.String(required=True)
-        password = graphene.String(required=True)
+        avatar_url = graphene.String()
 
     success = graphene.String()
     error = graphene.String()
 
-    def mutate(self, info, first_name, last_name, username, password):
+    def mutate(self, info, username, avatar_url):
         # find if the user already exists in the database User model or not
         is_user_not_exist = not User.objects.filter(username=username).exists()
         
         if is_user_not_exist:
-            User.objects.create(first_name=first_name, last_name=last_name, username=username, password=hash_password(password))
+            User.objects.create(username=username, avatar_url=avatar_url)
             return CreateUser(success="User created successfully", error=None)
         return CreateUser(success=None, error="User already exists")
 
-####### Documentation: ##############################################
-#### - Update a user
-### - a mutation that updates a user, always returns 
-### success and error return values fields
-#####################################################################
-class UpdateUser(graphene.Mutation):
-    class Arguments:
-        username = graphene.String(required=True)
-        new_username = graphene.String()
-        new_password = graphene.String()
-        new_first_name = graphene.String()
-        new_last_name = graphene.String()
-        new_email = graphene.String()
+# ####### Documentation: ##############################################
+# #### - Update a user
+# ### - a mutation that updates a user, always returns 
+# ### success and error return values fields
+# #####################################################################
+# class UpdateUser(graphene.Mutation):
+#     class Arguments:
+#         username = graphene.String(required=True)
+#         new_username = graphene.String()
+#         new_password = graphene.String()
+#         new_first_name = graphene.String()
+#         new_last_name = graphene.String()
+#         new_email = graphene.String()
 
-    success = graphene.String()
-    error = graphene.String()
+#     success = graphene.String()
+#     error = graphene.String()
 
-    def mutate(self, info, username, new_username=None, new_password=None, new_first_name=None, new_last_name=None, new_email=None):
+#     def mutate(self, info, username, new_username=None, new_password=None, new_first_name=None, new_last_name=None, new_email=None):
 
-        # each field provided will be updated
-        try: # try to update the user
-            user = User.objects.filter(username=username).first()
-            if new_username: # updating the username field
-                user.username = new_username
-            if new_password: # updating the password field
-                user.password = hash_password(new_password)
-            if new_first_name: # updating the first_name field
-                user.first_name = new_first_name
-            if new_last_name: # updating the last_name field
-                user.last_name = new_last_name
-            if new_email: # updating the email field
-                user.email = new_email
-            user.save()
-            return UpdateUser(success='User updated successfully!', error=None)
-        except Exception as e: # user update failed because there is no user with the given username
-            return UpdateUser(success=None, error='Error occured during updating the user!')
+#         # each field provided will be updated
+#         try: # try to update the user
+#             user = User.objects.filter(username=username).first()
+#             if new_username: # updating the username field
+#                 user.username = new_username
+#             if new_password: # updating the password field
+#                 user.password = hash_password(new_password)
+#             if new_first_name: # updating the first_name field
+#                 user.first_name = new_first_name
+#             if new_last_name: # updating the last_name field
+#                 user.last_name = new_last_name
+#             if new_email: # updating the email field
+#                 user.email = new_email
+#             user.save()
+#             return UpdateUser(success='User updated successfully!', error=None)
+#         except Exception as e: # user update failed because there is no user with the given username
+#             return UpdateUser(success=None, error='Error occured during updating the user!')
 
 ####### Documentation: ##############################################
 #### - Delete a user
@@ -85,78 +83,6 @@ class DeleteUser(graphene.Mutation):
             return DeleteUser(success=None, error='Error happened during deleting the user!')
         return DeleteUser(success='User deleted successfully!', error=None)
 
-
-####### Documentation: ##############################################
-#### - Add a friend
-### - a mutation that adds a friend to the user, always returns
-### success and error return values fields
-#####################################################################
-class AddFriend(graphene.Mutation):
-    class Arguments:
-        username = graphene.String(required=True)
-        friend_username = graphene.String(required=True)
-
-    success = graphene.String()
-    error = graphene.String()
-
-    def mutate(self, info, username, friend_username):
-        # checking for user inside the database
-        is_user_not_exist = not User.objects.filter(username=username).exists()
-        if is_user_not_exist:
-            return AddFriend(success=None, error='User not found!')
-        user = User.objects.filter(username=username).first()
-
-        # checking for friend inside the database
-        is_friend_not_exist = not User.objects.filter(username=friend_username).exists()
-        if is_friend_not_exist:
-            return AddFriend(success=None, error='Friend not found!')
-        
-        # checking if the friendship is already established therefore no need to create a new one
-        is_friendship_already_established = Friend.objects.filter(user=user, followed_by=User.objects.filter(username=friend_username).first()).exists()
-        if is_friendship_already_established:
-            return AddFriend(success=None, error='Friendship already established!')
-
-        # the main logic of adding a friend
-        try:
-            friend_user = User.objects.filter(username=friend_username).first()
-            Friend.objects.create(user=user, followed_by=friend_user)
-            return AddFriend(success='Friend added successfully!', error=None)
-        except Exception as e:
-            return AddFriend(success=None, error='Error occured during adding the friend!')
-
-####### Documentation: ##############################################
-#### - Add a friend
-### - a mutation that adds a friend to the user, always returns
-### success and error return values fields
-#####################################################################
-class DeleteFriend(graphene.Mutation):
-    class Arguments:
-        username = graphene.String(required=True)
-        friend_username = graphene.String(required=True)
-
-    success = graphene.String()
-    error = graphene.String()
-
-    def mutate(self, info, username, friend_username):
-
-        # checking for user inside the database
-        is_user_not_exist = not User.objects.filter(username=username).exists()
-        if is_user_not_exist:
-            return DeleteFriend(success=None, error='User not found!')
-        user = User.objects.filter(username=username).first()
-
-        # checking for friend inside the database
-        is_friend_not_exist = not User.objects.filter(username=friend_username).exists()
-        if is_friend_not_exist:
-            return DeleteFriend(success=None, error='Friend not found!')
-
-        friend_user = User.objects.filter(username=friend_username).first()
-        try:
-            friendship_entity = Friend.objects.filter(user=user, followed_by=friend_user).first()
-            friendship_entity.delete()
-            return DeleteFriend(success='Friend deleted successfully!', error=None)
-        except Exception as e:
-            return DeleteFriend(success=None, error='Error occured during deleting the friend!')
 
 ####### Documentation: ##############################################
 #### - Add a notification
@@ -254,49 +180,6 @@ class IncrementUserPoints(graphene.Mutation):
         except Exception as e:
             return IncrementUserPoints(success=None, error='Error occured during incrementing the points!')
 
-####### Documentation: ##############################################
-#### - Increment user followers by +1
-### - a mutation that increments the user followers, always returns
-### success and error return values fields
-#####################################################################
-class IncrementNumberOfFollowers(graphene.Mutation):
-    class Arguments:
-        username = graphene.String(required=True)
-
-    success = graphene.String()
-    error = graphene.String()
-
-    def mutate(self, info, username):
-        # increment the number of followers after checking if the user exists
-        try:
-            user = User.objects.filter(username=username).first()
-            user.number_of_followers += 1
-            user.save()
-            return IncrementNumberOfFollowers(success='Number of followers updated successfully!', error=None)
-        except Exception as e:
-            return IncrementNumberOfFollowers(success=None, error='Error occured during incrementing the number of followers!')
-
-####### Documentation: ##############################################
-#### - Decrement user followers by -1
-### - a mutation that decrements the user followers, always returns
-### success and error return values fields
-#####################################################################
-class DecrementNumberOfFollowers(graphene.Mutation):
-    class Arguments:
-        username = graphene.String(required=True)
-
-    success = graphene.String()
-    error = graphene.String()
-
-    def mutate(self, info, username):
-        # decrement the number of followers after checking if the user exists
-        try:
-            user = User.objects.filter(username=username).first()
-            user.number_of_followers -= 1
-            user.save()
-            return DecrementNumberOfFollowers(success='Number of followers updated successfully!', error=None)
-        except Exception as e:
-            return DecrementNumberOfFollowers(success=None, error='Error occured during decrementing the number of followers!')
 
 ####### Documentation: ##############################################
 #### - Set user online
@@ -383,6 +266,139 @@ class SetUserNotPlaying(graphene.Mutation):
             return SetUserNotPlaying(success=None, error='Error occured during setting the user not playing!')
 
 ####### Documentation: ##############################################
+#### - Add a followership
+### - a mutation that adds a followership to the user, always returns
+### success and error return values fields
+#####################################################################
+class AddFollowerhsip(graphene.Mutation):
+    class Arguments:
+        user = graphene.String(required=True)
+        following = graphene.String(required=True)
+        initial_relevancy_score = graphene.Int()
+    
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info, user, following, initial_relevancy_score=0):
+        # checking for user inside the database
+        is_user_not_exist = not User.objects.filter(username=user).exists()
+        if is_user_not_exist:
+            return AddFollowerhsip(success=None, error='User not found!')
+        user = User.objects.filter(username=user).first()
+
+        # checking for friend inside the database
+        is_following_not_exist = not User.objects.filter(username=following).exists()
+        if is_following_not_exist:
+            return AddFollowerhsip(success=None, error='Following not found!')
+
+        # checking if the friendship is already established therefore no need to create a new one
+        is_followership_already_established = Followership.objects.filter(user=user, following=User.objects.filter(username=following).first()).exists()
+        if is_followership_already_established:
+            return AddFollowerhsip(success=None, error='Followership already established!')
+
+        # the main logic of adding a friend
+        try:
+            following_user = User.objects.filter(username=following).first()
+            Followership.objects.create(user=user, following=following_user, relevancy_score=initial_relevancy_score)
+            return AddFollowerhsip(success='Followership added successfully!', error=None)
+        except Exception as e:
+            return AddFollowerhsip(success=None, error='Error occured during adding the followership!')
+
+####### Documentation: ##############################################
+#### - Deletes a followership
+### - a mutation that deletes a followership to the user, always returns
+### success and error return values fields
+#####################################################################
+class DeleteFollowership(graphene.Mutation):
+    class Arguments:
+        user = graphene.String(required=True)
+        following = graphene.String(required=True)
+
+    success = graphene.String()
+    error = graphene.String()
+    def mutate(self, info, user, following):
+        # checking for user inside the database
+        is_user_not_exist = not User.objects.filter(username=user).exists()
+        if is_user_not_exist:
+            return DeleteFollowership(success=None, error='User not found!')
+        user = User.objects.filter(username=user).first()
+
+        # checking for friend inside the database
+        is_following_not_exist = not User.objects.filter(username=following).exists()
+        if is_following_not_exist:
+            return DeleteFollowership(success=None, error='Following not found!')
+
+        following_user = User.objects.filter(username=following).first()
+        try:
+            followership_entity = Followership.objects.filter(user=user, following=following_user).first()
+            followership_entity.delete()
+            return DeleteFollowership(success='Followership deleted successfully!', error=None)
+        except Exception as e:
+            return DeleteFollowership(success=None, error='Error occured during deleting the followership!')    
+
+####### Documentation: ##############################################
+#### - Set notification as read
+### - a mutation that sets the notification as read, always returns
+### success and error return values fields
+#####################################################################
+class SetNotificationAsRead(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+    
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info, id):
+        try:
+            notif = Notification.objects.filter(id=id).first()
+            notif.is_read = True
+            notif.save()
+            return SetNotificationAsRead(success='Notification is read!', error=None)
+        except Exception as e:
+            return SetNotificationAsRead(success=None, error='Error occured during setting the notification as read!')
+
+##### Documentation: ##############################################
+#### - Adds a notification to the datbase
+### - a mutation that adds a new notification to the database, always
+### returns success and error return values fields
+#####################################################################
+class AddNotification(graphene.Mutation):
+    class Arguments:
+        username = graphene.String(required=True)
+        message = graphene.String(required=True)
+        is_read = graphene.Boolean() # optional argument
+
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info, username, message, is_read):
+        try:
+            user = User.objects.filter(username=username).first()
+            notif = Notification.create(message=message, is_read=False if not is_read else True, user=user)
+            return AddNotification(success='Notification added successfully!', error=None)
+        except Exception as e:
+            return AddNotification(success=None, error='Error occured during adding the notification!')
+
+##### Documentation: ##############################################
+#### - Deletes a notification from the database
+### - a mutation that deletes a notification from the database, always
+### returns success and error return values fields
+#####################################################################
+class DeleteNotification(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+
+    success = graphene.String()
+    error = graphene.String()
+    def mutate(self, info, id):
+        try:
+            notif = Notification.objects.filter(id=id).first()
+            notif.delete()
+            return DeleteNotification(success='Notification deleted successfully!', error=None)
+        except Exception as e:
+            return DeleteNotification(success=None, error='Error occured during deleting the notification!')
+
+####### Documentation: ##############################################
 #### - Mutation class
 ### - a class that contains all the mutations
 #####################################################################
@@ -390,9 +406,6 @@ class SetUserNotPlaying(graphene.Mutation):
 class Mutation(ObjectType):
     # for creating a new user
     create_user = CreateUser.Field()
-
-    # for updating a user (for settings page)
-    update_user = UpdateUser.Field()
 
     # increment user points
     increment_user_points = IncrementUserPoints.Field()
@@ -409,20 +422,22 @@ class Mutation(ObjectType):
     # set the user as not playing
     set_user_not_playing = SetUserNotPlaying.Field()
 
-    # increment number of followers
-    increment_number_of_followers = IncrementNumberOfFollowers.Field()
-
-    # decrement number of followers
-    decrement_number_of_followers = DecrementNumberOfFollowers.Field()
-
     # delete user if needed
     delete_user = DeleteUser.Field()
 
-    # add a friend to the user
-    add_friend = AddFriend.Field()
+    ##############################################
+    ### Followership mutations
+    ##############################################
 
-    # delete a friend from the user
-    delete_friend = DeleteFriend.Field()
+    # add a followership
+    add_followership = AddFollowerhsip.Field()
+
+    # delete a followership
+    delete_followership = DeleteFollowership.Field()
+
+    ##############################################
+    ### Notifications mutations
+    ##############################################
 
     # add a notification to the user
     add_notification = AddNotification.Field()
@@ -430,5 +445,5 @@ class Mutation(ObjectType):
     # delete a notification from the user
     delete_notification = DeleteNotification.Field()
 
-    # update a notification from the user
-    update_notification = UpdateNotification.Field()
+    # set notifiction as read
+    set_notification_as_read = SetNotificationAsRead.Field()

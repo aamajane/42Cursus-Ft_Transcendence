@@ -16,7 +16,6 @@ function navigation(mainPath) {
     let location = "";
 
     function navigateTo(pathname) {
-        console.log("mainPath: " + mainPath, "pathname: " + pathname);
         if (pathname === "/profile") {
             context.initProfileOfUser("hel-mefe");
         }
@@ -66,9 +65,10 @@ function navigation(mainPath) {
                     if (pageId === "gatePage") {
                         const shadowRoot = document.querySelector("custom-gate").shadowRoot;
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
-                            a.addEventListener("click", (event) => {
+                            a.addEventListener("click", async (event) => {
                                 event.preventDefault();
-                                context.track.gameId = 100;
+                                await context.getGameAvailable() ;
+                                console.log("AFTER QUERY DONE => ", context.track.gameId)
                                 location = `${pathname}/${context.track.gameId}`;
                                 setTimeout(() => {
                                     handleLinkClick(event);
