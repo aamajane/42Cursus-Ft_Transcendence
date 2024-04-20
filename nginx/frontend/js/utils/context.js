@@ -93,9 +93,9 @@ class Tournament {
             player4: undefined,
         } ;
         this.games = {
-            demiFinalGame1: data?.demiFinalFirstGame || null,
-            demiFinalGame2: data?.demiFinalSecondGame || null,
-            finalGame: data?.finalGame || null,
+            demiFinalGame1: new Game(data?.demiFinalFirstGame),
+            demiFinalGame2: new Game(data?.demiFinalSecondGame),
+            finalGame: new Game(data?.finalGame)
         };
     }
 }
@@ -408,39 +408,45 @@ class Context {
                         avatarUrl
                         },
                         player2 {
-                        username,
-                        avatarUrl
+                            username,
+                            avatarUrl
                         }
                         state,
                         isPartOfTournament
+                        score1,
+                        score2
                     }
                     demiFinalSecondGame {
                         id,
                         mode,
                         player1 {
                             username,
-                        avatarUrl
+                            avatarUrl
                         },
                         player2 {
-                        username,
-                        avatarUrl
+                            username,
+                            avatarUrl
                         }
                         state,
-                    isPartOfTournament
+                        isPartOfTournament
+                        score1,
+                        score2
                     }
                     finalGame {
                         id,
                         mode,
                         player1 {
                             username,
-                        avatarUrl
+                            avatarUrl
                         },
                         player2 {
-                        username,
-                        avatarUrl
+                            username,
+                            avatarUrl
                         }
                         state,
-                    isPartOfTournament
+                        isPartOfTournament
+                        score1,
+                        score2
                     }
                     state,
                     createdAt
@@ -456,17 +462,17 @@ class Context {
         console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
         this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
         this.profileOfUser.tournaments.forEach(tournament => {
-            // set players final rank
-            if (tournament.demiFinalGame1.score1 > tournament.demiFinalGame1.score2)
-                tournament.players.player4 = tournament.demiFinalGame1.player1 ;
-            if (tournament.demiFinalGame2.score1 > tournament.demiFinalGame2.score2)
-                tournament.players.player3 = tournament.demiFinalGame2.player1 ;
-            if (tournament.finalGame.score1 > tournament.finalGame.score2)
-                tournament.players.player1 = tournament.finalGame.player1,
-                tournament.players.player2 = tournament.finalGame.player2 ;
+            console.log("TOURNAMENT => ", tournament)
+            if (tournament.games.demiFinalGame1.score1 > tournament.games.demiFinalGame1.score2)
+                tournament.players.player4 = tournament.games.demiFinalGame1.player1 ;
+            if (tournament.games.demiFinalGame2.score1 > tournament.games.demiFinalGame2.score2)
+                tournament.players.player3 = tournament.games.demiFinalGame2.player1 ;
+            if (tournament.games.finalGame.score1 > tournament.games.finalGame.score2)
+                tournament.players.player1 = tournament.games.finalGame.player1,
+                tournament.players.player2 = tournament.games.finalGame.player2 ;
             else
-                tournament.players.player1 = tournament.finalGame.player2,
-                tournament.players.player2 = tournament.finalGame.player1 ;
+                tournament.players.player1 = tournament.games.finalGame.player2,
+                tournament.players.player2 = tournament.games.finalGame.player1 ;
         })
     
         console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
@@ -516,16 +522,30 @@ class Context {
         this.profileOfUser.totalGamesPlayed = this.profileOfUser.games1v1.length + this.profileOfUser.games2v2.length ;
 
         // calculate the total games won
-        this.profileOfUser.totalGamesWon = this.profileOfUser.games1v1.filter(game => game.isTeam1Won === true).length + this.profileOfUser.games2v2.filter(game => game.isTeam1Won === true).length ;
+        this.profileOfUser.totalGamesWon = this.profileOfUser.games1v1.filter((game) => {
+            console.log(game.player1.username, context.profileOfUser.player.name, game.isTeam1Won)
+            if (game.player1.username === context.profileOfUser.player.name && game.isTeam1Won === true)
+                return true ;
+            if (game.player2.username === context.profileOfUser.player.name && game.isTeam1Won === false)
+                return true ;
+            return false ;
+        }).length
+        + this.profileOfUser.games2v2.filter((game) => {
+            if (game.player1.username === context.profileOfUser.player.name && game.isTeam1Won === true)
+                return true ;
+            if (game.player2.username === context.profileOfUser.player.name && game.isTeam1Won === false)
+                return true ;
+            return false ;
+        }).length ;
 
         // calculate the total games lost
         this.profileOfUser.totalGamesLost = this.profileOfUser.totalGamesPlayed - this.profileOfUser.totalGamesWon ;
 
         // calculate the win rate and protect against division by zero
-        this.profileOfUser.winRate = this.profileOfUser.totalGamesPlayed === 0 ? 0 : (this.profileOfUser.totalGamesWon / this.profileOfUser.totalGamesPlayed) * 100 ;
+        this.profileOfUser.winRate = this.profileOfUser.totalGamesPlayed === 0 ? 0 : Math.floor((this.profileOfUser.totalGamesWon / this.profileOfUser.totalGamesPlayed) * 100) ;
 
         // calculate the league
-        this.profileOfUser.league = Math.floor(this.profileOfUser.winRate / 12  + 1) ;
+        this.profileOfUser.league = Math.floor(this.profileOfUser.winRate / 13  + 1) ;
 
         // calculate the grade
         const grades = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "GrandMaster", "Challenger"] ;
@@ -607,15 +627,16 @@ class Context {
     }
 
     async updateGame(data) {
+        console.log("ChangeGamefasfasdfadsfadsfadsfadsfdsf")
         const ChangeGame = `
             mutation {
-                updateGame(data: { gameId: ${data.gameId}, state: "${data.state}", player1: "${data.player1}", player2: "${data.player2}", player3: "${data.player3}", player4: "${data.player4}", score1: ${data.score1}, score2: ${data.score2} })  {
+                updateGame(data: { gameId: ${data.gameId}, state: "${data.state}", player1: "${data.player1}", player2: "${data.player2}", player3: "${data.player3}", player4: "${data.player4}", score1: ${data.score1}, score2: ${data.score2}, isTeam1Won: ${data.score1 > data.score2} }) {
                     success,
                     error,
                     gameId
                 }
             }`
-
+        console.log(ChangeGame, "CHANGE GAME")
         await this.api.graphqlFetch(ChangeGame)
         if (this.api.error) {
             alert("Error occured while fetching available games")

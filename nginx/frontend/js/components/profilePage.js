@@ -273,15 +273,34 @@ class PopUpProfile extends HTMLElement {
             left: 0;
             transform: translateY(0%);
         }
-        .popup-inner .friends h3 {
+        .popup-inner .friends div:nth-of-type(1) h3 {
             position: absolute;
-            top: 0;
-            left: 10px;
+            top: -2px;
+            left: 20px;
             color: #24C2E5;
             font-size: 20px;
             font-weight: 600;
             z-index: 2;
             text-shadow: 0 0 10px #24C2E5;
+        }
+        .popup-inner .friends div:nth-of-type(2) h3 {
+            position: absolute;
+            top: -2px;
+            right: 20px;
+            color: #24C2E5;
+            font-size: 20px;
+            font-weight: 600;
+            z-index: 2;
+            text-shadow: 0 0 10px #24C2E5;
+        }
+        .popup-inner .friends div:hover h3 {
+            color: #aff;
+            text-shadow: 0 0 10px #fff;
+            cursor: pointer;
+        }
+        .popup-inner .friends div:active h3 {
+            transition: 0s;
+            transform: scale(0.9);
         }
         .popup-inner .statistics {
             position: absolute;
@@ -1104,14 +1123,17 @@ class PopUpProfile extends HTMLElement {
                     </div>
                 </div>
                 <div class="friends">
-                    <img id="bg" src="../../app/assets/images/profile/friendsScreen.svg">
+                    <img id="bg" src="../../app/assets/images/profile/friendsScreen2.svg">
                     <svg id="bg" width="180" height="241" viewBox="0 0 180 241" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <clipPath id="clip-friends" transform="translate(-2 -46) scale(2.21)">
                             <path d="M1 21H179.5V218.5L157.5 240.5H24.5L1 217V21Z" fill="#073C7011" fill-opacity="0.55" stroke="#00FFF0" stroke-opacity="0.63"/>
                         </clipPath>
                     </svg>
-                    <div class="title">
-                        <h3>Friends</h3>
+                    <div class="title1" onclick="changeFriends('followers')">
+                        <h3>Followers</h3>
+                    </div>
+                    <div class="title2" onclick="changeFriends('following')">
+                        <h3>Following</h3>
                     </div>
                     <div class="wrapper">
                         <div class="friendWrapper">
@@ -1152,20 +1174,23 @@ class PopUpProfile extends HTMLElement {
             </div>
         </div>
     `;
-        this.fillFriends();
+        this.fillFriends("followers");
         this.fillStatistics();
         this.fillHistory();
+
     }
-    fillFriends() {
+    fillFriends(toShow) {
         const friendWrapper = this.shadowRoot.querySelector(".friendWrapper");
-        for (let i = 0; i < context.profileOfUser.followers.length; i++) {
+        friendWrapper.innerHTML = "";
+        const followUsers = toShow === "followers" ? context.profileOfUser.followers : context.profileOfUser.following;
+        for (let i = 0; i < followUsers.length; i++) {
             friendWrapper.innerHTML += `
                 <div class="profile" id="profile${i}">
                     <div class="avatar">
                         <img src="../../app/assets/images/profileScreen.svg" alt="profile">
                         <div class="avatarInfo">
-                            <img src="${context.profileOfUser.followers[i].avatarUrl}" alt="profile">
-                            <h3>${context.profileOfUser.followers[i].name}</h3>
+                            <img src="${followUsers[i].avatarUrl}" alt="profile">
+                            <h3>${followUsers[i].name}</h3>
                             <svg viewBox="0 0 277 363" fill="none">
                                 <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
                                     <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
@@ -1174,7 +1199,7 @@ class PopUpProfile extends HTMLElement {
                         </div>
                     </div>
                     <div class="info">
-                        <a href="/profile" id="pages" class="profilePage" playerName="${context.profileOfUser.followers[i].name}"></a>
+                        <a href="/profile" id="pages" class="profilePage" playerName="${followUsers[i].name}"></a>
                         <img src="../../app/assets/images/nameScreen.svg" alt="profile">
                         <div class="infoWrapper">
                             <h3>show</h3>
@@ -1183,6 +1208,13 @@ class PopUpProfile extends HTMLElement {
                 </div>
             `;
         }
+        this.shadowRoot.querySelectorAll("a#pages").forEach((a) =>
+            a.addEventListener("click", async (event) => {
+                event.preventDefault();
+                context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
+                await context.navigation(event);
+            })
+        );
     }
     fillStatistics() {
         const statisticsWrapper =
@@ -1338,11 +1370,11 @@ function showGame2Vs2HistoryProfile(data) {
     data.innerHTML = `
             ${context.profileOfUser.games2v2
                 .map(
-                    (game, index) => `
+                    (game) => `
                 <div class="game2">
                     <div class="team">
                         <div class="teamPlayer">
-                            <img src="${game.player1.avatarUrl}" alt="friend">
+                            <img src="${game.player1?.avatarUrl}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <clipPath id="clip12" transform="translate(24.500642 1.076274)">
@@ -1355,11 +1387,11 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </
                             </svg>
-                            <h1>${game.player1.username}</h1>
+                            <h1>${game.player1?.username}</h1>
                         </div>
                         <div class="teamPlayer">
-                            <img src="${game.player2.avatarUrl}" alt="friend">
-                            <h1>${game.player2.username}</h1>
+                            <img src="${game.player3?.avatarUrl}" alt="friend">
+                            <h1>${game.player3?.username}</h1>
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -1378,8 +1410,8 @@ function showGame2Vs2HistoryProfile(data) {
                     </div>
                     <div class="team">
                         <div class="teamPlayer">
-                            <h1>${game.player3.username}</h1>
-                            <img src="${game.player3.avatarUrl}" alt="friend">
+                            <h1>${game.player2?.username}</h1>
+                            <img src="${game.player2?.avatarUrl}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -1401,8 +1433,8 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <h1>${game.player4.username}</h1>
-                            <img src="${game.player4.avatarUrl}" alt="friend">
+                            <h1>${game.player4?.username}</h1>
+                            <img src="${game.player4?.avatarUrl}" alt="friend">
                         </div>
                     </div>
                     <div class="win">
@@ -1568,4 +1600,9 @@ function showTournamentHistoryProfile(data) {
     //             )
     //             .join("")}
     // `;
+}
+
+function changeFriends(choice) {
+    const popup = document.querySelector("custom-profile");
+    popup.fillFriends(choice);
 }

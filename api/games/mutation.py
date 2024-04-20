@@ -117,6 +117,7 @@ class UpdateGameInput(graphene.InputObjectType):
     state = graphene.String()
     score1 = graphene.Int()
     score2 = graphene.Int()
+    is_team1_won = graphene.Boolean()
 
 class UpdateGame(graphene.Mutation):
     class Arguments:
@@ -176,6 +177,9 @@ class UpdateGame(graphene.Mutation):
             
             if data.score2 is not None:
                 game.score2 = data.score2
+
+            if data.is_team1_won is not None:
+                game.is_team1_won = data.is_team1_won
 
             game.save()
             return UpdateGame(game_id=game.id, success='Game updated successfully', error=None)

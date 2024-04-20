@@ -89,7 +89,7 @@ class Query(graphene.ObjectType):
     
     # to retrieve all the games played by a player, over and not part of a tournament
     def resolve_get_all_games_played_by_player(self, info, data):
-        return Game.objects.filter(is_part_of_tournament=False) & Game.objects.filter(state="over") & (Game.objects.filter(player_1__username=data.player) | Game.objects.filter(player_2__username=data.player) | Game.objects.filter(player_3__username=data.player) | Game.objects.filter(player_4__username=data.player))
+        return Game.objects.filter(is_part_of_tournament=False) & Game.objects.filter(state="over") & (Game.objects.filter(player_1__username=data.player) | Game.objects.filter(player_2__username=data.player) | Game.objects.filter(player_3__username=data.player) | Game.objects.filter(player_4__username=data.player)).order_by('-created_at')
 
     # to retrieve the latest games played by a player, over and not part of a tournament
     def resolve_get_latest_games_by_player(self, info, data):
