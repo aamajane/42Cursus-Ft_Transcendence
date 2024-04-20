@@ -21,7 +21,7 @@ class Game {
         this.id = data?.id || null ;
         this.mode = data?.mode || null ;
         this.isVsAi = data?.isVsAi || false ;
-        this.is2X2 = data?.is2X2 || false ;
+        this.is2X2 = data?.is2x2 || false ;
         this.state = data?.state || null;
         this.gameHoster = data?.gameHoster || undefined ;
         this.player1 = data?.player1 || null ;
@@ -387,109 +387,110 @@ class Context {
         console.log("GAMES => ", this.api.response.getAllGamesPlayedByPlayer)
         this.profileOfUser.games1v1 = this.api.response.getAllGamesPlayedByPlayer.filter(game => game.is2x2 === false).map(game => new Game(game));
         this.profileOfUser.games2v2 = this.api.response.getAllGamesPlayedByPlayer.filter(game => game.is2x2 === true).map(game => new Game(game));
-
+        console.log("GAMES 1V1 => ", this.profileOfUser.games1v1)
+        console.log("GAMES 2V2 => ", this.profileOfUser.games2v2)
         // fetch the list of all tournaments
         const queryListOfAllTournaments = `
             query {
-                getAllTournaments(username: "$username") {
-                    demiFinalGame1 {
+                getTournamentsPlayedByUser(data:{username:"hel-mefe"}) {
+                    id,
+                    demiFinalFirstGame {
+                        id,
+                        mode,
                         player1 {
                             username,
-                            avatarUrl,
+                        avatarUrl
                         },
                         player2 {
-                            username,
-                            avatarUrl,
-                        },
-                        player3 {
-                            username,
-                            avatarUrl,
-                        },
-                        player4 {
-                            username,
-                            avatarUrl,
-                        },
-                        isTeam1Won,
-                        createdAt,
-                        mode,
-                        is2X2,
+                        username,
+                        avatarUrl
+                        }
                         state,
-                        score1,
-                        score2
-                    },
-                    demiFinalGame2 {
+                        isPartOfTournament
+                    }
+                    demiFinalSecondGame {
+                        id,
+                        mode,
                         player1 {
                             username,
-                            avatarUrl,
+                        avatarUrl
                         },
                         player2 {
-                            username,
-                            avatarUrl,
-                        },
-                        player3 {
-                            username,
-                            avatarUrl,
-                        },
-                        player4 {
-                            username,
-                            avatarUrl,
-                        },
-                        isTeam1Won,
-                        createdAt,
-                        mode,
-                        is2X2,
+                        username,
+                        avatarUrl
+                        }
                         state,
-                        score1,
-                        score2
-                    },
+                    isPartOfTournament
+                    }
                     finalGame {
+                        id,
+                        mode,
                         player1 {
                             username,
-                            avatarUrl,
+                        avatarUrl
                         },
                         player2 {
-                            username,
-                            avatarUrl,
-                        },
-                        player3 {
-                            username,
-                            avatarUrl,
-                        },
-                        player4 {
-                            username,
-                            avatarUrl,
-                        },
-                        isTeam1Won,
-                        createdAt,
-                        mode,
-                        is2X2,
+                        username,
+                        avatarUrl
+                        }
                         state,
-                        score1,
-                        score2
-                    },
-                    winner {
-                        username,
-                        avatarUrl,
-                    },
-                    secondPlace {
-                        username,
-                        avatarUrl,
-                    },
-                    thirdPlace {
-                        username,
-                        avatarUrl,
-                    },
-                    fourthPlace {
-                        username,
-                        avatarUrl,
-                    },
-                    createdAt,
-                    mode,
+                    isPartOfTournament
+                    }
                     state,
+                    createdAt
                 }
             }
-            `
-        
+        `
+
+        await this.api.graphqlFetch(queryListOfAllTournaments)
+        if (this.api.error) {
+            alert("Error occured while fetching user tournaments [CONTEXT]")
+            return false ;
+        }
+        console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
+        this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
+        console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
+
+        // fetch the list of all followers
+        const queryListOfFollowers = `
+            query {
+                getUserFollowers(username: "${username}") {
+                    user {
+                        username,
+                        avatarUrl
+                    }
+                }
+            }
+        `
+
+        await this.api.graphqlFetch(queryListOfFollowers)
+        if (this.api.error) {
+            alert("Error occured while fetching user followers [CONTEXT]")
+            return false ;
+        }
+
+        this.profileOfUser.followers = this.api.response.getUserFollowers.map(follower => new Player(follower.user));
+        console.log("FOLLOWERS => ", this.profileOfUser.followers)
+
+        // fetch the list of all following
+        const queryListOfFollowing = `
+            query {
+                getUserFollowing(username: "${username}") {
+                    user {
+                        username,
+                        avatarUrl
+                    }
+                }
+            }
+        `
+        await this.api.graphqlFetch(queryListOfFollowing)
+        if (this.api.error) {
+            alert("Error occured while fetching user following [CONTEXT]")
+            return false ;
+        }
+
+        this.profileOfUser.following = this.api.response.getUserFollowing.map(following => new Player(following.user));
+        console.log("FOLLOWING => ", this.profileOfUser.following)
 
         // context.profileOfUser.player.isLoggedUser = context.user.username === context.profileOfUser.player.username
     }
@@ -637,8 +638,4 @@ class Context {
 }
 
 const context = new Context()
-context.initContext({ username: "aamajane" })
-// console.log("CONTEXT: ", context)
-// context.getAvailableGame() ;
-// context.updateGame() ;
-// context.getGameById(1) ;
+context.initContext({ username: "hel-mefe" })

@@ -86,7 +86,7 @@ class Query(graphene.ObjectType):
     get_user_followers = graphene.List(FollowershipType, username=graphene.String(required=True), limit=graphene.Int())
 
     # to retrieve the users that a user is following
-    get_user_followings = graphene.List(FollowershipType, username=graphene.String(required=True), limit=graphene.Int())
+    get_user_following = graphene.List(FollowershipType, username=graphene.String(required=True), limit=graphene.Int())
 
     # to retrieve users that has a substring in their username
     get_users_by_substring = graphene.List(UserType, substring=graphene.String(required=True))
@@ -141,7 +141,7 @@ class Query(graphene.ObjectType):
             return None # Return None if the user does not exist
         
     # to retrieve the users that a user is following
-    def resolve_get_user_followings(root, info, username):
+    def resolve_get_user_following(root, info, username):
         try:
             user = User.objects.get(username=username)
             followers = Followership.objects.filter(user=user)

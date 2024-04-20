@@ -85,6 +85,8 @@ class GetAvailableGame(graphene.Mutation):
 
     def mutate(self, info, mode=None, state='pending', is_2x2=False, is_vs_ai=False):
         try:
+            if mode is not None and mode not in ['egypt', 'factory', 'space']:
+                return GetAvailableGame(game_id=None, success=None, error='Invalid input for mode')
             games = Game.objects.filter(state='pending', is_2x2=is_2x2, mode=mode)
             if len(games) >= 1:
                 return GetAvailableGame(game_id=games[0].id, success='Game found', error=None)
