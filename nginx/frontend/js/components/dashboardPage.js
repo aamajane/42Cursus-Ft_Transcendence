@@ -35,7 +35,7 @@ class DashboardPage extends HTMLElement {
                 box-shadow: 0 0 10px 1px #0af inset,
                             0 0 100px 5px #0af;
                 background-image: linear-gradient(to bottom, #0af3, #00f0 100%);
-                z-index: 1;
+                z-index: 100;
                 
             }
 
@@ -109,7 +109,9 @@ class DashboardPage extends HTMLElement {
                 justify-content: center;
                 align-items: center;
                 // border: 1px solid #f00;
-                padding: 200px;
+                // padding: 300px;
+                margin-top: 250px;
+                margin-bottom: 100px;
             }
 
             .listOfGames > div {
@@ -324,8 +326,8 @@ class DashboardPage extends HTMLElement {
                 display: grid;
                 gap: 10px;
                 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                background-color: #0ff4;
-                backdrop-filter: saturate(300%) blur(20px) invert(100%) hue-rotate(200deg);
+                background-color: #0ff6;
+                // backdrop-filter: saturate(300%) blur(20px) invert(100%) hue-rotate(200deg);
                 box-shadow: 0 0 10px 5px #0af,
                             0 0 10px 5px #0af inset;
                 border-radius: 0px 0px 10px 10px;
@@ -333,7 +335,7 @@ class DashboardPage extends HTMLElement {
                 z-index: -1;
                 padding: 20px 0 0 0;
                 overflow-y: auto;
-
+                // backdrop-filter: saturate(180%) blur(20px) contrast(90%) brightness(120%) hue-rotate(150deg);
                 scrollbar-color: #0af #0ff;
             }
             .searchResults::-webkit-scrollbar {
@@ -485,18 +487,9 @@ class DashboardPage extends HTMLElement {
                 height: 50px;
                 z-index: 10;
             }
-            @media screen and (max-width: 1400px) {
-                .listOfGames {
-                    // grid-template-columns: 1fr;
-                    padding: 150px;
-                    grid-gap: 100px;
-                }
-            }
             @media screen and (max-width: 1100px) {
                 .listOfGames {
                     grid-template-columns: 1fr;
-                    padding: 150px;
-                    grid-gap: 200px;
                 }
             }
         </style>
