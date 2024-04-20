@@ -82,10 +82,10 @@ class Player {
 /*********************************************************************/
 
 class Tournament {
-    constructor() {
-        this.id = null;
-        this.mode = null ;
-        this.state = null ;
+    constructor(data) {
+        this.id = data?.id || null ;
+        this.mode = data?.mode || null ;
+        this.state = data?.state || null ;
         this.players = {
             player1: undefined,
             player2: undefined,
@@ -93,9 +93,9 @@ class Tournament {
             player4: undefined,
         } ;
         this.games = {
-            demiFinalGame1: new Game(),
-            demiFinalGame2: new Game(),
-            finalGame: new Game(),
+            demiFinalGame1: data?.demiFinalFirstGame || null,
+            demiFinalGame2: data?.demiFinalSecondGame || null,
+            finalGame: data?.finalGame || null,
         };
     }
 }
@@ -228,6 +228,12 @@ class Profile {
         this.following = [] ; // array of players Player[]
         this.player = new Player() ; // a user object
         this.isLoggedUser = false ; // boolean value that represents if the user is the logged user
+        this.totalGamesPlayed = 0 ;
+        this.totalGamesWon = 0 ;
+        this.totalGamesLost = 0 ;
+        this.winRate = 0 ;
+        this.league = 0 ;
+        this.grade = undefined ;
     }
 
 }
@@ -449,6 +455,20 @@ class Context {
         }
         console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
         this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
+        this.profileOfUser.tournaments.forEach(tournament => {
+            // set players final rank
+            if (tournament.demiFinalGame1.score1 > tournament.demiFinalGame1.score2)
+                tournament.players.player4 = tournament.demiFinalGame1.player1 ;
+            if (tournament.demiFinalGame2.score1 > tournament.demiFinalGame2.score2)
+                tournament.players.player3 = tournament.demiFinalGame2.player1 ;
+            if (tournament.finalGame.score1 > tournament.finalGame.score2)
+                tournament.players.player1 = tournament.finalGame.player1,
+                tournament.players.player2 = tournament.finalGame.player2 ;
+            else
+                tournament.players.player1 = tournament.finalGame.player2,
+                tournament.players.player2 = tournament.finalGame.player1 ;
+        })
+    
         console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
 
         // fetch the list of all followers
@@ -476,7 +496,7 @@ class Context {
         const queryListOfFollowing = `
             query {
                 getUserFollowing(username: "${username}") {
-                    user {
+                    following {
                         username,
                         avatarUrl
                     }
@@ -489,10 +509,27 @@ class Context {
             return false ;
         }
 
-        this.profileOfUser.following = this.api.response.getUserFollowing.map(following => new Player(following.user));
+        this.profileOfUser.following = this.api.response.getUserFollowing.map(following => new Player(following.following));
         console.log("FOLLOWING => ", this.profileOfUser.following)
 
-        // context.profileOfUser.player.isLoggedUser = context.user.username === context.profileOfUser.player.username
+        //  calculate the total games played
+        this.profileOfUser.totalGamesPlayed = this.profileOfUser.games1v1.length + this.profileOfUser.games2v2.length ;
+
+        // calculate the total games won
+        this.profileOfUser.totalGamesWon = this.profileOfUser.games1v1.filter(game => game.isTeam1Won === true).length + this.profileOfUser.games2v2.filter(game => game.isTeam1Won === true).length ;
+
+        // calculate the total games lost
+        this.profileOfUser.totalGamesLost = this.profileOfUser.totalGamesPlayed - this.profileOfUser.totalGamesWon ;
+
+        // calculate the win rate and protect against division by zero
+        this.profileOfUser.winRate = this.profileOfUser.totalGamesPlayed === 0 ? 0 : (this.profileOfUser.totalGamesWon / this.profileOfUser.totalGamesPlayed) * 100 ;
+
+        // calculate the league
+        this.profileOfUser.league = Math.floor(this.profileOfUser.winRate / 12  + 1) ;
+
+        // calculate the grade
+        const grades = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "GrandMaster", "Challenger"] ;
+        this.profileOfUser.grade = grades[this.profileOfUser.league - 1] ;
     }
 
     // state = "enable" | "disable"

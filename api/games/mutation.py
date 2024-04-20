@@ -97,7 +97,8 @@ class GetAvailableGame(graphene.Mutation):
                     mode= mode if mode else random.choice(['factory', 'egypt', 'space']),
                     state=state,
                     is_2x2=is_2x2,
-                    is_vs_ai=is_vs_ai
+                    is_vs_ai=is_vs_ai,
+                    is_part_of_tournament=False
                     )
             except Exception as e:
                 return GetAvailableGame(game_id=None, success=None, error='Invalid input for game')

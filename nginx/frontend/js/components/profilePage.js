@@ -576,6 +576,32 @@ class PopUpProfile extends HTMLElement {
             text-shadow: 0 0 5px #00e5ff;
         }
 
+        .statisticsWrapper .average p em.Bronze {
+            color: #D2977E;
+        }
+        .statisticsWrapper .average p em.Silver {
+            color: #C0C0C0;
+        }
+        .statisticsWrapper .average p em.Gold {
+            color: #FFD700;
+        }
+        .statisticsWrapper .average p em.Platinum {
+            color: #E5E4E2;
+        }
+        .statisticsWrapper .average p em.Diamond {
+            color: #B9F2FF;
+        }
+        .statisticsWrapper .average p em.Master {
+            color: #FFA500;
+        }
+        .statisticsWrapper .average p em.Grandmaster {
+            color: #FF0000;
+        }
+        .statisticsWrapper .average p em.Challenger {
+            color: #24C2E5;
+        }
+
+
         .statisticsWrapper .rankIcon {
             position: absolute;
             bottom: 0;
@@ -1132,14 +1158,14 @@ class PopUpProfile extends HTMLElement {
     }
     fillFriends() {
         const friendWrapper = this.shadowRoot.querySelector(".friendWrapper");
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < context.profileOfUser.followers.length; i++) {
             friendWrapper.innerHTML += `
                 <div class="profile" id="profile${i}">
                     <div class="avatar">
                         <img src="../../app/assets/images/profileScreen.svg" alt="profile">
                         <div class="avatarInfo">
-                            <img src="../../app/assets/images/devCard/amajan.png" alt="profile">
-                            <h3>Username</h3>
+                            <img src="${context.profileOfUser.followers[i].avatarUrl}" alt="profile">
+                            <h3>${context.profileOfUser.followers[i].name}</h3>
                             <svg viewBox="0 0 277 363" fill="none">
                                 <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
                                     <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
@@ -1148,7 +1174,7 @@ class PopUpProfile extends HTMLElement {
                         </div>
                     </div>
                     <div class="info">
-                        <a href="/profile" id="pages" class="profilePage" playerName="hel-mefe"></a>
+                        <a href="/profile" id="pages" class="profilePage" playerName="${context.profileOfUser.followers[i].name}"></a>
                         <img src="../../app/assets/images/nameScreen.svg" alt="profile">
                         <div class="infoWrapper">
                             <h3>show</h3>
@@ -1159,7 +1185,6 @@ class PopUpProfile extends HTMLElement {
         }
     }
     fillStatistics() {
-        const winRate = 10;
         const statisticsWrapper =
             this.shadowRoot.querySelector(".statisticsWrapper");
         statisticsWrapper.innerHTML = `
@@ -1168,23 +1193,23 @@ class PopUpProfile extends HTMLElement {
             </div>
             <div class="average">
                 <h3>On average:</h3>
-                <p>You played like <em>${"SILVER"}</em></p>
+                <p>You played like <em class="${context.profileOfUser.grade}">${context.profileOfUser.grade}</em></p>
             </div>
             <div class="stats">
                 <div class="chan1">
                     <div class="matches">
                         <h3>MATCHES</h3>
-                        <h2>100</h2>
+                        <h2>${context.profileOfUser.totalGamesPlayed}</h2>
                     </div>
                     <div class="wins">
                         <h3>WINS</h3>
-                        <h2>50</h2>
+                        <h2>${context.profileOfUser.totalGamesWon}</h2>
                     </div>
                 </div>
                 <div class="chan2">
                     <div class="losses">
                         <h3>LOSSES</h3>
-                        <h2>50</h2>
+                        <h2>${context.profileOfUser.totalGamesLost}</h2>
                     </div>
                     <div class="winRate">
                         <h3>WINRATE</h3>
@@ -1206,15 +1231,15 @@ class PopUpProfile extends HTMLElement {
                                 cy = "${100 / 2}",
                                 r = 45
                                 class = 'circle'
-                                stroke-dasharray = "calc(2 * 3.14 * 45 * ${winRate} / 100) calc(2 * 3.14 * 45)"
+                                stroke-dasharray = "calc(2 * 3.14 * 45 * ${context.profileOfUser.winRate} / 100) calc(2 * 3.14 * 45)"
                             />
-                            <text x="50" y="50" text-anchor="middle" dy=".1em" fill="url(#grad)" font-size="26" transform="translate(0, 7)">${winRate}%</text>
+                            <text x="50" y="50" text-anchor="middle" dy=".1em" fill="url(#grad)" font-size="26" transform="translate(0, 7)">${context.profileOfUser.winRate}%</text>
                         </svg>
                     </div>
                 </div>
             </div>
             <div class="rankIcon">
-                <img src="../../app/assets/images/leagues/1.png" alt="rank">
+                <img src="../../app/assets/images/leagues/${context.profileOfUser.league}.png" alt="rank">
             </div>
         `;
     }
@@ -1258,103 +1283,13 @@ function createProfilePage() {
 }
 
 function showGame1Vs1HistoryProfile(data) {
-    const game1vs1Data = [
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 1",
-            score1: 20,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 2",
-            score2: 15,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 3",
-            score1: 10,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 4",
-            score2: 5,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 5",
-            score1: 30,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 6",
-            score2: 25,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 7",
-            score1: 20,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 8",
-            score2: 15,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 9",
-            score1: 10,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 10",
-            score2: 5,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 11",
-            score1: 30,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 12",
-            score2: 25,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 13",
-            score1: 20,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 14",
-            score2: 15,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 15",
-            score1: 10,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 16",
-            score2: 5,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 17",
-            score1: 30,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 18",
-            score2: 25,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 19",
-            score1: 20,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 20",
-            score2: 15,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 21",
-            score1: 10,
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 22",
-            score2: 5,
-        },
-    ];
     data.innerHTML = `
-            ${game1vs1Data
+            ${context.profileOfUser.games1v1
                 .map(
                     (game) => `
                 <div class="game">
                     <div class="player">
-                        <img src="${game.avatar1}" alt="friend">
+                        <img src="${game.player1.avatarUrl}" alt="friend">
                         <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                             <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                             <clipPath id="clip10" transform="translate(2.500642 6.576274)">
@@ -1367,7 +1302,7 @@ function showGame1Vs1HistoryProfile(data) {
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <h1>${game.player1}</h1>
+                        <h1>${game.player1.username}</h1>
                     </div>
                     <div>
                         <h1>${game.score1}</h1>
@@ -1375,8 +1310,8 @@ function showGame1Vs1HistoryProfile(data) {
                         <h1> ${game.score2}</h1>
                     </div>
                     <div class="player">
-                        <h1>${game.player2}</h1>
-                        <img src="${game.avatar2}" alt="friend">
+                        <h1>${game.player2.username}</h1>
+                        <img src="${game.player2.avatarUrl}" alt="friend">
                         <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                             <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                             <defs>
@@ -1400,64 +1335,14 @@ function showGame1Vs1HistoryProfile(data) {
         `;
 }
 function showGame2Vs2HistoryProfile(data) {
-    const game2vs2Data = [
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 1",
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 2",
-            score1: 15,
-            avatar3: "../app/assets/images/devCard/avatar1.svg",
-            player3: "Player 3",
-            avatar4: "../app/assets/images/devCard/avatar3.svg",
-            player4: "Player 4",
-            score2: 5,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 5",
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 6",
-            score1: 25,
-            avatar3: "../app/assets/images/devCard/avatar1.svg",
-            player3: "Player 7",
-            avatar4: "../app/assets/images/devCard/avatar3.svg",
-            player4: "Player 8",
-            score2: 10,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 9",
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 10",
-            score1: 35,
-            avatar3: "../app/assets/images/devCard/avatar1.svg",
-            player3: "Player 11",
-            avatar4: "../app/assets/images/devCard/avatar3.svg",
-            player4: "Player 12",
-            score2: 15,
-        },
-        {
-            avatar1: "../app/assets/images/devCard/avatar1.svg",
-            player1: "Player 13",
-            avatar2: "../app/assets/images/devCard/avatar3.svg",
-            player2: "Player 14",
-            score1: 45,
-            avatar3: "../app/assets/images/devCard/avatar1.svg",
-            player3: "Player 15",
-            avatar4: "../app/assets/images/devCard/avatar3.svg",
-            player4: "Player 16",
-            score2: 20,
-        },
-    ];
     data.innerHTML = `
-            ${game2vs2Data
+            ${context.profileOfUser.games2v2
                 .map(
                     (game, index) => `
                 <div class="game2">
                     <div class="team">
                         <div class="teamPlayer">
-                            <img src="${game.avatar1}" alt="friend">
+                            <img src="${game.player1.avatarUrl}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <clipPath id="clip12" transform="translate(24.500642 1.076274)">
@@ -1470,11 +1355,11 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </
                             </svg>
-                            <h1>${game.player1}</h1>
+                            <h1>${game.player1.username}</h1>
                         </div>
                         <div class="teamPlayer">
-                            <img src="${game.avatar2}" alt="friend">
-                            <h1>${game.player2}</h1>
+                            <img src="${game.player2.avatarUrl}" alt="friend">
+                            <h1>${game.player2.username}</h1>
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -1493,8 +1378,8 @@ function showGame2Vs2HistoryProfile(data) {
                     </div>
                     <div class="team">
                         <div class="teamPlayer">
-                            <h1>${game.player3}</h1>
-                            <img src="${game.avatar3}" alt="friend">
+                            <h1>${game.player3.username}</h1>
+                            <img src="${game.player3.avatarUrl}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -1516,8 +1401,8 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <h1>${game.player4}</h1>
-                            <img src="${game.avatar4}" alt="friend">
+                            <h1>${game.player4.username}</h1>
+                            <img src="${game.player4.avatarUrl}" alt="friend">
                         </div>
                     </div>
                     <div class="win">
@@ -1647,40 +1532,40 @@ function showTournamentHistoryProfile(data) {
         ],
     ];
     const rankTitle = ["1st", "2nd", "3rd", "4th", "5th"];
-    data.innerHTML = `
-            ${tournamentData
-                .map(
-                    (game) => `
-                <div class="tournament">
-                    ${game
-                        .map(
-                            (player, index) => `
-                        <div class="rank${index + 1}">
-                            <img src="${player.avatar}" alt="friend">
-                            <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
-                                <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
-                                <defs>
-                                    <clipPath id="clip10" transform="translate(4.50064 1.07627)">
-                                        <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="1"/>
-                                    </clipPath>
-                                    <linearGradient id="paint0_linear_268_905" x1="8.59091" y1="3" x2="29.0565" y2="40.091" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#000"/>
-                                        <stop offset="1" stop-color="#00EBFF55"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <div>
-                                <h1>${player.player}</h1>
-                                <h1>Score : ${player.score}</h1>
-                                <h1 class="rankTitle">${rankTitle[index]}</h1>
-                            </div>
-                        </div>
-                    `
-                        )
-                        .join("")}
-                </div>
-            `
-                )
-                .join("")}
-    `;
+    // data.innerHTML = `
+    //         ${context.profileOfUser.tournaments
+    //             .map(
+    //                 (tournaments) => `
+    //             <div class="tournament">
+    //                 ${tournaments
+    //                     .map(
+    //                         (player, index) => `
+    //                     <div class="rank${index + 1}">
+    //                         <img src="${player.avatar}" alt="friend">
+    //                         <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
+    //                             <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
+    //                             <defs>
+    //                                 <clipPath id="clip10" transform="translate(4.50064 1.07627)">
+    //                                     <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="1"/>
+    //                                 </clipPath>
+    //                                 <linearGradient id="paint0_linear_268_905" x1="8.59091" y1="3" x2="29.0565" y2="40.091" gradientUnits="userSpaceOnUse">
+    //                                     <stop stop-color="#000"/>
+    //                                     <stop offset="1" stop-color="#00EBFF55"/>
+    //                                 </linearGradient>
+    //                             </defs>
+    //                         </svg>
+    //                         <div>
+    //                             <h1>${player.player}</h1>
+    //                             <h1>Score : ${player.score}</h1>
+    //                             <h1 class="rankTitle">${rankTitle[index]}</h1>
+    //                         </div>
+    //                     </div>
+    //                 `
+    //                     )
+    //                     .join("")}
+    //             </div>
+    //         `
+    //             )
+    //             .join("")}
+    // `;
 }
