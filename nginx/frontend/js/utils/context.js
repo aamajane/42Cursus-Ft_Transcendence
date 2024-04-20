@@ -232,32 +232,11 @@ class Profile {
 
 }
 
-class trackPlayer {
-    constructor() {
-        this.id = undefined;
-        this.avatar = undefined;
-        this.name = undefined;
-        this.score = undefined;
-    }
-}
-
-class trackGame {
-    constructor() {
-        this.id = undefined;
-        this.map = undefined;
-        this.status = undefined;
-        this.player1 = undefined;
-        this.player2 = undefined;
-        this.winner = undefined;
-    }
-}
-
 class Track {
     constructor() {
         this.gameId = undefined;
         this.gameMap = undefined;
         this.gameMode = undefined;
-
 
         this.tournamentId = undefined;
         this.tournamentStatus = undefined;
@@ -265,7 +244,8 @@ class Track {
             players: [],
             games: []
         };
-        this.initProfileOfUser = new trackPlayer();
+
+        this.initProfileOfUser = new Player();
     }
 }
 
@@ -290,8 +270,6 @@ class Context {
         this.api = new APIContext() ; // an APIContext object
         this.profileOfUser = undefined ; // a Profile object
         this.track = new Track() ; // a Track object
-        this.currentGame = undefined ; // a Game object
-        this.currentTournament = undefined ; // a Tournament object
         this.navigation = undefined ; // a function that navigates to a page
         this.searchResults = []; // array of Users
     }
@@ -590,11 +568,11 @@ class Context {
         console.log("GAME ID => ", context.track.gameId)
     }
 
-    async updateGame() {
+    async updateGame(data) {
         // fetch the list of all games
         const ChangeGame = `
             mutation {
-                updateGame(data: { gameId: 1, score1: 10, score2: 5, winner: "hel-mefe", state: "finished" }) {
+                updateGame(${data}) { // gameId, state, player1, player2, player3, player4, score1, score2
                     success,
                     error,
                     gameId
@@ -659,7 +637,7 @@ class Context {
 }
 
 const context = new Context()
-context.initContext({ username: "hel-mefe" })
+context.initContext({ username: "aamajane" })
 // console.log("CONTEXT: ", context)
 // context.getAvailableGame() ;
 // context.updateGame() ;
