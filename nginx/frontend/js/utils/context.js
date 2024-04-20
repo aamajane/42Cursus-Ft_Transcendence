@@ -562,7 +562,7 @@ class Context {
         return true ;
     }
 
-    async getGameAvailable() {
+    async getAvailableGame() {
         // context.track.gameMap = "egypt" ; // egypt | factory | space
         // context.track.gameMode = "1v1" ; // 1v1 | 2v2
         console.log("CONTEXT: ", context.track.gameMap)
@@ -661,6 +661,6 @@ class Context {
 const context = new Context()
 context.initContext({ username: "hel-mefe" })
 // console.log("CONTEXT: ", context)
-// context.getGameAvailable() ;
+// context.getAvailableGame() ;
 // context.updateGame() ;
 // context.getGameById(1) ;

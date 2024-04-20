@@ -67,9 +67,9 @@ function navigation(mainPath) {
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
                             a.addEventListener("click", async (event) => {
                                 event.preventDefault();
-                                await context.getGameAvailable() ;
+                                if (context.track.gameMode === "ai") context.track.gameId = "play";
+                                else await context.getAvailableGame();
                                 setTimeout( () => {
-                                    console.log("AFTER QUERY DONE => ", context.track.gameId)
                                     location = `${pathname}/${context.track.gameId}`;
                                     handleLinkClick(event);
                                 }, 1000);
@@ -107,11 +107,8 @@ function navigation(mainPath) {
         if (pathname === "/profile") {
             pathname = `${pathname}/${event.target.getAttribute("playerName")}`;
             await context.initProfileOfUser(context.track.initProfileOfUser.name);
-            console.log(context.profileOfUser.player, "/////////////////");
         }
         if (location !== "") pathname = location;
-        console.log("pathname:::::::: " + pathname);
-        console.log("handleLinkClick ++++++++++++++++++++", pathname);
         window.history.pushState(
             {},
             pathname,
