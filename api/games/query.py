@@ -12,10 +12,10 @@ from .models import Game
 ###    * output: all the games
 ### - getAllGamesByState:
 ###    * input: state
-###    * output: all the games by state (pending, in_progress, finished)
+###    * output: all the games by state (pending, ongoing, over)
 ### - getAllGamesPlayedByPlayer: retrieve all the games played by a player
 ###    * input: player (username)
-###    * output: all the games played by a player and finished
+###    * output: all the games played by a player and over
 ### - getLatestGamesByPlayer: retrieve the latest games played by a player
 ###    * input: player (username), limit (number of games)
 ###    * output: the latest games played by a player
@@ -87,13 +87,13 @@ class Query(graphene.ObjectType):
     def resolve_get_all_games_by_state(self, info, data):
         return Game.objects.filter(state=data.state)
     
-    # to retrieve all the games played by a player, finished and not part of a tournament
+    # to retrieve all the games played by a player, over and not part of a tournament
     def resolve_get_all_games_played_by_player(self, info, data):
-        return Game.objects.filter(is_part_of_tournament=False) & Game.objects.filter(state="finished") & (Game.objects.filter(player_1__username=data.player) | Game.objects.filter(player_2__username=data.player) | Game.objects.filter(player_3__username=data.player) | Game.objects.filter(player_4__username=data.player))
+        return Game.objects.filter(is_part_of_tournament=False) & Game.objects.filter(state="over") & (Game.objects.filter(player_1__username=data.player) | Game.objects.filter(player_2__username=data.player) | Game.objects.filter(player_3__username=data.player) | Game.objects.filter(player_4__username=data.player))
 
-    # to retrieve the latest games played by a player, finished and not part of a tournament
+    # to retrieve the latest games played by a player, over and not part of a tournament
     def resolve_get_latest_games_by_player(self, info, data):
-        return (Game.objects.filter(is_part_of_tournament=False) & Game.objects.filter(state="finished") & (Game.objects.filter(player_1__username=data.player) | Game.objects.filter(player_2__username=data.player) | Game.objects.filter(player_3__username=data.player) | Game.objects.filter(player_4__username=data.player))).order_by('-created_at')[:data.limit]
+        return (Game.objects.filter(is_part_of_tournament=False) & Game.objects.filter(state="over") & (Game.objects.filter(player_1__username=data.player) | Game.objects.filter(player_2__username=data.player) | Game.objects.filter(player_3__username=data.player) | Game.objects.filter(player_4__username=data.player))).order_by('-created_at')[:data.limit]
 
     # to retrieve a game by id
     def resolve_get_game_by_id(self, info, game_id):

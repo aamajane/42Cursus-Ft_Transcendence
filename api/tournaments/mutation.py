@@ -224,10 +224,10 @@ class SetTournamentState(graphene.Mutation):
 
     def mutate(self, info, tournament_id, state):
         try:
-            if state not in ['pending', 'in_progress', 'finished']:
+            if state not in ['pending', 'ongoing', 'over']:
                 return SetTournamentState(success=None, error='Invalid input for tournament state')
             tournament = Tournament.objects.get(id=tournament_id)
-            if ['pending', 'in_progress', 'finished'].index(tournament.state) > ['pending', 'in_progress', 'finished'].index(state):
+            if ['pending', 'ongoing', 'over'].index(tournament.state) > ['pending', 'ongoing', 'over'].index(state):
                 return SetTournamentState(success=None, error='Invalid input for tournament state')
             tournament.state = state
             tournament.save()

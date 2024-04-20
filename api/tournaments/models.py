@@ -8,7 +8,7 @@ class Tournament(models.Model):
     demi_final_first_game = models.ForeignKey(Game, related_name='demi_final_first_game', on_delete=models.PROTECT, blank=True, null=True) # game 1 id
     demi_final_second_game = models.ForeignKey(Game, related_name='demi_final_second_game', on_delete=models.PROTECT, blank=True, null=True) # game 2 id
     final_game = models.ForeignKey(Game, related_name='final_game', on_delete=models.PROTECT, blank=True, null=True) # game 3 id
-    state = models.CharField(max_length=100) # tournament status: pending, in_progress, finished
+    state = models.CharField(max_length=100) # tournament status: pending, ongoing, over
     tournament_hoster = models.ForeignKey(User, related_name='tournament_hoster', on_delete=models.PROTECT, null=True, blank=True) # tournament hoster username
     winner = models.ForeignKey(User, related_name='winner', on_delete=models.PROTECT, null=True, blank=True) # winner game id
     second_place = models.ForeignKey(User, related_name='second_place', on_delete=models.PROTECT, null=True, blank=True) # second place game id

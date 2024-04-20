@@ -30,7 +30,7 @@ class CreateGame(graphene.Mutation):
     def mutate(self, info, data):
 
 
-        if data.state is not None and data.state not in ['pending', 'in_progress', 'finished']:
+        if data.state is not None and data.state not in ['pending', 'ongoing', 'over']:
             return CreateGame(game_id=None, success=None, error='Invalid input for state')
 
         if data.mode is not None and data.mode not in ['egypt', 'factory', 'space']:
@@ -124,7 +124,7 @@ class UpdateGame(graphene.Mutation):
     error = graphene.String()
 
     def mutate(self, info, data):
-        if data.state is not None and data.state not in ['pending', 'in_progress', 'finished']:
+        if data.state is not None and data.state not in ['pending', 'ongoing', 'over']:
             return UpdateGame(game_id=None, success=None, error='Invalid input for state')
 
         if data.mode is not None and data.mode not in ['egypt', 'factory', 'space']:
@@ -133,7 +133,7 @@ class UpdateGame(graphene.Mutation):
         try:
             game = Game.objects.get(id=data.game_id)
 
-            if data.state is not None and ['pending', 'in_progress', 'finished'].index(game.state) > ['pending', 'in_progress', 'finished'].index(data.state):
+            if data.state is not None and ['pending', 'ongoing', 'over'].index(game.state) > ['pending', 'ongoing', 'over'].index(data.state):
                 return UpdateGame(game_id=None, success=None, error='Invalid state transition')
 
             if data.player_1 is not None:

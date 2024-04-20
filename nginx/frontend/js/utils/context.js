@@ -76,7 +76,7 @@ class Player {
 /* Tournament is representing the tournament object
 /*  - id: this represents the id of the tournament
 /*  - mode: this represents the mode of the tournament (EGYPT | CLASSIC | SPACE)
-/*  - state: this represents the state of the tournament (PENDING | IN_PROGRESS | FINISHED)
+/*  - state: this represents the state of the tournament (PENDING | ONGOING | OVER)
 /*  - players: this represents the players of the tournament
 /*  - games: this represents the games of the tournament
 /*********************************************************************/

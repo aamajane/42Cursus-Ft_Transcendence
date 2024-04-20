@@ -7,7 +7,7 @@ class Game(models.Model):
     mode = models.CharField(max_length=100) # game mode: egypt, space or factory
     is_vs_ai = models.BooleanField(default=False) # is the game vs computer
     is_2x2 = models.BooleanField(default=False) # is the game 2x2
-    state = models.CharField(max_length=100) # game status: pending, in_progress, finished
+    state = models.CharField(max_length=100) # game status: pending, ongoing, over
     game_hoster = models.ForeignKey(User, related_name='game_hoster', on_delete=models.PROTECT, null=True, blank=True) # game hoster username
     player_1 = models.ForeignKey(User, related_name='player1', on_delete=models.PROTECT, null=True, blank=True) # player 1 username
     player_2 = models.ForeignKey(User, related_name='player2', on_delete=models.PROTECT, null=True, blank=True) # player 2 username

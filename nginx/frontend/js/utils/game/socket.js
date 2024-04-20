@@ -31,7 +31,7 @@ class Socket {
     }
 
     onMessage() {
-        this.socket.onmessage = (event) => {
+        this.socket.onmessage = async (event) => {
             const jsonData = JSON.parse(event.data);
             const data = jsonData["data"];
 
@@ -87,9 +87,19 @@ class Socket {
                     this.updateUserData();
                     this.game.status = COUNTDOWN;
                     this.game.startTime = Date.now();
-                    // if (this.game.isHost === true) {
-                    //     context.updateGameStatus(this.game.id, "ongoing");
-                    // }
+                    if (this.game.isHost === true) {
+                        const mutationData = {
+                            gameId: this.game.id,
+                            state: ONGOING,
+                            player1: this.game.player.username1.value,
+                            player2: this.game.opponent.username1.value,
+                            ...(this.game.mode === TWO_VS_TWO && {
+                                player3: this.game.player.username2.value,
+                                player4: this.game.opponent.username2.value,
+                            })
+                        }
+                        await context.updateGame(mutationData)
+                    }
                     break;
                 case "end":
                     break;
