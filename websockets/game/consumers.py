@@ -6,7 +6,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
     MAX_USERS = None
     user_count = {}
     # usernames = {}
-    channels_names = {}
+    # channels_names = {}
     game_status = {}
 
     async def connect(self):
@@ -17,7 +17,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
 
         self.user_count.setdefault(self.room_group_name, 0)
         # self.usernames.setdefault(self.room_group_name, [])
-        self.channels_names.setdefault(self.room_group_name, [])
+        # self.channels_names.setdefault(self.room_group_name, [])
         self.game_status.setdefault(self.room_group_name, 'pending')
 
         self.user_count[self.room_group_name] += 1
@@ -30,7 +30,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         # self.usernames[self.room_group_name].append(self.scope['user'].username)
-        self.channels_names[self.room_group_name].append(self.channel_name)
+        # self.channels_names[self.room_group_name].append(self.channel_name)
 
         await self.send_host_message(self.user_count[self.room_group_name] == 1)
         await self.send_team_message('team_one' if self.user_count[self.room_group_name] in [1, 3] else 'team_two')
@@ -50,15 +50,15 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
         # self.scope['user'].username in self.usernames[self.room_group_name]:
         #     self.usernames[self.room_group_name].remove(self.scope['user'].username)
 
-        if self.channel_name in self.channels_names[self.room_group_name]:
-            self.channels_names[self.room_group_name].remove(self.channel_name)
+        # if self.channel_name in self.channels_names[self.room_group_name]:
+        #     self.channels_names[self.room_group_name].remove(self.channel_name)
 
-        if self.user_count[self.room_group_name] > 0 and self.user_count[self.room_group_name] < self.MAX_USERS:
-            channel_name = self.channels_names[self.room_group_name][0]
-            await self.channel_layer.send(channel_name, {
-                'type': 'send.host.message',
-                'is_host': True
-            })
+        # if self.user_count[self.room_group_name] > 0 and self.user_count[self.room_group_name] < self.MAX_USERS:
+        #     channel_name = self.channels_names[self.room_group_name][0]
+        #     await self.channel_layer.send(channel_name, {
+        #         'type': 'send.host.message',
+        #         'is_host': True
+        #     })
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 

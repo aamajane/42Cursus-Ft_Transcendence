@@ -25,7 +25,7 @@ class AIGame {
             ),
             score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y),
             username: new Username("AI", OPPONENT1_NAME_X, OPPONENT1_NAME_Y),
-            avatar: new Avatar(AI_AVATAR_URL, OPPONENT1_AVATAR_X, OPPONENT1_AVATAR_Y),
+            avatar: new Avatar(AVATAR_URL, OPPONENT1_AVATAR_X, OPPONENT1_AVATAR_Y),
         };
         this.ball = new Ball(
             map.ballImage,
@@ -110,9 +110,9 @@ class MultiplayerGame {
             ...(mode === TWO_VS_TWO && {
                 username2: new Username(null, PLAYER2_NAME_X, PLAYER2_NAME_Y),
             }),
-            avatar1: new Avatar(null, PLAYER1_AVATAR_X, PLAYER1_AVATAR_Y),
+            avatar1: new Avatar(AVATAR_URL, PLAYER1_AVATAR_X, PLAYER1_AVATAR_Y),
             ...(mode === TWO_VS_TWO && {
-                avatar2: new Avatar(null, PLAYER2_AVATAR_X, PLAYER2_AVATAR_Y),
+                avatar2: new Avatar(AVATAR_URL, PLAYER2_AVATAR_X, PLAYER2_AVATAR_Y),
             }),
         };
         this.opponent = {
@@ -137,9 +137,9 @@ class MultiplayerGame {
             ...(mode === TWO_VS_TWO && {
                 username2: new Username(null, OPPONENT2_NAME_X, OPPONENT2_NAME_Y),
             }),
-            avatar1: new Avatar(null, OPPONENT1_AVATAR_X, OPPONENT1_AVATAR_Y),
+            avatar1: new Avatar(AVATAR_URL, OPPONENT1_AVATAR_X, OPPONENT1_AVATAR_Y),
             ...(mode === TWO_VS_TWO && {
-                avatar2: new Avatar(null, OPPONENT2_AVATAR_X, OPPONENT2_AVATAR_Y),
+                avatar2: new Avatar(AVATAR_URL, OPPONENT2_AVATAR_X, OPPONENT2_AVATAR_Y),
             }),
         };
         this.ball = new Ball(

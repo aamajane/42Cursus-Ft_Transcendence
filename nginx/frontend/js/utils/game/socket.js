@@ -65,7 +65,6 @@ class Socket {
                     this.game.player.avatar2.image.src = this.game.avatar;
                     break;
                 case "update_user_data":
-                    console.log("username: ", data.username);
                     if (this.game.team === data.team) {
                         if (data.paddle_level === 1) {
                             this.game.player.username1.value = data.username;
@@ -88,6 +87,9 @@ class Socket {
                     this.updateUserData();
                     this.game.status = COUNTDOWN;
                     this.game.startTime = Date.now();
+                    // if (this.game.isHost === true) {
+                    //     context.updateGameStatus(this.game.id, "ongoing");
+                    // }
                     break;
                 case "end":
                     break;
