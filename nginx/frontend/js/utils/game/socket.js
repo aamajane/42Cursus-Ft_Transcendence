@@ -39,9 +39,9 @@ class Socket {
                 case "host_true":
                     this.game.isHost = true;
                     break;
-                case "host_false":
-                    this.game.isHost = false;
-                    break;
+                // case "host_false":
+                //     this.game.isHost = false;
+                //     break;
                 case "team_one":
                     this.game.team = 1;
                     break;
@@ -114,6 +114,22 @@ class Socket {
                             player4: this.game.opponent.username2?.value,
                             score1: this.game.player.score.value,
                             score2: this.game.opponent.score.value,
+                        };
+                        await context.updateGame(mutationData);
+                    }
+                    break;
+                case "give_up":
+                    this.game.status = OVER;
+                    if (this.game.isHost === true) {
+                        const mutationData = {
+                            gameId: this.game.id,
+                            state: OVER,
+                            player1: this.game.player.username1.value,
+                            player2: this.game.opponent.username1.value,
+                            player3: this.game.player.username2?.value,
+                            player4: this.game.opponent.username2?.value,
+                            score1: 3,
+                            score2: 0,
                         };
                         await context.updateGame(mutationData);
                     }

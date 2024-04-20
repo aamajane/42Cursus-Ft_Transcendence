@@ -5,8 +5,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 class BaseGameConsumer(AsyncWebsocketConsumer):
     MAX_USERS = None
     user_count = {}
-    # usernames = {}
-    # channels_names = {}
+    channels_names = {}
     game_status = {}
 
     async def connect(self):
@@ -16,27 +15,70 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         self.user_count.setdefault(self.room_group_name, 0)
-        # self.usernames.setdefault(self.room_group_name, [])
-        # self.channels_names.setdefault(self.room_group_name, [])
+        self.channels_names.setdefault(self.room_group_name, [])
         self.game_status.setdefault(self.room_group_name, 'pending')
 
         self.user_count[self.room_group_name] += 1
 
-        if self.user_count[self.room_group_name] > self.MAX_USERS or \
-        self.game_status[self.room_group_name] == 'ongoing':
+        if self.user_count[self.room_group_name] > self.MAX_USERS or self.game_status[self.room_group_name] != 'pending':
             await self.close()
             return
 
         await self.accept()
 
-        # self.usernames[self.room_group_name].append(self.scope['user'].username)
-        # self.channels_names[self.room_group_name].append(self.channel_name)
+        self.channels_names[self.room_group_name].append(self.channel_name)
 
-        await self.send_host_message(self.user_count[self.room_group_name] == 1)
-        await self.send_team_message('team_one' if self.user_count[self.room_group_name] in [1, 3] else 'team_two')
-        await self.send_paddle_level_message('paddle_level_one' if self.user_count[self.room_group_name] in [1, 2] else 'paddle_level_two')
+        # await self.send_host_message(self.user_count[self.room_group_name] == 1)
+        # await self.send_team_message('team_one' if self.user_count[self.room_group_name] in [1, 3] else 'team_two')
+        # await self.send_paddle_level_message('paddle_level_one' if self.user_count[self.room_group_name] in [1, 2] else 'paddle_level_two')
 
         if self.user_count[self.room_group_name] == self.MAX_USERS:
+            await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
+                'type': 'send.message.back',
+                'event': 'host_true'
+            })
+
+            await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
+                'type': 'send.message.back',
+                'event': 'team_one'
+            })
+
+            await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
+                'type': 'send.message.back',
+                'event': 'paddle_level_one'
+            })
+
+            await self.channel_layer.send(self.channels_names[self.room_group_name][1], {
+                'type': 'send.message.back',
+                'event': 'team_two'
+            })
+
+            await self.channel_layer.send(self.channels_names[self.room_group_name][1], {
+                'type': 'send.message.back',
+                'event': 'paddle_level_one'
+            })
+
+            if self.MAX_USERS == 4:
+                await self.channel_layer.send(self.channels_names[self.room_group_name][2], {
+                    'type': 'send.message.back',
+                    'event': 'team_one'
+                })
+
+                await self.channel_layer.send(self.channels_names[self.room_group_name][2], {
+                    'type': 'send.message.back',
+                    'event': 'paddle_level_two'
+                })
+
+                await self.channel_layer.send(self.channels_names[self.room_group_name][3], {
+                    'type': 'send.message.back',
+                    'event': 'team_two'
+                })
+
+                await self.channel_layer.send(self.channels_names[self.room_group_name][3], {
+                    'type': 'send.message.back',
+                    'event': 'paddle_level_two'
+                })
+
             await self.channel_layer.group_send(self.room_group_name, {
                 'type': 'send.message',
                 'event': 'game_ongoing'
@@ -46,19 +88,21 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         self.user_count[self.room_group_name] -= 1
 
-        # if self.game_status[self.room_group_name] == 'pending' and \
-        # self.scope['user'].username in self.usernames[self.room_group_name]:
-        #     self.usernames[self.room_group_name].remove(self.scope['user'].username)
+        if self.channel_name in self.channels_names[self.room_group_name]:
+            self.channels_names[self.room_group_name].remove(self.channel_name)
 
-        # if self.channel_name in self.channels_names[self.room_group_name]:
-        #     self.channels_names[self.room_group_name].remove(self.channel_name)
+        if self.game_status[self.room_group_name] == 'ongoing':
+            await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
+                'type': 'send.message.back',
+                'event': 'host_true'
+            })
 
-        # if self.user_count[self.room_group_name] > 0 and self.user_count[self.room_group_name] < self.MAX_USERS:
-        #     channel_name = self.channels_names[self.room_group_name][0]
-        #     await self.channel_layer.send(channel_name, {
-        #         'type': 'send.host.message',
-        #         'is_host': True
-        #     })
+        if self.game_status[self.room_group_name] == 'ongoing' and self.user_count[self.room_group_name] == 1:
+            await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
+                'type': 'send.message.back',
+                'event': 'give_up'
+            })
+            self.game_status[self.room_group_name] = 'over'
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
@@ -74,23 +118,27 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
             })
 
         if event in ['game_over']:
-            await self.send_message_back({'event': 'game_over'})
+            await self.channel_layer.group_send(self.room_group_name, {
+                'type': 'send.message',
+                'event': 'game_over'
+            })
+            self.game_status[self.room_group_name] = 'over'
 
     async def send_message(self, data):
         if data.get('sender_channel_name') != self.channel_name:
             await self.send(text_data=json.dumps({'data': data}))
 
-    async def send_host_message(self, is_host):
-        await self.send_message_back({'event': 'host_true' if is_host else 'host_false'})
-
-    async def send_team_message(self, team):
-        await self.send_message_back({'event': team})
-
-    async def send_paddle_level_message(self, level):
-        await self.send_message_back({'event': level})
-
     async def send_message_back(self, data):
         await self.send(text_data=json.dumps({'data': data}))
+
+    # async def send_host_message(self, is_host):
+    #     await self.send_message_back({'event': 'host_true' if is_host else 'host_false'})
+
+    # async def send_team_message(self, team):
+    #     await self.send_message_back({'event': team})
+
+    # async def send_paddle_level_message(self, level):
+    #     await self.send_message_back({'event': level})
 
 
 class OneVsOneConsumer(BaseGameConsumer):

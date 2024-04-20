@@ -637,7 +637,7 @@ class Context {
 }
 
 const context = new Context()
-context.initContext({ username: "hel-mefe" })
+// context.initContext({ username: "hel-mefe" })
 
 function getCookie(cookieName) {
     const cookies = document.cookie.split(';');

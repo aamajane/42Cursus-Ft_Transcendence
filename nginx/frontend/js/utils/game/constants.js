@@ -56,6 +56,7 @@ const OPPONENT_SCORE_X = GAME_WIDTH - 80;
 const OPPONENT_SCORE_Y = 180;
 
 const WINNING_SCORE = 10;
+const MAX_DIF_SCORE = 3;
 
 /* *************************** NAME CONSTANTS *************************** */
 const PLAYER1_NAME_X = GAME_WIDTH - 110;
