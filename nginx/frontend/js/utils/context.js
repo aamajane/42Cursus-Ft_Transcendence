@@ -570,21 +570,20 @@ class Context {
     }
 
     async updateGame(data) {
-        // fetch the list of all games
         const ChangeGame = `
             mutation {
-                updateGame(${data}) { // gameId, state, player1, player2, player3, player4, score1, score2
+                updateGame(data: { gameId: ${data.gameId}, state: "${data.state}", player1: "${data.player1}", player2: "${data.player2}", player3: "${data.player3}", player4: "${data.player4}", score1: ${data.score1}, score2: ${data.score2} })  {
                     success,
                     error,
                     gameId
                 }
             }`
+
         await this.api.graphqlFetch(ChangeGame)
         if (this.api.error) {
             alert("Error occured while fetching available games")
             return false ;
         }
-        console.log(this.api.response.updateGame);
     }
 
     async getGameById(id) {
@@ -639,3 +638,18 @@ class Context {
 
 const context = new Context()
 context.initContext({ username: "hel-mefe" })
+
+function getCookie(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(cookieName + '=')) {
+            return cookie.substring(cookieName.length + 1);
+        }
+    }
+    return null;
+}
+
+const username = getCookie('username');
+
+context.initContext({ username: username })

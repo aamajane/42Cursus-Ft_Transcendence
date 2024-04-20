@@ -39,7 +39,7 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
         if self.user_count[self.room_group_name] == self.MAX_USERS:
             await self.channel_layer.group_send(self.room_group_name, {
                 'type': 'send.message',
-                'event': 'start'
+                'event': 'game_ongoing'
             })
             self.game_status[self.room_group_name] = 'ongoing'
 
@@ -72,6 +72,9 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
                 'type': 'send.message',
                 **data
             })
+
+        if event in ['game_over']:
+            await self.send_message_back({'event': 'game_over'})
 
     async def send_message(self, data):
         if data.get('sender_channel_name') != self.channel_name:

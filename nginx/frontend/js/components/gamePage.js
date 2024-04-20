@@ -130,7 +130,7 @@ class GamePage extends HTMLElement {
             <div>
         `;
 
-        startGame();
+        this.shadowRoot.addEventListener("load", startGame());
     }
 }
 

@@ -6,7 +6,7 @@ function startGame() {
     const canvasContainer = shadowRoot.getElementById("pong-container");
     const canvas = shadowRoot.getElementById("pong");
     const ctx = canvas.getContext("2d");
-    const gameID = context.track.gameId;
+    const gameID = parseInt(context.track.gameId);
     const gameMode = context.track.gameMode;
     const gameMap = new Map(context.track.gameMap);
 
@@ -79,7 +79,7 @@ function startGame() {
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
 
-        ctx.fillText(game.status, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        ctx.fillText("Game Over", GAME_WIDTH / 2, GAME_HEIGHT / 2);
     }
 
     render();

@@ -146,11 +146,11 @@ class UpdateGame(graphene.Mutation):
                 player_2_user = User.objects.get(username=data.player_2)
                 game.player_2 = player_2_user
 
-            if data.player_3 is not None:
+            if game.is_2x2 and data.player_3 is not None:
                 player_3_user = User.objects.get(username=data.player_3)
                 game.player_3 = player_3_user
 
-            if data.player_4 is not None:
+            if game.is_2x2 and data.player_4 is not None:
                 player_4_user = User.objects.get(username=data.player_4)
                 game.player_4 = player_4_user
 
