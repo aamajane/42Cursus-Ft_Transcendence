@@ -234,6 +234,7 @@ class Profile {
         this.winRate = 0 ;
         this.league = 0 ;
         this.grade = undefined ;
+        this.doIFollow = false ;
     }
 
 }
@@ -550,6 +551,10 @@ class Context {
         // calculate the grade
         const grades = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "GrandMaster", "Challenger"] ;
         this.profileOfUser.grade = grades[this.profileOfUser.league - 1] ;
+
+        // check if the user follows the logged user
+
+        this.profileOfUser.doIFollow = this.profileOfUser.followers.filter(follower => follower.name === this.user.name).length > 0 ;
     }
 
     // state = "enable" | "disable"

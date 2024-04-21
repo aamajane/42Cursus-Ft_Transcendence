@@ -298,7 +298,10 @@ class AddFollowerhsip(graphene.Mutation):
         is_followership_already_established = Followership.objects.filter(user=user, following=User.objects.filter(username=following).first()).exists()
         if is_followership_already_established:
             return AddFollowerhsip(success=None, error='Followership already established!')
-
+        # checking if the user is trying to add himself as a friend
+        is_user_trying_to_add_himself = user.username == following
+        if is_user_trying_to_add_himself:
+            return AddFollowerhsip(success=None, error='User is trying to add himself as a friend!')
         # the main logic of adding a friend
         try:
             following_user = User.objects.filter(username=following).first()

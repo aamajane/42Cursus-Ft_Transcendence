@@ -181,7 +181,7 @@ class PopUpProfile extends HTMLElement {
             position: absolute;
             width: 200px;
             height: 50px;
-            bottom: 335px;
+            top: 935px;
             left: 160px;
             justify-content: center;
             align-items: center;
@@ -244,7 +244,7 @@ class PopUpProfile extends HTMLElement {
             position: absolute;
             width: 400px;
             height: 550px;
-            bottom: 415px;
+            top: 360px;
             right: 200px;
             border-radius: 5px;
             display: flex;
@@ -1205,11 +1205,17 @@ class PopUpProfile extends HTMLElement {
                     <img id="avBg" src="../../app/assets/images/profile/avatarScreen.svg">
                     <h2>@${context.profileOfUser.player.name}</h2>
                 </div>
-                <div class="follow">
+                <div class="follow" style="display: ${context.profileOfUser.player.name === context.user.name ? "none" : "block"}">
                     <img id="followBg" src="../../app/assets/images/profile/followScreen.svg">
                     <div class="follow-inner" onclick="followUser()">
-                        <h3>${context.profileOfUser.following.includes(context.user) ? "Unfollow" : "Follow"}</h3>
+                        <h3>${context.profileOfUser.doIFollow ? "Unfollow" : "Follow"}</h3>
                     </div>
+                </div>
+                <div class="changeAvatar">
+                    <input type="file" id="avatar" accept="image/*" onchange="uploadAvatar()">
+                </div>
+                <div class="changeUsername">
+                    <input type="text" id="username" placeholder="Change Username" onkeyup="changeUsername(event)">
                 </div>
                 <div class="friends">
                     <img id="bg" src="../../app/assets/images/profile/friendsScreen2.svg">
@@ -1699,15 +1705,20 @@ function changeFriends(choice) {
 function followUser() {
     const popup = document.querySelector("custom-profile");
 
-    if (context.profileOfUser.followers.includes(context.user)) {
+    if (context.profileOfUser.player.name === context.user.name) return;
+
+    if (context.profileOfUser.doIFollow === true) {
         console.log(context.profileOfUser.followers)
         context.profileOfUser.followers = context.profileOfUser.followers.filter(
             (user) => user.name !== context.user.name
         );
         context.unfollow(context.profileOfUser.player.name);
-    } else if (!context.profileOfUser.following.includes((user) => user.name === context.user.name)) {
+
+        context.profileOfUser.doIFollow = false;
+    } else {
         context.profileOfUser.followers.push(context.user);
         context.follow(context.profileOfUser.player.name);
+        context.profileOfUser.doIFollow = true;
     }
     popup.fillFriends("followers");
 
