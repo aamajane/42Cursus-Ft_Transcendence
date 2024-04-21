@@ -563,9 +563,9 @@ class Context {
         const changeStatus = undefined ;
 
         if (status === true)
-            changeStatus = `mutation { setUserPlaying(username: "${this.user.username}") { success, error } }`
+            changeStatus = `mutation { setUserPlaying(username: "${this.user.name}") { success, error } }`
         else
-            changeStatus = `mutation { setUserNotPlaying(username: "${this.user.username}") { success, error } }`
+            changeStatus = `mutation { setUserNotPlaying(username: "${this.user.name}") { success, error } }`
 
         await this.api.graphqlFetch(changeStatus)
 
@@ -577,7 +577,7 @@ class Context {
 
     async getUserStatus() {
         // get the user status
-        const query = `query { getUserByUsername(username: "${this.user.username}") { isPlaying } }`
+        const query = `query { getUserByUsername(username: "${this.user.name}") { isPlaying } }`
         await this.api.graphqlFetch(query)
         if (this.api.error) {
             alert("Error occured while fetching user status")
@@ -587,7 +587,7 @@ class Context {
     }
 
     async getProfileData() {
-        const query = `query { getUserByUsername(username: "${this.user.username}") { username, firstName, lastName } }`
+        const query = `query { getUserByUsername(username: "${this.user.name}") { username, firstName, lastName } }`
         await this.api.graphqlFetch(query)
         if (this.api.error) {
             console.log("Error occured while fetching user data [CONTEXT]")
@@ -691,6 +691,38 @@ class Context {
         this.searchResults = [];
 
         this.searchResults = this.api.response.getUsersBySubstring.map(user => new Search(user));
+    }
+
+    async follow(username) {
+        const query = `
+            mutation {
+                addFollowership(user: "${this.user.name}", following: "${username}") {
+                    success,
+                    error
+                  }
+            }
+        `
+        await this.api.graphqlFetch(query)
+        if (this.api.error) {
+            console.log("Error occured while following user")
+            return false ;
+        }
+    }
+
+    async unfollow(username) {
+        const query = `
+            mutation {
+                deleteFollowership(user: "${this.user.name}", following: "${username}") {
+                    success,
+                    error
+                  }
+            }
+        `
+        await this.api.graphqlFetch(query)
+        if (this.api.error) {
+            console.log("Error occured while unfollowing user")
+            return false ;
+        }
     }
 }
 

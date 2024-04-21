@@ -1207,9 +1207,8 @@ class PopUpProfile extends HTMLElement {
                 </div>
                 <div class="follow">
                     <img id="followBg" src="../../app/assets/images/profile/followScreen.svg">
-                    <div class="follow-inner">
-                        <h3>Followers</h3>
-                        <p>1.5M</p>
+                    <div class="follow-inner" onclick="followUser()">
+                        <h3>${context.profileOfUser.following.includes(context.user) ? "Unfollow" : "Follow"}</h3>
                     </div>
                 </div>
                 <div class="friends">
@@ -1695,4 +1694,24 @@ function showTournamentHistoryProfile(data) {
 function changeFriends(choice) {
     const popup = document.querySelector("custom-profile");
     popup.fillFriends(choice);
+}
+
+function followUser() {
+    const popup = document.querySelector("custom-profile");
+
+    if (context.profileOfUser.followers.includes(context.user)) {
+        console.log(context.profileOfUser.followers)
+        context.profileOfUser.followers = context.profileOfUser.followers.filter(
+            (user) => user.name !== context.user.name
+        );
+        context.unfollow(context.profileOfUser.player.name);
+    } else if (!context.profileOfUser.following.includes((user) => user.name === context.user.name)) {
+        context.profileOfUser.followers.push(context.user);
+        context.follow(context.profileOfUser.player.name);
+    }
+    popup.fillFriends("followers");
+
+    popup.shadowRoot.querySelector(".follow-inner").innerHTML = `
+        <h3>${context.profileOfUser.followers.includes(context.user) ? "Unfollow" : "Follow"}</h3>
+    `;
 }
