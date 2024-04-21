@@ -39,9 +39,6 @@ class Socket {
                 case "host_true":
                     this.game.isHost = true;
                     break;
-                // case "host_false":
-                //     this.game.isHost = false;
-                //     break;
                 case "team_one":
                     this.game.team = 1;
                     break;

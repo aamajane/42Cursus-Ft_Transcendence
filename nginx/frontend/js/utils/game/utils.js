@@ -22,31 +22,27 @@ function ballPaddleColliding(ball, paddle) {
 }
 
 function simulateKeyPress(key) {
-    if (key === null) {
-        return;
+    if (key === OPPONENT_LEFT_KEY || key === OPPONENT_RIGHT_KEY) {
+        const keyPressEvent = new KeyboardEvent("keydown", {
+            key: key,
+            keyCode: key.charCodeAt(0),
+            bubbles: true,
+        });
+
+        document.dispatchEvent(keyPressEvent);
     }
-
-    const keyPressEvent = new KeyboardEvent("keydown", {
-        key: key,
-        keyCode: key.charCodeAt(0),
-        bubbles: true,
-    });
-
-    document.dispatchEvent(keyPressEvent);
 }
 
 function simulateKeyRelease(key) {
-    if (key === null) {
-        return;
+    if (key === OPPONENT_LEFT_KEY || key === OPPONENT_RIGHT_KEY) {
+        const keyReleaseEvent = new KeyboardEvent("keyup", {
+            key: key,
+            keyCode: key.charCodeAt(0),
+            bubbles: true,
+        });
+
+        document.dispatchEvent(keyReleaseEvent);
     }
-
-    const keyReleaseEvent = new KeyboardEvent("keyup", {
-        key: key,
-        keyCode: key.charCodeAt(0),
-        bubbles: true,
-    });
-
-    document.dispatchEvent(keyReleaseEvent);
 }
 
 function applyShadow(ctx, blur, offsetX, offsetY) {

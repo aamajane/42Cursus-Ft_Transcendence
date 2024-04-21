@@ -8,8 +8,6 @@ class AI {
 
     reset() {
         this.lastUpdateTime = 0;
-        this.temperature = AI_TEMPERATURE;
-        this.coolingRate = AI_COOLING_RATE;
         this.bestMove = null;
     }
 
@@ -54,7 +52,6 @@ class AI {
         }
 
         const currentPaddleXCentre = this.game.opponent.paddle.x + PADDLE_WIDTH / 2;
-        const currentKey = this.game.opponent.paddle.input.currentKey;
 
         // Center the AI paddle if the ball is moving away from it
         if (this.ball.velocityY > 0) {
@@ -63,7 +60,8 @@ class AI {
             } else if (currentPaddleXCentre < GAME_WIDTH / 2) {
                 simulateKeyPress(this.rightKey);
             } else {
-                simulateKeyRelease(currentKey);
+                simulateKeyRelease(this.leftKey);
+                simulateKeyRelease(this.rightKey);
             }
             return;
         }
@@ -73,7 +71,8 @@ class AI {
             this.ball.x > this.game.opponent.paddle.x &&
             this.ball.x < this.game.opponent.paddle.x + PADDLE_WIDTH
         ) {
-            simulateKeyRelease(currentKey);
+            simulateKeyRelease(this.leftKey);
+            simulateKeyRelease(this.rightKey);
             return;
         }
 
@@ -88,7 +87,8 @@ class AI {
             intersectX < -extraBounds ||
             intersectX > GAME_WIDTH + extraBounds
         ) {
-            simulateKeyRelease(currentKey);
+            simulateKeyRelease(this.leftKey);
+            simulateKeyRelease(this.rightKey);
             return;
         }
 
@@ -109,6 +109,10 @@ class AI {
         // Evaluate the current and new moves
         const currentScore = this.evaluateMove(currentPaddleXCentre);
         const newScore = this.evaluateMove(newPaddleXCentre);
+
+        // Release the keys before accepting the new move
+        simulateKeyRelease(this.leftKey);
+        simulateKeyRelease(this.rightKey);
 
         // Accept the move if it's better or with a certain probability
         if (

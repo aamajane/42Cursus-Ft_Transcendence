@@ -13,20 +13,16 @@ class Paddle {
     }
 
     update() {
-        if (
-            this.leftKey &&
-            this.input.currentKey === this.leftKey &&
-            this.x > 25
-        ) {
-            this.x -= this.speed;
-            this.isMoving = true;
-        } else if (
-            this.rightKey &&
-            this.input.currentKey === this.rightKey &&
-            this.x < GAME_WIDTH - this.width - 25
-        ) {
-            this.x += this.speed;
-            this.isMoving = true;
+        if (this.leftKey && this.input.keys.includes(this.leftKey)) {
+            if (this.x > 25) {
+                this.x -= this.speed;
+                this.isMoving = true;
+            }
+        } else if (this.rightKey && this.input.keys.includes(this.rightKey)) {
+            if (this.x < GAME_WIDTH - this.width - 25) {
+                this.x += this.speed;
+                this.isMoving = true;
+            }
         } else {
             this.x += 0;
             this.isMoving = false;

@@ -28,10 +28,6 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
 
         self.channels_names[self.room_group_name].append(self.channel_name)
 
-        # await self.send_host_message(self.user_count[self.room_group_name] == 1)
-        # await self.send_team_message('team_one' if self.user_count[self.room_group_name] in [1, 3] else 'team_two')
-        # await self.send_paddle_level_message('paddle_level_one' if self.user_count[self.room_group_name] in [1, 2] else 'paddle_level_two')
-
         if self.user_count[self.room_group_name] == self.MAX_USERS:
             await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
                 'type': 'send.message.back',

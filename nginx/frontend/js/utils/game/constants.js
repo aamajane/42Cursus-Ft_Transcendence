@@ -25,7 +25,7 @@ const BALL_X = GAME_WIDTH / 2;
 const BALL_Y = GAME_HEIGHT / 2;
 
 /* *************************** PADDLE CONSTANTS *************************** */
-const PADDLE_SPEED = 15;
+const PADDLE_SPEED = 20;
 
 const PADDLE_WIDTH = 160;
 const PADDLE_HEIGHT = 80;
@@ -90,7 +90,7 @@ const AVATAR_URL = "../../app/assets/images/game/ai_avatar.webp";
 const PLAYER1_AVATAR_URL = "https://cdn.intra.42.fr/users/6e08f820a216e1a2a90e377609109946/aamajane.jpg";
 const PLAYER2_AVATAR_URL = "https://cdn.intra.42.fr/users/c57fb67bd87763107a61aaf0ad1add71/ael-bekk.jpg";
 const OPPONENT1_AVATAR_URL = "https://cdn.intra.42.fr/users/664d497ee11b0a6944ae13c8cb222edd/hel-mefe.jpg";
-const OPPONENT2_AVATAR_URL = "https://cdn.intra.42.fr/users/a9ffdbbe14c28c2f6bbc7ff28b7ce717/anamajan.jpeg";
+const OPPONENT2_AVATAR_URL = "https://cdn.intra.42.fr/users/b22ad49a1e9011b178a47008ba1ef162/amounadi.jpg";
 
 /* *************************** INPUT CONSTANTS *************************** */
 const PLAYER_LEFT_KEY = "ArrowLeft";

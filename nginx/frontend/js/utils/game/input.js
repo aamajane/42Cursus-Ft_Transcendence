@@ -1,6 +1,7 @@
 class Input {
     constructor(leftKey, rightKey) {
-        this.currentKey = null;
+        this.keys = [];
+        this.touchKey = null;
         this.touchStartX = null;
 
         if (leftKey === null || rightKey === null) {
@@ -8,14 +9,17 @@ class Input {
         }
 
         window.addEventListener("keydown", (event) => {
-            if (event.key === leftKey || event.key === rightKey) {
-                this.currentKey = event.key;
+            if (
+                (event.key === leftKey || event.key === rightKey) &&
+                !this.keys.includes(event.key)
+            ) {
+                this.keys.push(event.key);
             }
         });
 
         window.addEventListener("keyup", (event) => {
             if (event.key === leftKey || event.key === rightKey) {
-                this.currentKey = null;
+                this.keys = this.keys.filter((key) => key !== event.key);
             }
         });
 
@@ -28,15 +32,15 @@ class Input {
                 const deltaX = event.touches[0].clientX - this.touchStartX;
 
                 if (deltaX > 0) {
-                    this.currentKey = rightKey;
+                    this.touchKey = rightKey;
                 } else if (deltaX < 0) {
-                    this.currentKey = leftKey;
+                    this.touchKey = leftKey;
                 }
             }
         });
 
         window.addEventListener("touchend", (event) => {
-            this.currentKey = null;
+            this.touchKey = null;
             this.touchStartX = null;
         });
     }
