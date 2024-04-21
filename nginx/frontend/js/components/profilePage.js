@@ -1134,7 +1134,7 @@ class PopUpProfile extends HTMLElement {
                 top: 96px;
             }
             .popup-inner .follow {
-                bottom: 160px;
+                top: 1650px;
                 left: 20%;
                 font-size: 14px;
                 width: 150px;
@@ -1153,7 +1153,7 @@ class PopUpProfile extends HTMLElement {
                 bottom: 20px;
             }
             .popup-inner .friends {
-                bottom: 300px;
+                top: 1050px;
                 // border: 1px solid #24C2E5;
             }
             .popup-inner .statistics {
@@ -1186,11 +1186,55 @@ class PopUpProfile extends HTMLElement {
                 left: 50%;
                 transform: scale(0.9) translateX(-50%) translateX(-23px);
             }
-            .popup {
-                height: 100vh;
+            .popup > img {
+                top: 1220px;
+                transform: translateX(-20) scale(0.7);
+            }
+            .popup-inner .follow {
+                left: 0;
             }
 
         }
+        
+        input[type="file"] {
+            display: none;
+          }
+        .popup-inner .changeAvatar {
+            position: absolute;
+            width: 200px;
+            height: 40px;
+            top: 280px;
+            left: 340px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #f00;
+        }
+        .popup-inner .changeAvatar input {
+            all: initial;
+            position: relative;
+            // style upload button
+            border: 1px solid #00f;            
+        }
+        .popup-inner .changeUsername {
+            position: absolute;
+            width: 200px;
+            height: 40px;
+            top: 280px;
+            right: 340px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            // border: 1px solid #f00;
+        }
+        .popup-inner .changeUsername input {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: red;
+            // opacity: 0;
+        }
+
         </style>
         <div class="popup">
             <img src="../../app/assets/images/tenor.gif">

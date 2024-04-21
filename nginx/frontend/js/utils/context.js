@@ -460,23 +460,23 @@ class Context {
             alert("Error occured while fetching user tournaments [CONTEXT]")
             return false ;
         }
-        console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
-        this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
-        this.profileOfUser.tournaments.forEach(tournament => {
-            console.log("TOURNAMENT => ", tournament)
-            if (tournament.games.demiFinalGame1.score1 > tournament.games.demiFinalGame1.score2)
-                tournament.players.player4 = tournament.games.demiFinalGame1.player1 ;
-            if (tournament.games.demiFinalGame2.score1 > tournament.games.demiFinalGame2.score2)
-                tournament.players.player3 = tournament.games.demiFinalGame2.player1 ;
-            if (tournament.games.finalGame.score1 > tournament.games.finalGame.score2)
-                tournament.players.player1 = tournament.games.finalGame.player1,
-                tournament.players.player2 = tournament.games.finalGame.player2 ;
-            else
-                tournament.players.player1 = tournament.games.finalGame.player2,
-                tournament.players.player2 = tournament.games.finalGame.player1 ;
-        })
+        // console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
+        // this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
+        // this.profileOfUser.tournaments.forEach(tournament => {
+        //     console.log("TOURNAMENT => ", tournament)
+        //     if (tournament.games.demiFinalGame1.score1 > tournament.games.demiFinalGame1.score2)
+        //         tournament.players.player4 = tournament.games.demiFinalGame1.player1 ;
+        //     if (tournament.games.demiFinalGame2.score1 > tournament.games.demiFinalGame2.score2)
+        //         tournament.players.player3 = tournament.games.demiFinalGame2.player1 ;
+        //     if (tournament.games.finalGame.score1 > tournament.games.finalGame.score2)
+        //         tournament.players.player1 = tournament.games.finalGame.player1,
+        //         tournament.players.player2 = tournament.games.finalGame.player2 ;
+        //     else
+        //         tournament.players.player1 = tournament.games.finalGame.player2,
+        //         tournament.players.player2 = tournament.games.finalGame.player1 ;
+        // })
     
-        console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
+        // console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
 
         // fetch the list of all followers
         const queryListOfFollowers = `
