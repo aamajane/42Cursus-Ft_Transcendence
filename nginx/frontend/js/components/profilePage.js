@@ -14,17 +14,11 @@ class PopUpProfile extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <style>
         .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
+            position: relative;
             width: 100%;
             height: 100%;
+            // border: 1px solid #fff;
             background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            overflow: auto;
         }
         .popup > img {
             position: absolute;
@@ -46,14 +40,24 @@ class PopUpProfile extends HTMLElement {
             }
         }
         .popup-inner {
-            position: absolute;
-            height: 790px;
-            width: 1300px;
+            position: relative;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: fit-content;
+            height: fit-content;
+            min-height: 100vh;
+            max-width: 1300px;
             // background-color: #fff;
-            padding: 20px;
             border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            // justify-content: center;
+            align-items: center;
+            // padding: 200px 0;
             animation: animatePopup 1s;
-            // border: 1px solid #24C2E5;
+            // border: 1px solid white;
         }
         @keyframes animatePopup {
             0% {
@@ -64,12 +68,16 @@ class PopUpProfile extends HTMLElement {
             }
         }
         .popup-inner > img {
-            position: absolute;
-            width: 100%;
-            top: 50%;
+            position: relative;
+            top: 0;
             left: 0;
-            transform: translateY(-50%);
+            width: 100%;
+            // top: 50%;
+            // left: 0;
+            // transform: translateY(-50%);
             // border: 1px solid #f00;
+            margin-top: 240px;
+            // margin-bottom: 20px;
             animation: pathDraw 4s;
         }
         @keyframes pathDraw {
@@ -83,27 +91,19 @@ class PopUpProfile extends HTMLElement {
             }
         }
         .popup-inner > .avatar {
-            position: relative;
+            position: absolute;
             width: 230px;
             height: 160px;
             margin-bottom: 20px;
             border-radius: 10px;
-            top: 0;
+            top: 63px;
             left: 50%;
-            transform: translate(-49.7%, -137%);
-            overflow: hidden;
+            transform: translate(-49.7% , 0);
+            // overflow: hidden;
             // border: 1px solid #24C2E5;
-            z-index: -1;
-            border : 1px solid #24C2E5;
+            // z-index: -1;
+            // border : 1px solid #24C2E5;
             animation: animateShadow 2s infinite;
-        }
-        img#avBg {
-            position: absolute;
-            width: 300px;
-            height: 224px;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -100%);
         }
         @keyframes animateShadow {
             0% {
@@ -118,44 +118,32 @@ class PopUpProfile extends HTMLElement {
                 0 0 10px 10px #aaa inset;
             }
         }
-        .popup-inner > .avatar span#gradient {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, #aaaaaa00 0%, #aaaaaaaa 100%);
-            animation: moveGradient 5s infinite linear;
-        }
-        .popup-inner > .avatar span#gradient::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 100%;
-            background: #aaa;
-            box-shadow: 0 0 10px 5px #aaa;
-            top: 0;
-            left: 100%;
-            animation: moveLine 8s infinite linear;
-        }
         @keyframes moveLine {
             0% {
-                right: -400%;
+                right: -1000%;
             }
-            70% {
+            80% {
+                right: -1000%;
+            }
+            90% {
                 right: 20%;
             }
             100% {
-                right: 100%;
+                right: 1000%;
             }
         }
         @keyframes moveGradient {
             0% {
                 left: -400%;
             }
-            70% {
+            80% {
+                left: -400%;
+            }
+            90% {
                 left: 20%;
             }
             100% {
-                left: 100%;
+                left: 400%;
             }
         }
         .popup-inner > .avatar h2 {
@@ -193,11 +181,10 @@ class PopUpProfile extends HTMLElement {
             position: absolute;
             width: 200px;
             height: 50px;
-            bottom: 90px;
+            bottom: 335px;
             left: 160px;
             justify-content: center;
             align-items: center;
-            padding: 0px;
         }
         .popup-inner .follow-inner {
             position: relative;
@@ -257,7 +244,7 @@ class PopUpProfile extends HTMLElement {
             position: absolute;
             width: 400px;
             height: 550px;
-            top: 100px;
+            bottom: 415px;
             right: 200px;
             border-radius: 5px;
             display: flex;
@@ -306,8 +293,8 @@ class PopUpProfile extends HTMLElement {
             position: absolute;
             width: 500px;
             height: 200px;
-            top: 110px;
-            left: 200px;
+            top: 360px;
+            left: 160px;
             border-radius: 5px;
             justify-content: center;
             align-items: center;
@@ -317,8 +304,8 @@ class PopUpProfile extends HTMLElement {
             position: absolute;
             width: 500px;
             height: 300px;
-            bottom: 180px;
-            left: 200px;
+            top: 600px;
+            left: 170px;
             justify-content: center;
             align-items: center;
             padding: 0px;
@@ -1098,22 +1085,125 @@ class PopUpProfile extends HTMLElement {
             height: 50px;
             z-index: 10;
         }
-        @media screen and (max-width: 1200px) {
-            .popup-inner {
-                left: 0;
+        img#avBg {
+            all: initial;
+            position: absolute;
+            width: 300px;
+            height: 224px;
+            top: calc(50% + 7px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .bg3Container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+            border-radius: 10px;
+        }
+        .bg3 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        @media screen and (min-width: 1350px) {
+            .popup-inner  .bgs1 {
+                display: block;
             }
+            .popup-inner  .bgs2 {
+                display: none;
+            }
+
+        }
+        @media screen and (max-width: 1350px) {
+            .popup-inner  .bgs1 {
+                display: none;
+            }
+            .popup-inner  .bgs2 {
+                display: block;
+                width: 800px;
+            }
+            .popup-inner > .avatar {
+                top: 96px;
+            }
+            .popup-inner .follow {
+                bottom: 160px;
+                left: 20%;
+                font-size: 14px;
+                width: 150px;
+            }
+            .popup-inner .follow .follow-inner {
+                top: -5px;
+            }
+            .popup-inner #followBg {
+                width: 100%;
+            }
+            .popup-inner {
+                max-width: 800px;
+                justify-content: center;
+            }
+            .popup > img {
+                bottom: 20px;
+            }
+            .popup-inner .friends {
+                bottom: 300px;
+                // border: 1px solid #24C2E5;
+            }
+            .popup-inner .statistics {
+                top: 440px;
+                left: calc(50% - 10px);
+                transform: translateX(-50%);
+                // border: 1px solid #24C2E5;
+            }
+            .popup-inner .history {
+                top: 680px;
+                left: 50%;
+                transform: translateX(-50%);
+                // border: 1px solid #24C2E5;
+            }
+        }
+        @media screen and (max-width: 800px) {
+            .popup-inner {
+                max-width: 400px;
+                transform: translateX(-50%) scale(0.7) translateY(-400px);
+                justify-content: none;
+            }
+            .popup-inner > .avatar {
+                transform: translateX(-50%) scale(0.9) translateY(10px) translateX(3px);
+
+            }
+            .popup-inner .statistics, .popup-inner .history {
+                transform: translateX(-50%) scale(0.9);
+            }
+            .popup-inner .friends {
+                left: 50%;
+                transform: scale(0.9) translateX(-50%) translateX(-23px);
+            }
+            .popup {
+                height: 100vh;
+            }
+
         }
         </style>
         <div class="popup">
             <img src="../../app/assets/images/tenor.gif">
             <div class="popup-inner">
-                <img src="../../app/assets/images/profile/screen.svg" id="bg">
-                <img id="avBg" src="../../app/assets/images/profile/avatarScreen.svg">
+                <img src="../../app/assets/images/profile/screen.svg" id="bg" class="bgs1">
+                <img src="../../app/assets/images/profile/screen 2.svg" id="bg" class="bgs2">
                 <div class="avatar">
-                    <img src="../../app/assets/images/bg3.gif">
+                    <div class="bg3Container">
+                        <img src="../../app/assets/images/bg3.gif" class="bg3">
+                    </div>
                     <img src="${context.profileOfUser.player.avatarUrl}">
+                    <img id="avBg" src="../../app/assets/images/profile/avatarScreen.svg">
                     <h2>@${context.profileOfUser.player.name}</h2>
-                    <span id="gradient"></span>
                 </div>
                 <div class="follow">
                     <img id="followBg" src="../../app/assets/images/profile/followScreen.svg">
