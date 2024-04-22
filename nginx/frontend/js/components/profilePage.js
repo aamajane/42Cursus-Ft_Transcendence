@@ -78,7 +78,7 @@ class PopUpProfile extends HTMLElement {
             // transform: translateY(-50%);
             // border: 1px solid #f00;
             margin-top: 240px;
-            // margin-bottom: 20px;
+            margin-bottom: 200px;
             animation: pathDraw 4s;
         }
         @keyframes pathDraw {
@@ -1233,7 +1233,7 @@ class PopUpProfile extends HTMLElement {
                 justify-content: center;
             }
             .popup > img {
-                bottom: 50px;
+                top: 1750px;
             }
             .popup-inner .friends {
                 top: 1050px;
@@ -1324,10 +1324,10 @@ class PopUpProfile extends HTMLElement {
                     <label for="avatar" class="custom-file-upload">
                         <span>Change Avatar</span>
                     </label>
-                    <input type="file" id="avatar" accept="image/*" onchange="uploadAvatar()">
+                    <input type="file" id="avatar" accept="image/*">
                 </div>
                 <div class="changeUsername">
-                    <input type="text" id="username" placeholder="Change Username" onkeyup="changeUsername(event)">
+                    <input type="text" id="username" placeholder="Change Username">
                 </div>
                 <div class="friends">
                     <img id="bg" src="../../app/assets/images/profile/friendsScreen2.svg">
@@ -1837,4 +1837,18 @@ function followUser() {
     popup.shadowRoot.querySelector(".follow-inner").innerHTML = `
         <h3>${context.profileOfUser.followers.includes(context.user) ? "Unfollow" : "Follow"}</h3>
     `;
+}
+
+function submitChanges() {
+    const popup = document.querySelector("custom-profile");
+
+    const username = popup.shadowRoot.querySelector("#username").value;
+    const avatar = popup.shadowRoot.querySelector("#avatar").files[0];
+
+    if (username) {
+        context.changeUsername(username);
+    }
+    if (avatar) {
+        context.changeAvatar(avatar);
+    }
 }
