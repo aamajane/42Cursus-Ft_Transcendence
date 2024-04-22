@@ -19,6 +19,7 @@ class PopUpProfile extends HTMLElement {
             height: 100%;
             // border: 1px solid #fff;
             background-color: rgba(0, 0, 0, 0.8);
+            overflow-x: hidden;
         }
         .popup > img {
             position: absolute;
@@ -177,7 +178,7 @@ class PopUpProfile extends HTMLElement {
             box-shadow: 0 0 5px 1px #24C2E5;
             border-radius: 50%;
         }
-        .popup-inner .follow {
+        .popup-inner .follow, .popup-inner .submit {
             position: absolute;
             width: 200px;
             height: 50px;
@@ -203,17 +204,17 @@ class PopUpProfile extends HTMLElement {
                          0 0 10px #24C2E5,
                          0 0 15px #24C2E5;
         }
-        .popup-inner .follow:hover svg {
+        .popup-inner .follow:hover svg, .popup-inner .submit:hover svg {
             animation: followBg 1s infinite;
         }
-        .popup-inner .follow:hover .follow-inner {
+        .popup-inner .follow:hover .follow-inner, .popup-inner .submit:hover .follow-inner {
             animation: followText 1s infinite;
             text-shadow: 0 0 5px #fff;
         }
-        .popup-inner .follow:hover svg {
+        .popup-inner .follow:hover svg, .popup-inner .submit:hover svg {
             filter: url(#drop-shadow);
         }
-        .popup-inner .follow:hover followText {
+        .popup-inner .follow:hover followText, .popup-inner .submit:hover followText {
             filter: url(#drop-shadow);
         }
         @keyframes followText {
@@ -227,7 +228,7 @@ class PopUpProfile extends HTMLElement {
                 transform: translateY(0);
             }
         }
-        .popup-inner .follow:active .follow-inner {
+        .popup-inner .follow:active .follow-inner, .popup-inner .submit:active .follow-inner {
             transition: 0s;
             transform: scale(0.9);
             animation: none;
@@ -1122,6 +1123,88 @@ class PopUpProfile extends HTMLElement {
             }
 
         }
+        input[type="file"] {
+            display: none;
+          }
+        .popup-inner .changeAvatar {
+            position: absolute;
+            width: 200px;
+            height: 40px;
+            top: 280px;
+            left: 340px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid #005550;
+            border-bottom: 2px solid #00FFF0;
+            border-left: 2px solid #00FFF0;
+            border-right: 1px solid #005550;
+            border-radius:  0 0 0 50px;
+            overflow: hidden;
+        }
+        .popup-inner .changeUsername {
+            position: absolute;
+            width: 200px;
+            height: 40px;
+            top: 280px;
+            right: 340px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid #005550;
+            border-bottom: 2px solid #00FFF0;
+            border-left: 1px solid #005550;
+            border-right: 2px solid #00FFF0;
+            border-radius:  0 0 50px 0;
+            overflow: hidden;
+        }
+        .popup-inner .changeUsername input {
+            position: absolute;
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            background-color: #0000;
+            padding: 20px;
+            color: #fff;
+            // opacity: 0;
+        }
+        .popup-inner .changeUsername input::placeholder, .popup-inner .changeAvatar label {
+            color: #fffa;
+            font-size: 14px;
+            text-align: center;
+        }
+        .popup-inner .changeUsername input:hover {
+            background-color: #fff2;
+        }
+        .popup-inner .changeUsername input:focus {
+            color: #aff;
+        }
+        .popup-inner .changeUsername input label {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .custom-file-upload {
+            position: absolute;
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            background-color: #0000;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            // opacity: 0;
+        }
+        
+        .custom-file-upload:hover {
+            background-color: #fff2;
+        }
+        .custom-file-upload:focus {
+            color: #aff;
+        }
+
+
         @media screen and (max-width: 1350px) {
             .popup-inner  .bgs1 {
                 display: none;
@@ -1133,13 +1216,13 @@ class PopUpProfile extends HTMLElement {
             .popup-inner > .avatar {
                 top: 96px;
             }
-            .popup-inner .follow {
+            .popup-inner .follow, .popup-inner .submit {
                 top: 1650px;
                 left: 20%;
                 font-size: 14px;
                 width: 150px;
             }
-            .popup-inner .follow .follow-inner {
+            .popup-inner .follow .follow-inner, .popup-inner .submit .follow-inner {
                 top: -5px;
             }
             .popup-inner #followBg {
@@ -1150,7 +1233,7 @@ class PopUpProfile extends HTMLElement {
                 justify-content: center;
             }
             .popup > img {
-                bottom: 20px;
+                bottom: 50px;
             }
             .popup-inner .friends {
                 top: 1050px;
@@ -1168,6 +1251,15 @@ class PopUpProfile extends HTMLElement {
                 transform: translateX(-50%);
                 // border: 1px solid #24C2E5;
             }
+            .popup-inner .changeAvatar {
+                top: 330px;
+                left: 150px;
+            }
+            .popup-inner .changeUsername {
+                top: 330px;
+                right: 150px;
+            }
+
         }
         @media screen and (max-width: 800px) {
             .popup-inner {
@@ -1190,51 +1282,18 @@ class PopUpProfile extends HTMLElement {
                 top: 1220px;
                 transform: translateX(-20) scale(0.7);
             }
-            .popup-inner .follow {
+            .popup-inner .follow, .popup-inner .submit {
                 left: 0;
             }
-
+            .popup-inner .changeAvatar {
+                top: 330px;
+                left: -20px;
+            }
+            .popup-inner .changeUsername {
+                top: 330px;
+                right: -20px;
+            }
         }
-        
-        input[type="file"] {
-            display: none;
-          }
-        .popup-inner .changeAvatar {
-            position: absolute;
-            width: 200px;
-            height: 40px;
-            top: 280px;
-            left: 340px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #f00;
-        }
-        .popup-inner .changeAvatar input {
-            all: initial;
-            position: relative;
-            // style upload button
-            border: 1px solid #00f;            
-        }
-        .popup-inner .changeUsername {
-            position: absolute;
-            width: 200px;
-            height: 40px;
-            top: 280px;
-            right: 340px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            // border: 1px solid #f00;
-        }
-        .popup-inner .changeUsername input {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background-color: red;
-            // opacity: 0;
-        }
-
         </style>
         <div class="popup">
             <img src="../../app/assets/images/tenor.gif">
@@ -1247,7 +1306,7 @@ class PopUpProfile extends HTMLElement {
                     </div>
                     <img src="${context.profileOfUser.player.avatarUrl}">
                     <img id="avBg" src="../../app/assets/images/profile/avatarScreen.svg">
-                    <h2>@${context.profileOfUser.player.name}</h2>
+                    <h2>${context.profileOfUser.player.name}</h2>
                 </div>
                 <div class="follow" style="display: ${context.profileOfUser.player.name === context.user.name ? "none" : "block"}">
                     <img id="followBg" src="../../app/assets/images/profile/followScreen.svg">
@@ -1255,7 +1314,16 @@ class PopUpProfile extends HTMLElement {
                         <h3>${context.profileOfUser.doIFollow ? "Unfollow" : "Follow"}</h3>
                     </div>
                 </div>
+                <div class="submit" style="display: ${context.profileOfUser.player.name !== context.user.name ? "none" : "block"}">
+                    <img id="followBg" src="../../app/assets/images/profile/followScreen.svg">
+                    <div class="follow-inner" onclick="submitChanges()">
+                        <h3>Submit Changes</h3>
+                    </div>
+                </div>
                 <div class="changeAvatar">
+                    <label for="avatar" class="custom-file-upload">
+                        <span>Change Avatar</span>
+                    </label>
                     <input type="file" id="avatar" accept="image/*" onchange="uploadAvatar()">
                 </div>
                 <div class="changeUsername">

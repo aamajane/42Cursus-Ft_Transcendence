@@ -513,7 +513,7 @@ class DashboardPage extends HTMLElement {
                             </svg>
                             <div class="Pcdr">
                                 <a href="/profile" id="pages" class="profilePage" playerName="${context.user?.name}"></a>
-                                <h1 id="user-id">@${context.user?.name}</h1>
+                                <h1 id="user-id">${context.user?.name}</h1>
                             </div>
                             
                         </div>
