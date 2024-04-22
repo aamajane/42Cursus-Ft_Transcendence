@@ -44,8 +44,8 @@ class Tournament {
             player4: undefined,
         };
         this.games = {
-            demiFinalGame1: new Game(data?.demiFinalFirstGame),
-            demiFinalGame2: new Game(data?.demiFinalSecondGame),
+            semiFinalGame1: new Game(data?.semiFinalFirstGame),
+            semiFinalGame2: new Game(data?.semiFinalSecondGame),
             finalGame: new Game(data?.finalGame),
         };
     }
@@ -167,11 +167,9 @@ class Track {
         this.gameMode = undefined;
 
         this.tournamentId = undefined;
-        this.tournamentStatus = undefined;
-        this.tournamentData = {
-            players: [],
-            games: [],
-        };
+        this.semiFinalFirstGameId = undefined;
+        this.semiFinalSecondGameId = undefined;
+        this.finalGameId = undefined;
 
         this.initProfileOfUser = new Player();
     }
@@ -327,7 +325,7 @@ class Context {
             query {
                 getTournamentsPlayedByUser(data:{username:"hel-mefe"}) {
                     id,
-                    demiFinalFirstGame {
+                    semiFinalFirstGame {
                         id,
                         mode,
                         player1 {
@@ -343,7 +341,7 @@ class Context {
                         score1,
                         score2
                     }
-                    demiFinalSecondGame {
+                    semiFinalSecondGame {
                         id,
                         mode,
                         player1 {
@@ -391,10 +389,10 @@ class Context {
         // this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
         // this.profileOfUser.tournaments.forEach(tournament => {
         //     console.log("TOURNAMENT => ", tournament)
-        //     if (tournament.games.demiFinalGame1.score1 > tournament.games.demiFinalGame1.score2)
-        //         tournament.players.player4 = tournament.games.demiFinalGame1.player1 ;
-        //     if (tournament.games.demiFinalGame2.score1 > tournament.games.demiFinalGame2.score2)
-        //         tournament.players.player3 = tournament.games.demiFinalGame2.player1 ;
+        //     if (tournament.games.semiFinalGame1.score1 > tournament.games.semiFinalGame1.score2)
+        //         tournament.players.player4 = tournament.games.semiFinalGame1.player1 ;
+        //     if (tournament.games.semiFinalGame2.score1 > tournament.games.semiFinalGame2.score2)
+        //         tournament.players.player3 = tournament.games.semiFinalGame2.player1 ;
         //     if (tournament.games.finalGame.score1 > tournament.games.finalGame.score2)
         //         tournament.players.player1 = tournament.games.finalGame.player1,
         //         tournament.players.player2 = tournament.games.finalGame.player2 ;
@@ -649,6 +647,50 @@ class Context {
         this.api.resetAPIContext();
 
         return true;
+    }
+
+    async getAvailableTournament() {
+        const tournamentQuery = `
+            mutation {
+                getAvailableTournament {
+                    success,
+                    error,
+                    tournamentId,
+                    semiFinalFirstGameId,
+                    semiFinalSecondGameId
+                    finalGameId
+                }
+            }
+        `;
+
+        await this.api.graphqlFetch(tournamentQuery);
+        if (this.api.error) {
+            alert("Error occurred while fetching available tournaments");
+            return false;
+        }
+
+        context.track.tournamentId = this.api.response.getAvailableTournament.tournamentId;
+        context.track.semiFinalFirstGameId = this.api.response.getAvailableTournament.semiFinalFirstGameId;
+        context.track.semiFinalSecondGameId = this.api.response.getAvailableTournament.semiFinalSecondGameId;
+        context.track.finalGameId = this.api.response.getAvailableTournament.finalGameId;
+    }
+
+    async setTournamentState(state) {
+        const ChangeTournament = `
+            mutation {
+                SetTournamentState(data: { tournamentId: ${context.track.tournamentId}, state: "${state}" }) {
+                    success,
+                    error,
+                    tournamentId
+                }
+            }
+        `;
+
+        await this.api.graphqlFetch(ChangeTournament);
+        if (this.api.error) {
+            alert("Error occurred while fetching available games");
+            return false;
+        }
     }
 
     async search(username) {

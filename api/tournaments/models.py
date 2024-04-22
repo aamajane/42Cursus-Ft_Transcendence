@@ -5,8 +5,8 @@ from users.models import User
 # Create your models here.
 class Tournament(models.Model):
     id = models.AutoField(primary_key=True)
-    demi_final_first_game = models.ForeignKey(Game, related_name='demi_final_first_game', on_delete=models.PROTECT, blank=True, null=True) # game 1 id
-    demi_final_second_game = models.ForeignKey(Game, related_name='demi_final_second_game', on_delete=models.PROTECT, blank=True, null=True) # game 2 id
+    semi_final_first_game = models.ForeignKey(Game, related_name='semi_final_first_game', on_delete=models.PROTECT, blank=True, null=True) # game 1 id
+    semi_final_second_game = models.ForeignKey(Game, related_name='semi_final_second_game', on_delete=models.PROTECT, blank=True, null=True) # game 2 id
     final_game = models.ForeignKey(Game, related_name='final_game', on_delete=models.PROTECT, blank=True, null=True) # game 3 id
     state = models.CharField(max_length=100) # tournament status: pending, ongoing, over
     tournament_hoster = models.ForeignKey(User, related_name='tournament_hoster', on_delete=models.PROTECT, null=True, blank=True) # tournament hoster username

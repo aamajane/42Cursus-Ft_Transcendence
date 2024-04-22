@@ -10,7 +10,7 @@ from .models import Tournament
 class TournamentType(DjangoObjectType):
     class Meta:
         model = Tournament
-        fields = ('id', 'demi_final_first_game', 'demi_final_second_game', 'final_game', 'state', 'tournament_hoster', 'winner', 'second_place', 'third_place', 'fourth_place', 'created_at')
+        fields = ('id', 'semi_final_first_game', 'semi_final_second_game', 'final_game', 'state', 'tournament_hoster', 'winner', 'second_place', 'third_place', 'fourth_place', 'created_at')
 
 class Query(graphene.ObjectType):
 
@@ -57,13 +57,13 @@ class Query(graphene.ObjectType):
     def resolve_get_tournaments_played_by_user(self, info, data):
         try:
             user = User.objects.get(username=data.username)
-            return Tournament.objects.filter(demi_final_first_game__player_1=user)\
-                | Tournament.objects.filter(demi_final_first_game__player_2=user)\
-                | Tournament.objects.filter(demi_final_first_game__player_3=user)\
-                | Tournament.objects.filter(demi_final_first_game__player_4=user)\
-                | Tournament.objects.filter(demi_final_second_game__player_1=user)\
-                | Tournament.objects.filter(demi_final_second_game__player_2=user)\
-                | Tournament.objects.filter(demi_final_second_game__player_3=user)\
-                | Tournament.objects.filter(demi_final_second_game__player_4=user)
+            return Tournament.objects.filter(semi_final_first_game__player_1=user)\
+                | Tournament.objects.filter(semi_final_first_game__player_2=user)\
+                | Tournament.objects.filter(semi_final_first_game__player_3=user)\
+                | Tournament.objects.filter(semi_final_first_game__player_4=user)\
+                | Tournament.objects.filter(semi_final_second_game__player_1=user)\
+                | Tournament.objects.filter(semi_final_second_game__player_2=user)\
+                | Tournament.objects.filter(semi_final_second_game__player_3=user)\
+                | Tournament.objects.filter(semi_final_second_game__player_4=user)
         except ObjectDoesNotExist:
             return None

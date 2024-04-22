@@ -74,20 +74,19 @@ class DeleteGame(graphene.Mutation):
 
 class GetAvailableGame(graphene.Mutation):
     class Arguments:
-        mode = graphene.String()
-        state = graphene.String()
-        is_2x2 = graphene.Boolean()
-        is_vs_ai = graphene.Boolean()
+        mode = graphene.String(required=True)
+        state = graphene.String(required=True)
+        is_2x2 = graphene.Boolean(required=True)
 
     game_id = graphene.ID()
     success = graphene.String()
     error = graphene.String()
 
-    def mutate(self, info, mode=None, state='pending', is_2x2=False, is_vs_ai=False):
+    def mutate(self, info, mode=None, state='pending', is_2x2=False):
         try:
             if mode is not None and mode not in ['egypt', 'factory', 'space']:
                 return GetAvailableGame(game_id=None, success=None, error='Invalid input for mode')
-            games = Game.objects.filter(state='pending', is_2x2=is_2x2, mode=mode)
+            games = Game.objects.filter(state='pending', is_2x2=is_2x2, mode=mode, is_part_of_tournament=False)
             if len(games) >= 1:
                 return GetAvailableGame(game_id=games[0].id, success='Game found', error=None)
             raise Exception('No available games found')
@@ -97,7 +96,6 @@ class GetAvailableGame(graphene.Mutation):
                     mode= mode if mode else random.choice(['factory', 'egypt', 'space']),
                     state=state,
                     is_2x2=is_2x2,
-                    is_vs_ai=is_vs_ai,
                     is_part_of_tournament=False
                     )
             except Exception as e:

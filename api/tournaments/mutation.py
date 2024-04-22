@@ -15,8 +15,8 @@ MAX_TOURNAMENTS_TO_CREATE = 100
 
 class CreateTournamentInput(graphene.InputObjectType):
     tournament_hoster = graphene.String(required=True)
-    demi_final_first_game_mode = graphene.String(required=True)
-    demi_final_second_game_mode = graphene.String(required=True)
+    semi_final_first_game_mode = graphene.String(required=True)
+    semi_final_second_game_mode = graphene.String(required=True)
     final_game_mode = graphene.String(required=True)
 
 
@@ -34,13 +34,13 @@ class CreateTournament(graphene.Mutation):
             if data.tournament_hoster is None:
                 return CreateTournament(tournament_id=None, success=None, error='Invalid input for tournament hoster')
     
-            # if demi_final_first_game_mode provided but not valid
-            if data.demi_final_first_game_mode is not None and data.demi_final_first_game_mode not in ['egypt', 'factory', 'space']:
-                return CreateTournament(tournament_id=None, success=None, error='Invalid input for demi final first game mode')
+            # if semi_final_first_game_mode provided but not valid
+            if data.semi_final_first_game_mode is not None and data.semi_final_first_game_mode not in ['egypt', 'factory', 'space']:
+                return CreateTournament(tournament_id=None, success=None, error='Invalid input for semi final first game mode')
     
-            # if demi_final_second_game_mode provided but not valid
-            if data.demi_final_second_game_mode is not None and data.demi_final_second_game_mode not in ['egypt', 'factory', 'space']:
-                return CreateTournament(tournament_id=None, success=None, error='Invalid input for demi final second game mode')
+            # if semi_final_second_game_mode provided but not valid
+            if data.semi_final_second_game_mode is not None and data.semi_final_second_game_mode not in ['egypt', 'factory', 'space']:
+                return CreateTournament(tournament_id=None, success=None, error='Invalid input for semi final second game mode')
     
             # if final_game_mode provided but not valid
             if data.final_game_mode is not None and data.final_game_mode not in ['egypt', 'factory', 'space']:
@@ -51,8 +51,8 @@ class CreateTournament(graphene.Mutation):
     
                 # creating a new tournament
                 tournament = Tournament(tournament_hoster=tournament_hoster_user, 
-                            demi_final_first_game_mode=data.demi_final_first_game_mode, 
-                            demi_final_second_game_mode=data.demi_final_second_game_mode, 
+                            semi_final_first_game_mode=data.semi_final_first_game_mode, 
+                            semi_final_second_game_mode=data.semi_final_second_game_mode, 
                             final_game_mode=data.final_game_mode)
                 tournament.save()
     
@@ -82,13 +82,13 @@ class CreateTournaments(graphene.Mutation):
             print('Before modes')
             # determining all the games modes for the tournament
             modes = ['egypt', 'factory', 'space']
-            demi_final_first_game_mode = random.choice(modes)
+            semi_final_first_game_mode = random.choice(modes)
             print('After first choice')
-            modes.pop(modes.index(demi_final_first_game_mode))
+            modes.pop(modes.index(semi_final_first_game_mode))
             print(modes)
-            demi_final_second_game_mode = random.choice(modes)
+            semi_final_second_game_mode = random.choice(modes)
             print('After second choice')
-            modes.pop(modes.index(demi_final_second_game_mode))
+            modes.pop(modes.index(semi_final_second_game_mode))
             final_game_mode = modes[0]
             print('Final choice')
             
@@ -96,18 +96,18 @@ class CreateTournaments(graphene.Mutation):
             
             # creating all the tournament games
             try:
-                demi_final_first_game = Game(mode=demi_final_first_game_mode, state='pending')
-                demi_final_first_game.save()
+                semi_final_first_game = Game(mode=semi_final_first_game_mode, state='pending')
+                semi_final_first_game.save()
 
-                demi_final_second_game = Game(mode=demi_final_second_game_mode, state='pending')
-                demi_final_second_game.save()
+                semi_final_second_game = Game(mode=semi_final_second_game_mode, state='pending')
+                semi_final_second_game.save()
 
                 final_game = Game(mode=final_game_mode, state='pending')
                 final_game.save()
 
                 tournament = Tournament(tournament_hoster=tournament_hoster, 
-                                demi_final_first_game=demi_final_first_game, 
-                                demi_final_second_game=demi_final_second_game, 
+                                semi_final_first_game=semi_final_first_game, 
+                                semi_final_second_game=semi_final_second_game, 
                                 final_game=final_game,
                                 state='pending',
                                 )
@@ -158,11 +158,14 @@ class DeleteTournament(graphene.Mutation):
         except ObjectDoesNotExist:
             return DeleteTournament(success=None, error='Invalid input for tournament id')
 
-class GetTournamentAvailable(graphene.Mutation):
+class GetAvailableTournament(graphene.Mutation):
     class Arguments:
         pass
 
     tournament_id = graphene.ID()
+    semi_final_first_game_id = graphene.ID()
+    semi_final_second_game_id = graphene.ID()
+    final_game_id = graphene.ID()
     success = graphene.String()
     error = graphene.String()
 
@@ -170,7 +173,12 @@ class GetTournamentAvailable(graphene.Mutation):
         try:
             tournaments = Tournament.objects.filter(state='pending')
             if len(tournaments) >= 1:
-                return GetTournamentAvailable(tournament_id=tournaments[0].id, success='Tournament available', error=None)
+                return GetAvailableTournament(tournament_id=tournaments[0].id, 
+                                                semi_final_first_game_id=tournaments[0].semi_final_first_game.id, 
+                                                semi_final_second_game_id=tournaments[0].semi_final_second_game.id, 
+                                                final_game_id=tournaments[0].final_game.id, 
+                                                success='Tournament available', 
+                                                error=None)
             raise Exception('No tournament available')
         except Exception as e:
 
@@ -178,20 +186,25 @@ class GetTournamentAvailable(graphene.Mutation):
             try:
                 tournament = Tournament(state='pending')
                 tournament.save()
-                demi_final_first_game = Game(mode='egypt', state='pending', is_part_of_tournament=True, tournament_id=tournament)
-                demi_final_second_game = Game(mode='factory', state='pending', is_part_of_tournament=True, tournament_id=tournament)
+                semi_final_first_game = Game(mode='egypt', state='pending', is_part_of_tournament=True, tournament_id=tournament)
+                semi_final_second_game = Game(mode='factory', state='pending', is_part_of_tournament=True, tournament_id=tournament)
                 final_game = Game(mode='space', state='pending', is_part_of_tournament=True, tournament_id=tournament)
-                demi_final_second_game.save()
-                demi_final_first_game.save()
+                semi_final_second_game.save()
+                semi_final_first_game.save()
                 final_game.save()
-                tournament.demi_final_first_game = demi_final_first_game
-                tournament.demi_final_second_game = demi_final_second_game
+                tournament.semi_final_first_game = semi_final_first_game
+                tournament.semi_final_second_game = semi_final_second_game
                 tournament.final_game = final_game
                 tournament.save()
-                return GetTournamentAvailable(tournament_id=tournament.id, success='Tournament available', error=None)
+                return GetAvailableTournament(tournament_id=tournament.id, 
+                                                semi_final_first_game_id=semi_final_first_game.id, 
+                                                semi_final_second_game_id=semi_final_second_game.id, 
+                                                final_game_id=final_game.id, 
+                                                success='Tournament available', 
+                                                error=None)
             except Exception as e:
                 print("EXCEPTION => ", e)
-                return GetTournamentAvailable(tournament_id=None, success=None, error='Error creating games or the whole tournament!')
+                return GetAvailableTournament(tournament_id=None, success=None, error='Error creating games or the whole tournament!')
 
 class DeleteAllTournaments(graphene.Mutation):
     class Arguments:
@@ -252,7 +265,7 @@ class Mutation(ObjectType):
     delete_all_tournaments = DeleteAllTournaments.Field()
 
     # to get the available tournament
-    get_tournament_available = GetTournamentAvailable.Field()
+    get_available_tournament = GetAvailableTournament.Field()
     
     # set game state
     set_tournament_state = SetTournamentState.Field()
