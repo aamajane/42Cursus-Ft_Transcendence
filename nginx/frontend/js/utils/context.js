@@ -795,6 +795,23 @@ class Context {
           console.log(avatarFile, "UPLOAD FILE PARENT")
         uploadFile(avatarFile);
     }
+
+    async changeNickname(nickname) {
+        const query = `
+            mutation {
+                updateUser(username: "${this.user.name}", nickname: "${nickname}") {
+                    success,
+                    error
+                }
+            }
+        `;
+
+        await this.api.graphqlFetch(query);
+        if (this.api.error) {
+            console.log("Error occurred while changing nickname");
+            return false;
+        }
+    }
 }
 
 const context = new Context();

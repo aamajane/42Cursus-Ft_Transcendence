@@ -1320,13 +1320,13 @@ class PopUpProfile extends HTMLElement {
                         <h3>Submit Changes</h3>
                     </div>
                 </div>
-                <div class="changeAvatar">
+                <div class="changeAvatar" style="display: ${context.profileOfUser.player.name === context.user.name ? "flex" : "none"}">
                     <label for="avatar" class="custom-file-upload">
                         <span>Change Avatar</span>
                     </label>
                     <input type="file" id="avatar" accept="image/*">
                 </div>
-                <div class="changeUsername">
+                <div class="changeUsername" style="display: ${context.profileOfUser.player.name === context.user.name ? "flex" : "none"}">
                     <input type="text" id="username" placeholder="Change Username">
                 </div>
                 <div class="friends">
@@ -1847,7 +1847,11 @@ function submitChanges() {
     console.log(username, avatar);
 
     if (username) {
-        context.changeUsername(username);
+        context.changeNickname(username);
+        // check if successful and change the username in the profile
+
+        popup.shadowRoot.querySelector(".avatar h2").innerHTML = username;
+        popup.shadowRoot.querySelector("#username").value = "";
     }
     if (avatar) {
         context.changeAvatar(avatar);
