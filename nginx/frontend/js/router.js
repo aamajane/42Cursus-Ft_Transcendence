@@ -100,7 +100,7 @@ function navigation(mainPath) {
     async function handleLinkClick(event) {
         let pathname = event.target.getAttribute("href");
         if (pathname === "/tournament") {
-            context.getAvailableTournament();
+            await context.getAvailableTournament();
             pathname = `${pathname}/${context.track.tournamentId}`;
         }
         

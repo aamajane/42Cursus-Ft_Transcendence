@@ -12,13 +12,11 @@ class Socket {
         this.socket.onclose = async () => {
             await context.setUserStatus(false);
             console.log("WebSocket connection closed");
-            this.socket.close();
         };
 
         this.socket.onerror = async (event) => {
             await context.setUserStatus(false);
             console.log("WebSocket connection error: ", event);
-            this.socket.close();
         };
 
         this.socket.onmessage = async (event) => {
@@ -57,7 +55,6 @@ class Socket {
                     this.game.startTime = Date.now();
                     break;
                 case "game_over":
-                    this.game.status = OVER;
                     if (this.game.isHost === true) {
                         const mutationData = {
                             gameId: this.game.id,
@@ -71,10 +68,10 @@ class Socket {
                         };
                         await context.updateGame(mutationData);
                     }
+                    this.game.status = OVER;
                     this.socket.close();
                     break;
                 case "give_up":
-                    this.game.status = OVER;
                     if (this.game.isHost === true) {
                         const mutationData = {
                             gameId: this.game.id,
@@ -88,6 +85,7 @@ class Socket {
                         };
                         await context.updateGame(mutationData);
                     }
+                    this.game.status = OVER;
                     this.socket.close();
                     break;
                 case "update_user_data":
@@ -161,14 +159,12 @@ class Socket {
             }
         };
 
-        const handlePageChange = () => {
-            if (this.socket.readyState === WebSocket.OPEN) {
-                this.socket.close();
-            }
-            window.removeEventListener("popstate", handlePageChange);
+        const handleConnectionLost = () => {
+            this.game.status = OVER;
+            this.socket.close();
+            window.removeEventListener("popstate", handleConnectionLost);
         };
-
-        window.addEventListener("popstate", handlePageChange);
+        window.addEventListener("popstate", handleConnectionLost);
     }
 
     updateUserData() {

@@ -75,7 +75,7 @@ class DeleteGame(graphene.Mutation):
 class GetAvailableGame(graphene.Mutation):
     class Arguments:
         mode = graphene.String(required=True)
-        state = graphene.String(required=True)
+        state = graphene.String()
         is_2x2 = graphene.Boolean(required=True)
 
     game_id = graphene.ID()
