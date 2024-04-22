@@ -513,7 +513,7 @@ class DashboardPage extends HTMLElement {
                             </svg>
                             <div class="Pcdr">
                                 <a href="/profile" id="pages" class="profilePage" playerName="${context.user?.name}"></a>
-                                <h1 id="user-id">${context.user?.name}</h1>
+                                <h1 id="user-id">${context.user?.nickname}</h1>
                             </div>
                             
                         </div>
@@ -582,7 +582,7 @@ class DashboardPage extends HTMLElement {
                             <img src="../../app/assets/images/profileScreen.svg" alt="profile">
                             <div class="searchResults-avatarInfo">
                                 <img src="${context.searchResults[i].avatarUrl}" alt="profile">
-                                <h3>${context.searchResults[i].username}</h3>
+                                <h3>${context.searchResults[i].nickname}</h3>
                                 <svg viewBox="0 0 277 363" fill="none">
                                     <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
                                         <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>

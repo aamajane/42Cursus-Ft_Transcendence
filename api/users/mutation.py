@@ -9,6 +9,7 @@ from transcendence.utils import hash_password, verify_password
 ### - a mutation that creates a new user, always returns 
 ### access_token and refresh_tokens as cookies with httponly=True
 #####################################################################
+
 class CreateUser(graphene.Mutation):
     class Arguments:
         username = graphene.String(required=True)
@@ -17,17 +18,40 @@ class CreateUser(graphene.Mutation):
     success = graphene.String()
     error = graphene.String()
 
-    def mutate(self, info, username, avatar_url):
+    def mutate(self, info, username, avatar_url=None):
         # find if the user already exists in the database User model or not
         is_user_not_exist = not User.objects.filter(username=username).exists()
         
         if is_user_not_exist:
             try:
-                User.objects.create(username=username, avatar_url=avatar_url)
+                if not avatar_url:
+                    avatar_url = 'http://localhost/app/assets/images/anonimous.jpeg'
+                User.objects.create(username=username, avatar_url=avatar_url, nickname=username)
                 return CreateUser(success="User created successfully", error=None)
             except Exception as e:
                 return CreateUser(success=None, error="Error occured during creating the user!")
         return CreateUser(success=None, error="User already exists")
+
+
+# class CreateUser(graphene.Mutation):
+#     class Arguments:
+#         username = graphene.String(required=True)
+#         avatar_url = graphene.String()
+
+#     success = graphene.String()
+#     error = graphene.String()
+
+#     def mutate(self, info, username, avatar_url):
+#         # find if the user already exists in the database User model or not
+#         is_user_not_exist = not User.objects.filter(username=username).exists()
+        
+#         if is_user_not_exist:
+#             try:
+#                 User.objects.create(username=username, avatar_url=avatar_url)
+#                 return CreateUser(success="User created successfully", error=None)
+#             except Exception as e:
+#                 return CreateUser(success=None, error="Error occured during creating the user!")
+#         return CreateUser(success=None, error="User already exists")
 
 # ####### Documentation: ##############################################
 # #### - Update a user
@@ -409,23 +433,55 @@ class DeleteNotification(graphene.Mutation):
 ### - a mutation that sets the user avatar, always
 ### returns success and error return values fields
 #####################################################################
+
         
 class UpdateUser(graphene.Mutation):
     class Arguments:
         username = graphene.String(required=True)
-        avatar_url = graphene.String(required=True)
+        avatar_url = graphene.String()
+        first_name = graphene.String()
+        last_name = graphene.String()
+        nickname = graphene.String()
+        two_factor_auth = graphene.Boolean()
 
     success = graphene.String()
     error = graphene.String()
 
-    def mutate(self, info, username, avatar_url):
+    def mutate(self, info, username, avatar_url=None, first_name=None, last_name=None, nickname=None, two_factor_auth=None):
         try:
             user = User.objects.filter(username=username).first()
-            user.avatar_url = avatar_url
+            if avatar_url is not None:
+                user.avatar_url = avatar_url
+            if first_name is not None:
+                user.first_name = first_name
+            if last_name is not None:
+                user.last_name = last_name
+            if nickname is not None:
+                user.nickname = nickname
+            if two_factor_auth is not None:
+                user.two_factor_auth = two_factor_auth
             user.save()
             return UpdateUser(success='User updated successfully!', error=None)
         except Exception as e:
             return UpdateUser(success=None, error='Error occured during updating the user!')
+
+
+# class UpdateUser(graphene.Mutation):
+#     class Arguments:
+#         username = graphene.String(required=True)
+#         avatar_url = graphene.String(required=True)
+
+#     success = graphene.String()
+#     error = graphene.String()
+
+#     def mutate(self, info, username, avatar_url):
+#         try:
+#             user = User.objects.filter(username=username).first()
+#             user.avatar_url = avatar_url
+#             user.save()
+#             return UpdateUser(success='User updated successfully!', error=None)
+#         except Exception as e:
+#             return UpdateUser(success=None, error='Error occured during updating the user!')
 
 
 ####### Documentation: ##############################################

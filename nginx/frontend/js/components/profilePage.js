@@ -1306,7 +1306,7 @@ class PopUpProfile extends HTMLElement {
                     </div>
                     <img src="${context.profileOfUser.player.avatarUrl}">
                     <img id="avBg" src="../../app/assets/images/profile/avatarScreen.svg">
-                    <h2>${context.profileOfUser.player.name}</h2>
+                    <h2>${context.profileOfUser.player.nickname}</h2>
                 </div>
                 <div class="follow" style="display: ${context.profileOfUser.player.name === context.user.name ? "none" : "block"}">
                     <img id="followBg" src="../../app/assets/images/profile/followScreen.svg">
@@ -1397,7 +1397,7 @@ class PopUpProfile extends HTMLElement {
                         <img src="../../app/assets/images/profileScreen.svg" alt="profile">
                         <div class="avatarInfo">
                             <img src="${followUsers[i].avatarUrl}" alt="profile">
-                            <h3>${followUsers[i].name}</h3>
+                            <h3>${followUsers[i].nickname}</h3>
                             <svg viewBox="0 0 277 363" fill="none">
                                 <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
                                     <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
@@ -1541,7 +1541,7 @@ function showGame1Vs1HistoryProfile(data) {
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <h1>${game.player1.username}</h1>
+                        <h1>${game.player1.nickname}</h1>
                     </div>
                     <div>
                         <h1>${game.score1}</h1>
@@ -1549,7 +1549,7 @@ function showGame1Vs1HistoryProfile(data) {
                         <h1> ${game.score2}</h1>
                     </div>
                     <div class="player">
-                        <h1>${game.player2.username}</h1>
+                        <h1>${game.player2.nickname}</h1>
                         <img src="${game.player2.avatarUrl}" alt="friend">
                         <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                             <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
@@ -1594,11 +1594,11 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </
                             </svg>
-                            <h1>${game.player1?.username}</h1>
+                            <h1>${game.player1?.nickname}</h1>
                         </div>
                         <div class="teamPlayer">
                             <img src="${game.player3?.avatarUrl}" alt="friend">
-                            <h1>${game.player3?.username}</h1>
+                            <h1>${game.player3?.nickname}</h1>
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
                                 <defs>
@@ -1617,7 +1617,7 @@ function showGame2Vs2HistoryProfile(data) {
                     </div>
                     <div class="team">
                         <div class="teamPlayer">
-                            <h1>${game.player2?.username}</h1>
+                            <h1>${game.player2?.nickname}</h1>
                             <img src="${game.player2?.avatarUrl}" alt="friend">
                             <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
                                 <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
@@ -1640,7 +1640,7 @@ function showGame2Vs2HistoryProfile(data) {
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <h1>${game.player4?.username}</h1>
+                            <h1>${game.player4?.nickname}</h1>
                             <img src="${game.player4?.avatarUrl}" alt="friend">
                         </div>
                     </div>

@@ -24,6 +24,10 @@ class Player {
     constructor(data) {
         this.id = null;
         this.name = data?.username || null;
+        this.firstName = data?.firstName || null;
+        this.lastName = data?.lastName || null;
+        this.nickname = data?.nickname || null;
+        this.twoFactorAuthentication = data?.twoFactorAuthentication || false;
         this.avatarUrl = data?.avatarUrl || null;
         this.score = data?.pointsEarned || null;
         this.level = undefined;
@@ -179,6 +183,7 @@ class Search {
     constructor(data) {
         this.username = data?.username || null;
         this.avatarUrl = data?.avatarUrl || null;
+        this.nickname = data?.nickname || null;
     }
 }
 
@@ -207,6 +212,8 @@ class Context {
             query { 
                 getUserByUsername(username: "${testUser.username}") { 
                     username,
+                    nickname,
+                    twoFactorAuth,
                     avatarUrl
                 }
             }
@@ -265,6 +272,9 @@ class Context {
                     numberOfFollowers,
                     numberOfFollowing,
                     createdAt,
+                    nickname,
+                    isPlaying,
+                    isOnline,
                 }
             }
         `;
@@ -408,6 +418,7 @@ class Context {
                 getUserFollowers(username: "${username}") {
                     user {
                         username,
+                        nickname,
                         avatarUrl
                     }
                 }
@@ -429,6 +440,7 @@ class Context {
                 getUserFollowing(username: "${username}") {
                     following {
                         username,
+                        nickname,
                         avatarUrl
                     }
                 }
@@ -698,6 +710,7 @@ class Context {
             query {
                 getUsersBySubstring(substring: "${username}") {
                     username,
+                    nickname,
                     avatarUrl
                 }
             }

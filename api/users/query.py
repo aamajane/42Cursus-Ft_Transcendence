@@ -14,7 +14,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class UserType(DjangoObjectType):
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email", "avatar_url", "created_at", "is_online", "is_playing", "points_earned", "number_of_followers", "number_of_following")
+        fields = ("username", "first_name", "last_name", "nickname", "two_factor_auth", "email", "avatar_url", "created_at", "is_online", "is_playing", "points_earned", "number_of_followers", "number_of_following")
 
 ######## Documentation: ##############################################
 ### FriendType class to define the fields that can be queried by the user
@@ -180,4 +180,4 @@ class Query(graphene.ObjectType):
     
     # to retrieve users that has a substring in their username
     def resolve_get_users_by_substring(root, info, substring):
-        return User.objects.filter(username__contains=substring)
+        return User.objects.filter(nickname__icontains=substring)
