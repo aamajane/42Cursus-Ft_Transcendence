@@ -1,6 +1,5 @@
-function startGame() {
-    // TODO: send query to get the user status playing, if it's true, refuse to start a new game
-    // TODO: send mutation to set the user status playing to true
+async function startGame() {
+    // TODO: read ChatGPT History "Protect Frontend JS Files"
 
     const shadowRoot = document.getElementById("custom-game").shadowRoot;
     const canvasContainer = shadowRoot.getElementById("pong-container");
@@ -13,6 +12,11 @@ function startGame() {
     canvasContainer.style.backgroundImage = `url(${gameMap.backgroundImage.src})`;
     canvas.width = GAME_WIDTH;
     canvas.height = GAME_HEIGHT;
+
+    if (gameMode !== AIMode && (await context.getUserStatus())) {
+        console.log("User is already playing");
+        return;
+    }
 
     const game =
         gameMode === AIMode
@@ -34,7 +38,6 @@ function startGame() {
                 break;
             default:
                 gameOver();
-                // TODO: send mutation to set the user status playing to false
                 return;
         }
 

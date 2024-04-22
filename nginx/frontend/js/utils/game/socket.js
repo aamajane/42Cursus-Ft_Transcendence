@@ -4,33 +4,23 @@ class Socket {
         this.url = `ws://${window.location.host}/ws/game/${game.mode}/${game.id}/`;
         this.socket = new WebSocket(this.url);
 
-        this.onOpen();
-        this.onClose();
-        this.onError();
-        this.onMessage();
-    }
-
-    onOpen() {
-        this.socket.onopen = () => {
-            console.log("Connected to server");
+        this.socket.onopen = async () => {
+            await context.setUserStatus(true);
+            console.log("WebSocket connection established");
         };
-    }
 
-    onClose() {
-        this.socket.onclose = () => {
-            console.log("Disconnected from server");
+        this.socket.onclose = async () => {
+            await context.setUserStatus(false);
+            console.log("WebSocket connection closed");
             this.socket.close();
         };
-    }
 
-    onError() {
-        this.socket.onerror = (event) => {
-            console.error("Error:", event);
+        this.socket.onerror = async (event) => {
+            await context.setUserStatus(false);
+            console.log("WebSocket connection error: ", event);
             this.socket.close();
         };
-    }
 
-    onMessage() {
         this.socket.onmessage = async (event) => {
             const jsonData = JSON.parse(event.data);
             const data = jsonData["data"];
@@ -61,6 +51,45 @@ class Socket {
                     this.game.player.username2.value = this.game.username;
                     this.game.player.avatar2.image.src = this.game.avatar;
                     break;
+                case "game_ongoing":
+                    this.updateUserData();
+                    this.game.status = COUNTDOWN;
+                    this.game.startTime = Date.now();
+                    break;
+                case "game_over":
+                    this.game.status = OVER;
+                    if (this.game.isHost === true) {
+                        const mutationData = {
+                            gameId: this.game.id,
+                            state: OVER,
+                            player1: this.game.player.username1.value,
+                            player2: this.game.opponent.username1.value,
+                            player3: this.game.player.username2?.value,
+                            player4: this.game.opponent.username2?.value,
+                            score1: this.game.player.score.value,
+                            score2: this.game.opponent.score.value,
+                        };
+                        await context.updateGame(mutationData);
+                    }
+                    this.socket.close();
+                    break;
+                case "give_up":
+                    this.game.status = OVER;
+                    if (this.game.isHost === true) {
+                        const mutationData = {
+                            gameId: this.game.id,
+                            state: OVER,
+                            player1: this.game.player.username1.value,
+                            player2: this.game.opponent.username1.value,
+                            player3: this.game.player.username2?.value,
+                            player4: this.game.opponent.username2?.value,
+                            score1: 3,
+                            score2: 0,
+                        };
+                        await context.updateGame(mutationData);
+                    }
+                    this.socket.close();
+                    break;
                 case "update_user_data":
                     if (this.game.team === data.team) {
                         if (data.paddle_level === 1) {
@@ -89,43 +118,6 @@ class Socket {
                             player3: this.game.player.username2?.value,
                             player4: this.game.opponent.username2?.value,
                             score1: 0,
-                            score2: 0,
-                        };
-                        await context.updateGame(mutationData);
-                    }
-                    break;
-                case "game_ongoing":
-                    this.updateUserData();
-                    this.game.status = COUNTDOWN;
-                    this.game.startTime = Date.now();
-                    break;
-                case "game_over":
-                    this.game.status = OVER;
-                    if (this.game.isHost === true) {
-                        const mutationData = {
-                            gameId: this.game.id,
-                            state: OVER,
-                            player1: this.game.player.username1.value,
-                            player2: this.game.opponent.username1.value,
-                            player3: this.game.player.username2?.value,
-                            player4: this.game.opponent.username2?.value,
-                            score1: this.game.player.score.value,
-                            score2: this.game.opponent.score.value,
-                        };
-                        await context.updateGame(mutationData);
-                    }
-                    break;
-                case "give_up":
-                    this.game.status = OVER;
-                    if (this.game.isHost === true) {
-                        const mutationData = {
-                            gameId: this.game.id,
-                            state: OVER,
-                            player1: this.game.player.username1.value,
-                            player2: this.game.opponent.username1.value,
-                            player3: this.game.player.username2?.value,
-                            player4: this.game.opponent.username2?.value,
-                            score1: 3,
                             score2: 0,
                         };
                         await context.updateGame(mutationData);
@@ -168,6 +160,15 @@ class Socket {
                     break;
             }
         };
+
+        const handlePageChange = () => {
+            if (this.socket.readyState === WebSocket.OPEN) {
+                this.socket.close();
+            }
+            window.removeEventListener("popstate", handlePageChange);
+        };
+
+        window.addEventListener("popstate", handlePageChange);
     }
 
     updateUserData() {
@@ -179,7 +180,7 @@ class Socket {
             avatar: this.game.avatar,
         };
 
-        this.socket.send(JSON.stringify(message));
+        this.sendMessage(message);
     }
 
     updatePaddle() {
@@ -195,7 +196,7 @@ class Socket {
             paddle_x: paddleX,
         };
 
-        this.socket.send(JSON.stringify(message));
+        this.sendMessage(message);
     }
 
     updateScore() {
@@ -206,7 +207,7 @@ class Socket {
             score_opponent: this.game.opponent.score.value,
         };
 
-        this.socket.send(JSON.stringify(message));
+        this.sendMessage(message);
     }
 
     updateBall() {
@@ -217,13 +218,22 @@ class Socket {
             ball_y: this.game.ball.y,
         };
 
-        this.socket.send(JSON.stringify(message));
+        this.sendMessage(message);
     }
 
     GameOver() {
         const message = {
             event: "game_over",
         };
+
+        this.sendMessage(message);
+    }
+
+    sendMessage(message) {
+        if (this.socket.readyState !== WebSocket.OPEN) {
+            console.log("Message not sent: WebSocket connection closed");
+            return;
+        }
 
         this.socket.send(JSON.stringify(message));
     }

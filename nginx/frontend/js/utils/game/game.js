@@ -210,7 +210,7 @@ class MultiplayerGame {
             if (
                 this.player.score.value === WINNING_SCORE ||
                 this.opponent.score.value === WINNING_SCORE ||
-                Math.abs(this.player.score.value - this.opponent.score.value) > MAX_DIF_SCORE
+                Math.abs(this.player.score.value - this.opponent.score.value) === MAX_DIF_SCORE
             ) {
                 this.status = OVER;
                 this.socket.GameOver();

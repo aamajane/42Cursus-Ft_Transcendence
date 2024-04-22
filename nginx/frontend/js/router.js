@@ -119,15 +119,15 @@ function navigation(mainPath) {
     // if (context.navigation === undefined)
     context.navigation = handleLinkClick;
 
-    window.onpopstate = function (event) {
+    window.addEventListener("popstate", () => {
         navigateTo(window.location.pathname);
-    };
+    });
+
     // Initial page load
     if (window.location.pathname === `/tournament/${context.track.tournamentId}` && context.track.gameId !== undefined)
         navigateTo(`/game/1v1/${context.track.gameId}`);
     else
         navigateTo(window.location.pathname);
 }
-
 
 document.addEventListener("DOMContentLoaded", navigation);

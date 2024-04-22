@@ -127,15 +127,6 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
     async def send_message_back(self, data):
         await self.send(text_data=json.dumps({'data': data}))
 
-    # async def send_host_message(self, is_host):
-    #     await self.send_message_back({'event': 'host_true' if is_host else 'host_false'})
-
-    # async def send_team_message(self, team):
-    #     await self.send_message_back({'event': team})
-
-    # async def send_paddle_level_message(self, level):
-    #     await self.send_message_back({'event': level})
-
 
 class OneVsOneConsumer(BaseGameConsumer):
     MAX_USERS = 2
