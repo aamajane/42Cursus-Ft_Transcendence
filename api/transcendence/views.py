@@ -1,5 +1,16 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
+from users.models import User
 
-def root_view(request):
-    # Your view logic goes here
-    return HttpResponse("Hello from API!")
+def upload_image(request, username):
+    if request.method == 'POST' and request.FILES.get('image'):
+        image_file = request.FILES['image']
+        user = None
+        try:
+            user = User.objects.get(username=username)
+        except Exception as e:
+            return JsonResponse({'error': 'User not found', 'success': None})
+        user.image = image_file
+        user.save()
+        return JsonResponse({'success': 'Image uploaded successfully', 'error': None})
+    else:
+        return JsonResponse({'error': 'No image file provided', 'success': None})

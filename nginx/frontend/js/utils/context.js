@@ -232,6 +232,7 @@ class Context {
                 getUserFollowers(username: "${testUser.username}") {
                     user {
                         username,
+                        nickname,
                         avatarUrl
                     }
                 }
@@ -294,18 +295,22 @@ class Context {
                 getAllGamesPlayedByPlayer(data: {player: "${username}"}) {
                     player1 {
                         username,
+                        nickname,
                         avatarUrl,
                     },
                     player2 {
                         username,
+                        nickname,
                         avatarUrl,
                     },
                     player3 {
                         username,
+                        nickname,
                         avatarUrl,
                     },
                     player4 {
                         username,
+                        nickname,
                         avatarUrl,
                     },
                     isTeam1Won,
@@ -340,10 +345,12 @@ class Context {
                         mode,
                         player1 {
                             username,
-                        avatarUrl
+                            nickname,
+                            avatarUrl
                         },
                         player2 {
                             username,
+                            nickname,
                             avatarUrl
                         }
                         state,
@@ -356,10 +363,12 @@ class Context {
                         mode,
                         player1 {
                             username,
+                            nickname,
                             avatarUrl
                         },
                         player2 {
                             username,
+                            nickname,
                             avatarUrl
                         }
                         state,
@@ -372,10 +381,12 @@ class Context {
                         mode,
                         player1 {
                             username,
+                            nickname,
                             avatarUrl
                         },
                         player2 {
                             username,
+                            nickname,
                             avatarUrl
                         }
                         state,
@@ -626,18 +637,22 @@ class Context {
                     state,
                     player1 {
                         username,
+                        nickname,
                         avatarUrl
                     },
                     player2 {
                         username,
+                        nickname,
                         avatarUrl
                     }, 
                     player3 {
                         username,
+                        nickname,
                         avatarUrl
                     }, 
                     player4 {
                         username,
+                        nickname,
                         avatarUrl
                     }, 
                     isTeam1Won, 
@@ -758,6 +773,27 @@ class Context {
             console.log("Error occurred while unfollowing user");
             return false;
         }
+    }
+
+    async changeAvatar(avatarFile) {
+        const uploadFile = async (file) => {
+            console.log(file, "UPLOAD FILE CALLBACK")
+            const formData = new FormData();
+            formData.append('image', file);
+            formData['image'] = file
+            console.log(formData['image'])
+            console.log(formData)
+            console.log('REQUEST URL ==> ', `/api/upload/${context.user.name}`)
+            const response = await fetch(`/api/upload/${context.user.name}`, {
+              method: 'POST',
+              body: formData,
+            });
+          
+            const data = await response.json();
+            console.log(data);
+          };
+          console.log(avatarFile, "UPLOAD FILE PARENT")
+        uploadFile(avatarFile);
     }
 }
 

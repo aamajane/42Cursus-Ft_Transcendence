@@ -1844,6 +1844,7 @@ function submitChanges() {
 
     const username = popup.shadowRoot.querySelector("#username").value;
     const avatar = popup.shadowRoot.querySelector("#avatar").files[0];
+    console.log(username, avatar);
 
     if (username) {
         context.changeUsername(username);

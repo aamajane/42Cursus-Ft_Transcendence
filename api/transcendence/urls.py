@@ -21,8 +21,8 @@ from .middleware import MyGraphQLView
 from . import views
 
 urlpatterns = [
-    path('api', views.root_view),
     path('api/admin/', admin.site.urls),
     path('api/graphql/', MyGraphQLView.as_view(graphiql=True)),
+    path('api/upload/<str:username>/', views.upload_image),
     # path('oauth2/', include('oauth2.urls')),
 ]
