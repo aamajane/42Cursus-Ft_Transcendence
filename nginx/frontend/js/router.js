@@ -1,4 +1,4 @@
-function navigation(mainPath) {
+function navigation() {
     const pages = {
         homePage: createDashboardPage,
         gatePage: createGatePage,
@@ -86,8 +86,11 @@ function navigation(mainPath) {
                             })
                         );
                     }
-                } else {
+                } else if (pathname === "") {
                     showPage("homePage"); // Default to home page if route not found
+                    document.querySelector("background-component").style.display = "block";
+                } else {
+                    showPage("notFoundPage");
                     document.querySelector("background-component").style.display = "block";
                 }
                 if (pageId === "profilePage" || pageId === "homePage")
@@ -139,4 +142,53 @@ function navigation(mainPath) {
         navigateTo(window.location.pathname);
 }
 
-document.addEventListener("DOMContentLoaded", navigation);
+document.addEventListener("DOMContentLoaded", async () => {
+    // remove the / at the end of the pathname
+    
+    function getCookie(cookieName) {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(cookieName + "=")) {
+                return cookie.substring(cookieName.length + 1);
+            }
+        }
+        return null;
+    }
+
+    const username = getCookie("username");
+
+    await context.initContext({ username: username });
+
+    if (window.location.pathname.endsWith("/")) {
+        window.history.pushState(
+            {},
+            window.location.pathname,
+            window.location.origin + window.location.pathname.slice(0, -1)
+        );
+    }
+    if (window.location.pathname == "/profile") {
+        console.log("profile", context)
+        window.history.pushState(
+            {},
+            window.location.pathname,
+            window.location.origin + window.location.pathname + `/${context.user.name}`
+        );
+    }
+    if (window.location.pathname.includes("/profile")) {
+        context.track.initProfileOfUser.name = window.location.pathname.split("/").pop();
+        await context.initProfileOfUser(context.track.initProfileOfUser.name);
+    }
+    // check if /tournament at the end of the pathname
+    if (window.location.pathname == "/tournament") {
+        await context.getAvailableTournament();
+        window.history.pushState(
+            {},
+            window.location.pathname,
+            window.location.origin + window.location.pathname + `/${context.track.tournamentId}`
+        );
+    }
+    
+    console.log("DOMContentLoaded", window.location.pathname);
+    navigation()
+});

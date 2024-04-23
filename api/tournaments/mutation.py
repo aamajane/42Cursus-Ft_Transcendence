@@ -200,7 +200,7 @@ class GetAvailableTournament(graphene.Mutation):
                                                 semi_final_first_game_id=semi_final_first_game.id, 
                                                 semi_final_second_game_id=semi_final_second_game.id, 
                                                 final_game_id=final_game.id, 
-                                                success='Tournament available', 
+                                                success='Tournament created successfully', 
                                                 error=None)
             except Exception as e:
                 print("EXCEPTION => ", e)
