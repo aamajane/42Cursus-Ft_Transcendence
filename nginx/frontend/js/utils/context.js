@@ -226,26 +226,6 @@ class Context {
         }
 
         this.user = new Player(this.api.response.getUserByUsername);
-
-        query = `
-            query {
-                getUserFollowers(username: "${testUser.username}") {
-                    user {
-                        username,
-                        nickname,
-                        avatarUrl
-                    }
-                }
-            }
-        `;
-
-        await this.api.graphqlFetch(query);
-        if (this.api.error) {
-            alert("Error occurred while fetching friends data [CONTEXT]");
-            return;
-        }
-
-        this.followers = this.api.response.getUserFollowers;
     }
 
     async initProfileOfUser(username) {
