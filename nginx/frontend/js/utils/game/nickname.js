@@ -1,4 +1,4 @@
-class Username {
+class Nickname {
     constructor(value, x, y) {
         this.value = value;
         this.x = x;

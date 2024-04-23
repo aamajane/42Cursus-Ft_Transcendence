@@ -2,7 +2,7 @@ class AIGame {
     constructor(map) {
         this.startTime = Date.now();
         this.status = COUNTDOWN;
-        this.username = context.user.name;
+        this.nickname = context.user.nickname;
         this.avatar = context.user.avatarUrl;
         this.ai = new AI(this, OPPONENT_LEFT_KEY, OPPONENT_RIGHT_KEY);
         this.player = {
@@ -14,8 +14,8 @@ class AIGame {
                 PLAYER_RIGHT_KEY
             ),
             score: new Score(PLAYER_SCORE_X, PLAYER_SCORE_Y),
-            username: new Username(
-                this.username,
+            nickname: new Nickname(
+                this.nickname,
                 PLAYER1_NAME_X,
                 PLAYER1_NAME_Y
             ),
@@ -30,7 +30,7 @@ class AIGame {
                 OPPONENT_RIGHT_KEY
             ),
             score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y),
-            username: new Username("BOT", OPPONENT1_NAME_X, OPPONENT1_NAME_Y),
+            nickname: new Nickname("BOT", OPPONENT1_NAME_X, OPPONENT1_NAME_Y),
             avatar: new Avatar(
                 AVATAR_URL,
                 OPPONENT1_AVATAR_X,
@@ -76,8 +76,8 @@ class AIGame {
 
         this.player.score.draw(ctx);
         this.opponent.score.draw(ctx);
-        this.player.username.draw(ctx);
-        this.opponent.username.draw(ctx);
+        this.player.nickname.draw(ctx);
+        this.opponent.nickname.draw(ctx);
         this.player.avatar.draw(ctx);
         this.opponent.avatar.draw(ctx);
         this.opponent.paddle.draw(ctx);
@@ -98,6 +98,7 @@ class MultiplayerGame {
         this.team = 0;
         this.paddleLevel = 0;
         this.username = context.user.name;
+        this.nickname = context.user.nickname;
         this.avatar = context.user.avatarUrl;
         this.player = {
             paddle1: new Paddle(
@@ -117,9 +118,11 @@ class MultiplayerGame {
                 ),
             }),
             score: new Score(PLAYER_SCORE_X, PLAYER_SCORE_Y),
-            username1: new Username(null, PLAYER1_NAME_X, PLAYER1_NAME_Y),
+            username1: null,
+            username2: null,
+            nickname1: new Nickname(null, PLAYER1_NAME_X, PLAYER1_NAME_Y),
             ...(mode === TWO_VS_TWO && {
-                username2: new Username(null, PLAYER2_NAME_X, PLAYER2_NAME_Y),
+                nickname2: new Nickname(null, PLAYER2_NAME_X, PLAYER2_NAME_Y),
             }),
             avatar1: new Avatar(AVATAR_URL, PLAYER1_AVATAR_X, PLAYER1_AVATAR_Y),
             ...(mode === TWO_VS_TWO && {
@@ -148,9 +151,11 @@ class MultiplayerGame {
                 ),
             }),
             score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y),
-            username1: new Username(null, OPPONENT1_NAME_X, OPPONENT1_NAME_Y),
+            username1: null,
+            username2: null,
+            nickname1: new Nickname(null, OPPONENT1_NAME_X, OPPONENT1_NAME_Y),
             ...(mode === TWO_VS_TWO && {
-                username2: new Username(
+                nickname2: new Nickname(
                     null,
                     OPPONENT2_NAME_X,
                     OPPONENT2_NAME_Y
@@ -224,10 +229,10 @@ class MultiplayerGame {
 
         this.player.score.draw(ctx);
         this.opponent.score.draw(ctx);
-        this.player.username1.draw(ctx);
-        this.player.username2?.draw(ctx);
-        this.opponent.username1.draw(ctx);
-        this.opponent.username2?.draw(ctx);
+        this.player.nickname1.draw(ctx);
+        this.player.nickname2?.draw(ctx);
+        this.opponent.nickname1.draw(ctx);
+        this.opponent.nickname2?.draw(ctx);
         this.player.avatar1.draw(ctx);
         this.player.avatar2?.draw(ctx);
         this.opponent.avatar1.draw(ctx);
