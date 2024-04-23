@@ -126,6 +126,9 @@ function navigation(mainPath) {
             context.track.initProfileOfUser.name = window.location.pathname.split("/").pop();
             await context.initProfileOfUser(context.track.initProfileOfUser.name);
         }
+        if (window.location.pathname.includes("/game")) {
+            context.track.tournamentId = window.location.pathname.split("/").pop();
+        }
         navigateTo(window.location.pathname);
     });
 

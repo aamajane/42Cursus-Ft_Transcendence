@@ -497,7 +497,7 @@ class DashboardPage extends HTMLElement {
                     <nav>
                         <div class="profile">
                             <a href="/profile" id="pages" class="profilePage" playerName="${context.user?.name}"></a>
-                            <img src="../../app/assets/images/dashboardGate/avatar.svg" alt="avatar">
+                            <img src="http://localhost/assets/images/dashboardGate/avatar.svg" alt="avatar">
                             <img class="plAvatar" src="${context.user?.avatarUrl}">
                             <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M99.1936 22.7831L67.5 4.48483C60.3838 0.376274 51.6162 0.376274 44.5 4.48483L12.8064 22.7831C5.6902 26.8917 1.30642 34.4846 1.30642 42.7017V79.2983C1.30642 87.5154 5.6902 95.1083 12.8064 99.2169L44.5 117.515C51.6162 121.624 60.3838 121.624 67.5 117.515L99.1936 99.2169C106.31 95.1083 110.694 87.5154 110.694 79.2983V42.7017C110.694 34.4846 106.31 26.8917 99.1936 22.7831Z" fill="url(#pattern0)" stroke="url(#paint0_linear_255_519)" stroke-width="2"/>
@@ -524,7 +524,7 @@ class DashboardPage extends HTMLElement {
                         </div>
                         <div class="logout">
                             <a href="#/home">Logout</a>
-                            <img src="../../app/assets/images/dashboardGate/Exit_Sign.svg" alt="logout">
+                            <img src="http://localhost/assets/images/dashboardGate/Exit_Sign.svg" alt="logout">
                         </div>
                     </nav>
                     <main>
@@ -532,33 +532,33 @@ class DashboardPage extends HTMLElement {
                             <div class="1v1">
                                 <a href="/game/1v1" id="pages" class="game1v1page pages"></a>
                                 <h1> 1 Vs 1 </h1>
-                                <img src="../../app/assets/images/dashboardGate/1v1_1.png" alt="1v1">
+                                <img src="http://localhost/assets/images/dashboardGate/1v1_1.png" alt="1v1">
                                 <button>Play</button>
                                 <h1> 1 Vs 1 </h1>
                             </div>
                             <div class="2v2">
                                 <a href="/game/2v2" id="pages" class="game2v2page pages"></a>
                                 <h1> 2 Vs 2 </h1>
-                                <img src="../../app/assets/images/dashboardGate/2v2.png" alt="2v2">
+                                <img src="http://localhost/assets/images/dashboardGate/2v2.png" alt="2v2">
                                 <button>Play</button>
                                 <h1> 2 Vs 2 </h1>
                             </div>
                             <div class="tournament">
                                 <a href="/tournament" id="pages" class="tournamentpage pages"></a>
                                 <h1> Tournament </h1>
-                                <img src="../../app/assets/images/dashboardGate/tournament.png" alt="tournament">
+                                <img src="http://localhost/assets/images/dashboardGate/tournament.png" alt="tournament">
                                 <button>Enter</button>
                                 <h1> Tournament </h1>
                             </div>
                             <div class="1vbot">
                                 <a href="/game/aiBot" id="pages" class="aiBotPage pages"></a>
                                 <h1> Vs Bot </h1>
-                                <img src="../../app/assets/images/dashboardGate/r2.png" alt="1vbot">
+                                <img src="http://localhost/assets/images/dashboardGate/r2.png" alt="1vbot">
                                 <button>Train</button>
                                 <h1> Vs Bot </h1>
                             </div>
                             <span class="bob">
-                                <img src="../../app/assets/images/gameGate/tenor.gif" alt="bob">
+                                <img src="http://localhost/assets/images/gameGate/tenor.gif" alt="bob">
                             </span>
                         </div>
                     </main>
@@ -579,7 +579,7 @@ class DashboardPage extends HTMLElement {
                 searchResults.innerHTML += `
                     <div class="searchResults-profile" id="profile${i}">
                         <div class="searchResults-avatar">
-                            <img src="../../app/assets/images/profileScreen.svg" alt="profile">
+                            <img src="http://localhost/assets/images/profileScreen.svg" alt="profile">
                             <div class="searchResults-avatarInfo">
                                 <img src="${context.searchResults[i].avatarUrl}" alt="profile">
                                 <h3>${context.searchResults[i].nickname}</h3>
@@ -592,7 +592,7 @@ class DashboardPage extends HTMLElement {
                         </div>
                         <div class="searchResults-info">
                             <a href="/profile" id="pages" class="searchResults-profilePage" playerName="${context.searchResults[i].username}"></a>
-                            <img src="../../app/assets/images/nameScreen.svg" alt="profile">
+                            <img src="http://localhost/assets/images/nameScreen.svg" alt="profile">
                             <div class="searchResults-infoWrapper">
                                 <h3>show</h3>
                             </div>

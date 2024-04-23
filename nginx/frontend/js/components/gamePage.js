@@ -25,7 +25,7 @@ class GamePage extends HTMLElement {
                     align-items: center;
                     min-height: 100vh;
                     // background-color: rgba(0, 0, 0, 0);
-                    // background-image: url('../../../app/assets/images/tournamentGate/ground.svg');
+                    // background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
                     // background-size: 100px 100px;
                     perspective: 1000px;
                     overflow: hidden;
@@ -56,7 +56,7 @@ class GamePage extends HTMLElement {
                     position: absolute;
                     width: 100%;
                     height: 100%;
-                    background-image: url('../../../app/assets/images/tournamentGate/ground.svg');
+                    background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
                     background-size: 100px 100px;
                     z-index: 10;
                 }
@@ -98,35 +98,35 @@ class GamePage extends HTMLElement {
                         <div id="right" class="sides"></div>
                     </div>
                 </div>
-                <img src="../../app/assets/images/game/egypt_background.webp" id="egypt_background" style="display: none;">
-                <img src="../../app/assets/images/game/egypt_player_paddle.webp" id="egypt_player_paddle" style="display: none;">
-                <img src="../../app/assets/images/game/egypt_opponent_paddle.webp" id="egypt_opponent_paddle" style="display: none;">
+                <img src="http://localhost/assets/images/game/egypt_background.webp" id="egypt_background" style="display: none;">
+                <img src="http://localhost/assets/images/game/egypt_player_paddle.webp" id="egypt_player_paddle" style="display: none;">
+                <img src="http://localhost/assets/images/game/egypt_opponent_paddle.webp" id="egypt_opponent_paddle" style="display: none;">
 
-                <img src="../../app/assets/images/game/factory_background.webp" id="factory_background" style="display: none;">
-                <img src="../../app/assets/images/game/factory_player_paddle.webp" id="factory_player_paddle" style="display: none;">
-                <img src="../../app/assets/images/game/factory_opponent_paddle.webp" id="factory_opponent_paddle" style="display: none;">
+                <img src="http://localhost/assets/images/game/factory_background.webp" id="factory_background" style="display: none;">
+                <img src="http://localhost/assets/images/game/factory_player_paddle.webp" id="factory_player_paddle" style="display: none;">
+                <img src="http://localhost/assets/images/game/factory_opponent_paddle.webp" id="factory_opponent_paddle" style="display: none;">
 
-                <img src="../../app/assets/images/game/space_background.webp" id="space_background" style="display: none;">
-                <img src="../../app/assets/images/game/space_player_paddle.webp" id="space_player_paddle" style="display: none;">
-                <img src="../../app/assets/images/game/space_opponent_paddle.webp" id="space_opponent_paddle" style="display: none;">
+                <img src="http://localhost/assets/images/game/space_background.webp" id="space_background" style="display: none;">
+                <img src="http://localhost/assets/images/game/space_player_paddle.webp" id="space_player_paddle" style="display: none;">
+                <img src="http://localhost/assets/images/game/space_opponent_paddle.webp" id="space_opponent_paddle" style="display: none;">
 
-                <img src="../../app/assets/images/game/ball_0.webp" id="ball_0" style="display: none;">
-                <img src="../../app/assets/images/game/ball_1.webp" id="ball_1" style="display: none;">
-                <img src="../../app/assets/images/game/ball_2.webp" id="ball_2" style="display: none;">
-                <img src="../../app/assets/images/game/ball_3.webp" id="ball_3" style="display: none;">
-                <img src="../../app/assets/images/game/ball_4.webp" id="ball_4" style="display: none;">
-                <img src="../../app/assets/images/game/ball_5.webp" id="ball_5" style="display: none;">
-                <img src="../../app/assets/images/game/ball_6.webp" id="ball_6" style="display: none;">
-                <img src="../../app/assets/images/game/ball_7.webp" id="ball_7" style="display: none;">
-                <img src="../../app/assets/images/game/ball_8.webp" id="ball_8" style="display: none;">
-                <img src="../../app/assets/images/game/ball_9.webp" id="ball_9" style="display: none;">
-                <img src="../../app/assets/images/game/ball_10.webp" id="ball_10" style="display: none;">
-                <img src="../../app/assets/images/game/ball_11.webp" id="ball_11" style="display: none;">
-                <img src="../../app/assets/images/game/ball_12.webp" id="ball_12" style="display: none;">
-                <img src="../../app/assets/images/game/ball_13.webp" id="ball_13" style="display: none;">
-                <img src="../../app/assets/images/game/ball_14.webp" id="ball_14" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_0.webp" id="ball_0" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_1.webp" id="ball_1" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_2.webp" id="ball_2" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_3.webp" id="ball_3" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_4.webp" id="ball_4" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_5.webp" id="ball_5" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_6.webp" id="ball_6" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_7.webp" id="ball_7" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_8.webp" id="ball_8" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_9.webp" id="ball_9" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_10.webp" id="ball_10" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_11.webp" id="ball_11" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_12.webp" id="ball_12" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_13.webp" id="ball_13" style="display: none;">
+                <img src="http://localhost/assets/images/game/ball_14.webp" id="ball_14" style="display: none;">
 
-                <img src="../../app/assets/images/game/ai_avatar.webp" id="ai_avatar" style="display: none;">
+                <img src="http://localhost/assets/images/game/ai_avatar.webp" id="ai_avatar" style="display: none;">
             <div>
         `;
 

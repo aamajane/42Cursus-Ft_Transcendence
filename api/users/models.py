@@ -7,7 +7,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=2000, blank=True)
-    avatar_url = models.CharField(max_length=2000, default='http://localhost/app/assets/images/anonimous.jpeg', blank=True)
+    avatar_url = models.CharField(max_length=2000, default='http://localhost/assets/images/anonimous.jpeg', blank=True)
     image = models.ImageField(upload_to='images/', blank=True)
     is_online = models.BooleanField(default=False)
     is_playing = models.BooleanField(default=False)

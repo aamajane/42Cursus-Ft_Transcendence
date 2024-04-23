@@ -44,8 +44,8 @@ async function gqlFetch({
 }
 
 
-const getAllUsers = require('./users/queries.js').gqlGetAllUsers;
-const getUserById = require('./users/queries.js').gqlGetUserById;
+const getAllUsers = require('http://localhost/users/queries.js').gqlGetAllUsers;
+const getUserById = require('http://localhost/users/queries.js').gqlGetUserById;
 
 module.exports = {
     gqlFetch,
