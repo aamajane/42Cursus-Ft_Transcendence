@@ -95,38 +95,51 @@ class APIContext {
         this.loading = true;
 
         let jsonQuery = JSON.stringify({ query: queryOrMutation });
-
+        console.log(jsonQuery)
+        const headers = {
+            'Content-Type': 'application/json',
+            // Add any other headers as needed
+          };
+          
         try {
-            let res = await fetch(this.graphqlEndpoint, {
-                method: "POST",
-                credentials: "omit",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: jsonQuery,
-            });
-
-            // if error occurs during the fetching of the data
-            if (!res || !res.ok) {
-                this.error = "Error occurred while fetching data from the API";
-                this.loading = false;
-                return;
+            let res = await axios({
+                method: 'post',
+                url: this.graphqlEndpoint,
+                data: { query: queryOrMutation },
+                headers: headers,
+                withCredentials: false, // Equivalent to 'credentials: "omit"' in fetch
+                validateStatus: function (status) {
+                    return status == 200
+                }
+            })
+            if (res.status !== 200) {
+                throw new Error("Error occurred while fetching data from the API");
             }
+              console.log(res.data)
 
-            // if the data is fetched successfully
-            if (res.data?.error) {
-                this.loading = false;
-                this.error = "Error returned from the API server";
-                return;
-            }
+            // // if error occurs during the fetching of the data
+            // if (!res || !res.ok) {
+            //     this.error = "Error occurred while fetching data from the API";
+            //     this.loading = false;
+            //     return;
+            // }
 
-            this.response = await res.json();
-            this.response = this.response.data;
+            // // if the data is fetched successfully
+            // if (res.data?.error) {
+            //     this.loading = false;
+            //     this.error = "Error returned from the API server";
+            //     return;
+            // }
+
+            // this.response = await res.json();
+            console.log(res.data.data)
+            this.response = res.data.data;
         } catch (err) {
             // api call failed, or json parsing failed
             alert(err);
             this.loading = false;
             this.error = err.message;
+            this.response = undefined;
             return;
         }
 
@@ -226,6 +239,7 @@ class Context {
         }
 
         this.user = new Player(this.api.response.getUserByUsername);
+
     }
 
     async initProfileOfUser(username) {
