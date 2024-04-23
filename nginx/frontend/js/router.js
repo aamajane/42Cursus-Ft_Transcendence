@@ -109,6 +109,8 @@ function navigation(mainPath) {
             await context.initProfileOfUser(context.track.initProfileOfUser.name);
         }
         if (location !== "") pathname = location;
+        // check if the link is for the same page
+        if (window.location.pathname === pathname) return;
         window.history.pushState(
             {},
             pathname,
@@ -119,7 +121,11 @@ function navigation(mainPath) {
     // if (context.navigation === undefined)
     context.navigation = handleLinkClick;
 
-    window.addEventListener("popstate", () => {
+    window.addEventListener("popstate", async () => {
+        if (window.location.pathname.includes("/profile")) {
+            context.track.initProfileOfUser.name = window.location.pathname.split("/").pop();
+            await context.initProfileOfUser(context.track.initProfileOfUser.name);
+        }
         navigateTo(window.location.pathname);
     });
 

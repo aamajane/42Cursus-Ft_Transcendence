@@ -5,6 +5,7 @@ class PopUpProfile extends HTMLElement {
         this.__show = false;
         this.__toShow = 0;
         this.__choice = "1v1";
+        this.__enter = true;
     }
     connectedCallback() {
         this.render();
@@ -1436,11 +1437,16 @@ class PopUpProfile extends HTMLElement {
                 </div>
             `;
         }
+        const theAllProfile = this;
         this.shadowRoot.querySelectorAll("a#pages").forEach((a) =>
             a.addEventListener("click", async (event) => {
-                event.preventDefault();
-                context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
-                await context.navigation(event);
+                if (theAllProfile.__enter) {
+                    theAllProfile.__enter = false;
+                    console.log(event.target.getAttribute("playerName"), "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+                    event.preventDefault();
+                    context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
+                    await context.navigation(event);
+                }
             })
         );
     }
