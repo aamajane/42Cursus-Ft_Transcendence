@@ -582,6 +582,9 @@ class PopUpProfile extends HTMLElement {
             color: #5AE1A1;
             text-shadow: 0 0 5px #00e5ff;
         }
+        .statisticsWrapper .average p em.Iron {
+            color: #D3D3D3;
+        }
 
         .statisticsWrapper .average p em.Bronze {
             color: #D2977E;
@@ -612,12 +615,17 @@ class PopUpProfile extends HTMLElement {
         .statisticsWrapper .rankIcon {
             position: absolute;
             bottom: 0;
-            left: 50%;
+            left: calc(50% + 8px);
             transform: translateX(-50%) translateY(-50%);
             background: radial-gradient(#24C2E5, #0000 70%);
             background-size: 100% 100%;
             background-position: 50% 50%;
             animation: animateRank 4s infinite;
+            // border: 1px solid #24C2E5;
+        }
+        .statisticsWrapper .rankIcon img {
+            position: relative;
+            width: 80px;
         }
         @keyframes animateRank {
             0% {
@@ -636,6 +644,7 @@ class PopUpProfile extends HTMLElement {
         .statisticsWrapper .stats {
             position: absolute;
             bottom: 15px;
+            left: 6px;
             width: 100%;
             height: 90px;
             display: flex;
@@ -664,6 +673,9 @@ class PopUpProfile extends HTMLElement {
             width: 40%;
             height: 100%;
             text-align: center; 
+            justify-content: center;
+            align-items: center;
+
             // border: 1px solid #24C2E5;
         }
         .statisticsWrapper .stats .wins {
@@ -671,6 +683,9 @@ class PopUpProfile extends HTMLElement {
             width: 40%;
             height: 100%;
             text-align: center; 
+            justify-content: center;
+            align-items: center;
+
             // border: 1px solid #24C2E5;
         }
         .statisticsWrapper .stats .losses {
@@ -678,6 +693,9 @@ class PopUpProfile extends HTMLElement {
             width: 40%;
             height: 100%;
             text-align: center; 
+            justify-content: center;
+            align-items: center;
+
             // border: 1px solid #24C2E5;
         }
         .statisticsWrapper .stats .winRate {
@@ -687,6 +705,9 @@ class PopUpProfile extends HTMLElement {
             display: flex;
             flex-direction: column;
             text-align: center; 
+            justify-content: center;
+            align-items: center;
+
             // border: 1px solid #24C2E5;
         }
         .statisticsWrapper .stats .matches h3 ,.statisticsWrapper .stats .wins h3, .statisticsWrapper .stats .losses h3, .statisticsWrapper .stats .winRate h3 {
@@ -1852,6 +1873,7 @@ function submitChanges() {
 
         popup.shadowRoot.querySelector(".avatar h2").innerHTML = username;
         popup.shadowRoot.querySelector("#username").value = "";
+        context.user.nickname = username;
     }
     if (avatar) {
         context.changeAvatar(avatar);

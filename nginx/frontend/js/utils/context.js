@@ -498,6 +498,7 @@ class Context {
 
         // calculate the grade
         const grades = [
+            "Iron",
             "Bronze",
             "Silver",
             "Gold",
