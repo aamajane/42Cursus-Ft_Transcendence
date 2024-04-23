@@ -282,7 +282,10 @@ class Context {
 
         this.profileOfUser = new Profile();
         this.profileOfUser.player = new Player(this.api.response.getUserByUsername);
-
+        console.log("USER                            =========================== => ", this.profileOfUser.player);
+        if (this.profileOfUser.player.name === null) {
+            return ;
+        }
         // fetch the list of all games
         const queryListOfAllGames = `
             query {

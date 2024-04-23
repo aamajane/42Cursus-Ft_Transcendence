@@ -4,14 +4,21 @@ function navigation() {
         gatePage: createGatePage,
         profilePage: createProfilePage,
         tournamentPage: createTournamentPage,
-        gamePage: createGamePage,
+        gamePage: createGamePage
     };
 
     function showPage(pageId) {
         document.querySelectorAll("div.page").forEach((Div) => {
             document.body.removeChild(Div);
         });
-        pages[pageId]();
+        if (pageId === "errorPage")
+            createErrorPage("Page not found 404",
+            "we couldn't find the page you are looking for");
+        else if (pageId === "profilePage" && context.profileOfUser.player.name === null)
+            createErrorPage("Player not found 404",
+            "we couldn't find the player you are looking for");
+        else
+            pages[pageId]();
     }
     let location = "";
 
@@ -57,7 +64,10 @@ function navigation() {
                 routes[tournamentPath] = "tournamentPage";
                 routes[profilePath] = "profilePage";
 
-                const pageId = routes[pathname];
+                let pageId = routes[pathname];
+                console.log("navigateTo", pathname, pageId);
+                if (pageId === undefined)
+                    pageId = "errorPage";
                 location = "";
                 if (pageId) {
                     showPage(pageId);
@@ -76,7 +86,7 @@ function navigation() {
                             })
                         );
                     }
-                    if (pageId === "profilePage") {
+                    if (pageId === "profilePage" && context.profileOfUser.player.name !== null) {
                         const shadowRoot = document.querySelector("custom-profile").shadowRoot;
                         shadowRoot.querySelectorAll("a#pages").forEach((a) =>
                             a.addEventListener("click", async (event) => {
@@ -89,11 +99,9 @@ function navigation() {
                 } else if (pathname === "") {
                     showPage("homePage"); // Default to home page if route not found
                     document.querySelector("background-component").style.display = "block";
-                } else {
-                    showPage("notFoundPage");
-                    document.querySelector("background-component").style.display = "block";
-                }
-                if (pageId === "profilePage" || pageId === "homePage")
+                } else
+                    showPage("errorPage");
+                if (pageId === "profilePage" || pageId === "homePage" || pageId === "errorPage")
                     document.querySelector("background-component").style.display = "block";
                 clearInterval(timeInterval);
             }
@@ -178,6 +186,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (window.location.pathname.includes("/profile")) {
         context.track.initProfileOfUser.name = window.location.pathname.split("/").pop();
         await context.initProfileOfUser(context.track.initProfileOfUser.name);
+        
     }
     // check if /tournament at the end of the pathname
     if (window.location.pathname == "/tournament") {
