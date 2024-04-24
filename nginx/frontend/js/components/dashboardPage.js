@@ -211,6 +211,7 @@ class DashboardPage extends HTMLElement {
                 position: relative;
                 width: 150px;
                 height: 150px;
+                top: -20px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -232,18 +233,20 @@ class DashboardPage extends HTMLElement {
                 position: absolute;
                 width: fit-content;
                 height: fit-content;
-                top: 50%;
-                right: 0;
+                top: 65%;
+                left: 50%;
                 transform: translate(50%, -0%);
                 color: #0ff;
                 // background-color: #0af;
             }
             .profile h1 {
                 position: relative;
+                // border: 1px solid #0ff;
                 width: 100%;
                 height: 50px;
                 color: #0ff;
-                text-align: center;
+                left: -100%;
+                text-align: left;
                 line-height: 50px;
                 font-size: 20px;
             }
@@ -575,49 +578,53 @@ class DashboardPage extends HTMLElement {
         `;
         this.search();
     }
-    search() {
-        const search = this.shadowRoot.querySelector(".search");
-        const searchResults = this.shadowRoot.querySelector(".searchResults");
+    async searchListener() {
         const input = this.shadowRoot.querySelector("input");
-        search.addEventListener("click", async () => {
-            searchResults.style.display = "grid";
-            await context.search(input.value);
-            console.log(context.searchResults, "searchResultssssssss");
-            searchResults.innerHTML = "";
-            for (let i = 0; i < context.searchResults.length; i++) {
-                searchResults.innerHTML += `
-                    <div class="searchResults-profile" id="profile${i}">
-                        <div class="searchResults-avatar">
-                            <img src="http://localhost/assets/images/profileScreen.svg" alt="profile">
-                            <div class="searchResults-avatarInfo">
-                                <img src="${context.searchResults[i].avatarUrl}" alt="profile">
-                                <h3>${context.searchResults[i].nickname}</h3>
-                                <svg viewBox="0 0 277 363" fill="none">
-                                    <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
-                                        <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
-                                    </clipPath>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="searchResults-info">
-                            <a href="/profile" id="pages" class="searchResults-profilePage" playerName="${context.searchResults[i].username}"></a>
-                            <img src="http://localhost/assets/images/nameScreen.svg" alt="profile">
-                            <div class="searchResults-infoWrapper">
-                                <h3>show</h3>
-                            </div>
+        const searchResults = this.shadowRoot.querySelector(".searchResults");
+        searchResults.style.display = "grid";
+        await context.search(input.value);
+        console.log(context.searchResults, "searchResultssssssss");
+        searchResults.innerHTML = "";
+        for (let i = 0; i < context.searchResults.length; i++) {
+            searchResults.innerHTML += `
+                <div class="searchResults-profile" id="profile${i}">
+                    <div class="searchResults-avatar">
+                        <img src="http://localhost/assets/images/profileScreen.svg" alt="profile">
+                        <div class="searchResults-avatarInfo">
+                            <img src="${context.searchResults[i].avatarUrl}" alt="profile">
+                            <h3>${context.searchResults[i].nickname}</h3>
+                            <svg viewBox="0 0 277 363" fill="none">
+                                <clipPath id="userMask" x="0" y="0" transform="scale(0.36) translate(-22, -15)">
+                                    <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
+                                </clipPath>
+                            </svg>
                         </div>
                     </div>
-                `;
-            }
-            this.shadowRoot.querySelectorAll("a#pages").forEach((a) => {
-                a.addEventListener("click", async (event) => {
-                    event.preventDefault();
-                    context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
-                    // await context.initProfileOfUser(context.track.initProfileOfUser.name);
-                    await context.navigation(event);
-                });
-            } );
-        });
+                    <div class="searchResults-info">
+                        <a href="/profile" id="pages" class="searchResults-profilePage" playerName="${context.searchResults[i].username}"></a>
+                        <img src="http://localhost/assets/images/nameScreen.svg" alt="profile">
+                        <div class="searchResults-infoWrapper">
+                            <h3>show</h3>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        this.shadowRoot.querySelectorAll("a#pages").forEach((a) => {
+            a.addEventListener("click", async (event) => {
+                event.preventDefault();
+                context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
+                // await context.initProfileOfUser(context.track.initProfileOfUser.name);
+                await context.navigation(event);
+            });
+        } );
+    }
+    search() {
+        const input = this.shadowRoot.querySelector("input");
+        const search = this.shadowRoot.querySelector(".search");
+        const searchResults = this.shadowRoot.querySelector(".searchResults");
+        search.addEventListener("click", () => this.searchListener());
+        input.addEventListener("input", () => this.searchListener());
         this.shadowRoot.querySelectorAll("a#pages").forEach((a) => {
             a.addEventListener("click", async (event) => {
                 event.preventDefault();
