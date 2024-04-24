@@ -262,7 +262,8 @@ class DashboardPage extends HTMLElement {
             }
             .search {
                 position: absolute;
-                width: 400px;
+                width: 30%;
+                max-width: 400px;
                 height: 40px;
                 display: flex;
                 justify-content: center;
@@ -271,28 +272,36 @@ class DashboardPage extends HTMLElement {
                 transform: translate(-50%, -50%);
                 // border: 1px solid #0ff;
             }
+            input {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+                outline: 1px solid #00f4;
+                font-family: inherit;
+                font-size: inherit;
+                line-height: inherit;
+                background: none;
+                color: inherit;
+                /* Add more properties as needed */
+            }
             .search > input {
-                width: 70%;
+                width: 100%;
                 height: 40px;
-                border: 1px solid #0ee;
+                // border: 1px solid #0ee;
                 box-shadow: 0 0 10px 5px #0af,
-                            0 0 100px 5px #0af inset;
-                border-radius: 10px 0 0 10px;
+                            0 0 100px 5px #0af inset,
+                            0 0 10px 5px #0fa inset,
+                            0 -5px 1px 5px #0005;
+                border-radius: 50px;
                 padding: 0 20px;
                 font-size: 20px;
+                color: #0ff;
             }
-            .search > button {
-                width: 30%;
-                height: 42px;
-                border: 1px solid #0ee;
-                border-radius: 0 10px 10px 0;
-                background-color: #0af;
-                color: #fff;
-                font-size: 20px;
-                cursor: pointer;
-                box-shadow: 0 0 10px 5px #0af,
-                            0 0 100px 5px #0af inset;
-                z-index: 3;
+            .search > input::placeholder {
+                color: #0ff7;
             }
             .logout {
                 position: absolute;
@@ -319,7 +328,7 @@ class DashboardPage extends HTMLElement {
             }
             .searchResults {
                 position: absolute;
-                width: 400px;
+                width: 100%;
                 height: 200px;
                 top: 30px;
                 left: 0;
@@ -329,7 +338,8 @@ class DashboardPage extends HTMLElement {
                 background-color: #0ff6;
                 // backdrop-filter: saturate(300%) blur(20px) invert(100%) hue-rotate(200deg);
                 box-shadow: 0 0 10px 5px #0af,
-                            0 0 10px 5px #0af inset;
+                            0 0 10px 5px #0af inset,
+                            0 -5px 1px 5px #0005;
                 border-radius: 0px 0px 10px 10px;
                 display: none;
                 z-index: -1;
@@ -520,7 +530,6 @@ class DashboardPage extends HTMLElement {
                         <div class="search">
                             <div class="searchResults"></div>
                             <input type="text" placeholder="Search">
-                            <button>Search</button>
                         </div>
                         <div class="logout">
                             <a href="#/home">Logout</a>

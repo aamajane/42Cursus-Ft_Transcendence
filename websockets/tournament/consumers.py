@@ -104,5 +104,11 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             })
             self.game_status[self.room_group_name] = 'over'
 
+        if event in ['play_animation']:
+            await self.channel_layer.group_send(self.room_group_name, {
+                'type': 'send.message',
+                'event': 'play_animation',
+            })
+
     async def send_message(self, data):
         await self.send(text_data=json.dumps({'data': data}))

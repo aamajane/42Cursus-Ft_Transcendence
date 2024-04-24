@@ -4,7 +4,7 @@ async function startTournament() {
         return;
     }
 
-    // const tournamentPage = document.querySelector("custom-tournament");
+    const tournamentPage = document.querySelector("custom-tournament");
     const tournamentID = context.track.tournamentId;
     const url = `ws://${window.location.host}/ws/tournament/${tournamentID}/`;
     const socket = new WebSocket(url);
@@ -37,10 +37,12 @@ async function startTournament() {
                 break;
             case "add_player":
                 context.track.tournamentPlayers = data.players;
+                tournamentPage.playersEnter();
                 console.log(context.track.tournamentPlayers);
                 break;
             case "remove_player":
                 context.track.tournamentPlayers = data.players;
+                tournamentPage.playersEnter();
                 console.log(context.track.tournamentPlayers);
                 break;
             case "tournament_ongoing":
@@ -64,7 +66,9 @@ async function startTournament() {
                         await context.getGameById(context.track.semiFinalFirstGameId);
                         if (context.track.gameData.state === "over") {
                             context.track.gameId = undefined;
+                            context.track.semiFinalFirstGameStatus = "over";
                             navigation();
+                            playAnimation();
                             if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
                                 (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
                                 playFinalGame();
@@ -86,7 +90,9 @@ async function startTournament() {
                         await context.getGameById(context.track.semiFinalSecondGameId);
                         if (context.track.gameData.state === "over") {
                             context.track.gameId = undefined;
+                            context.track.semiFinalSecondGameStatus = "over";
                             navigation();
+                            playAnimation();
                             if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
                                 (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
                                 playFinalGame();
@@ -108,12 +114,17 @@ async function startTournament() {
                         await context.getGameById(context.track.finalGameId);
                         if (context.track.gameData.state === "over") {
                             context.track.gameId = undefined;
+                            context.track.finalGameStatus = "over";
                             navigation();
+                            playAnimation();
                             tournamentOver();
                             clearInterval(interval);
                         }
                     }, 3000);
-                } , 7000);
+                } , 17000);
+                break;
+            case "play_animation":
+                tournamentPage.playAnimation();
                 break;
         }
     };
@@ -134,6 +145,14 @@ async function startTournament() {
     function playFinalGame() {
         const message = {
             event: "play_final_game",
+        };
+
+        sendMessage(message);
+    }
+
+    function playAnimation() {
+        const message = {
+            event: "play_animation",
         };
 
         sendMessage(message);

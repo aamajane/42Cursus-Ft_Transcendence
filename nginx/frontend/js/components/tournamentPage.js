@@ -458,12 +458,20 @@ class TournamentGate extends HTMLElement {
                 top: 600px;
                 height: 100px;
                 width: 76px;
-                transform: translateY(-50%) rotateX(-90deg) translateY(calc(-50% - 20px));
+                transform: translateY(-50%) rotateX(-90deg) translateY(calc(-50% - 20px)) translateY(100%);
                 // border: 1px solid #fff;
                 overflow: hidden;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+            }
+            .avatarEnter {
+                animation: avatarEnter 1s linear forwards 4s;
+            }
+            @keyframes avatarEnter {
+                100% {
+                    transform: translateY(-50%) rotateX(-90deg) translateY(calc(-50% - 20px));
+                }
             }
             .avatar1 {
                 left: 150px;
@@ -908,18 +916,28 @@ class TournamentGate extends HTMLElement {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                // border: 1px solid #f00;
             }
-            .nakeName {
+            .nickName {
+                width: 150px;
                 font-size: 30px;
                 font-weight: bold;
                 color: #fff;
                 text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .nickName h1 {
+                font-size: 30px;
             }
             .Fname {
+                width: 150px;
                 font-size: 20px;
                 font-weight: bold;
                 color: #fff;
                 text-align: center;
+                border: 1px solid #0fa;
             }
             #vs {
                 position: absolute;
@@ -1040,8 +1058,8 @@ class TournamentGate extends HTMLElement {
                             <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
                             <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
                         </div>
-                        <div class="nakeName">@ael-bekk</div>
-                        <div class="Fname">Abdellah El bekkali</div>
+                        <div class="nickName"><h1>@anonimous</h1></div>
+                        <div class="Fname"></div>
                     </div>
                 </div>
                 <img src="http://localhost/assets/images/tournamentGate/vsBg.gif">
@@ -1053,8 +1071,8 @@ class TournamentGate extends HTMLElement {
                             <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
                             <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
                         </div>
-                        <div class="nakeName">@ael-bekk</div>
-                        <div class="Fname">Abdellah El bekkali</div>
+                        <div class="nickName"><h1>@anonimous</h1></div>
+                        <div class="Fname"></div>
                     </div>
                     <img>
                 </div>
@@ -1114,7 +1132,20 @@ class TournamentGate extends HTMLElement {
         // }, 6000);
 
         if (context.track.previousLocation !== window.location.pathname)
-            startTournament();
+            this.shadowRoot.addEventListener("load", startTournament());
+        else {
+            context.track.tournamentPlayers.forEach((el, indx) => {
+                this.shadowRoot.querySelector(".avatar" + (indx + 1) + " .plAvatar").src = el.avatar;
+                if (indx < 2)
+                    this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player" + (indx + 1) + " .nickName h1").textContent = '@' + el.nickname;
+                else
+                    this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player" + (indx + 1 - 2) + " .nickName h1").textContent = '@' + el.nickname;
+                this.shadowRoot.querySelector(".avatar" + (indx + 1)).classList.add("avatarEnter");
+            });
+            setTimeout(() => {
+                this.playAnimation();
+            }, 5000);
+        }
     }
 
     game1() {
@@ -1287,6 +1318,93 @@ class TournamentGate extends HTMLElement {
                     .classList.add("FinalWinner");
             }
         }
+    }
+    
+    playersEnter() {
+        context.track.tournamentPlayers.forEach((el, indx) => {
+            this.shadowRoot.querySelector(".avatar" + (indx + 1) + " .plAvatar").src = el.avatar;
+            if (indx < 2)
+                this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player" + (indx + 1) + " .nickName h1").textContent = '@' + el.nickname;
+            else
+                this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player" + (indx + 1 - 2) + " .nickName h1").textContent = '@' + el.nickname;
+            this.shadowRoot.querySelector(".avatar" + (indx + 1)).classList.add("avatarEnter");
+        });
+        for (let i = context.track.tournamentPlayers.length; i < 4; i++) {
+            this.shadowRoot.querySelector(".avatar" + (i + 1) + " .plAvatar").src = "http://localhost/assets/images/anonimous.jpeg";
+            console.log(".StandingsSemiFinaleRight .player" + (i + 1) + " .nickName h1")
+            if (i < 2)
+                this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player" + (i + 1) + " .nickName h1").textContent = "@anonymous";
+            else
+                this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player" + (i + 1 - 2) + " .nickName h1").textContent = "@anonymous";
+            this.shadowRoot.querySelector(".avatar" + (i + 1)).classList.remove("avatarEnter");
+            this.shadowRoot.querySelector(".avatar" + (i + 1)).offsetHeight;
+        }
+    }
+
+    async semiFinalFirstGame() {
+        // if (this.__game1p1 > 10) this.__game1Winner = 0;
+        //             else if (this.__game1p2 > 10) this.__game1Winner = 1;
+        //             else {
+        //                 Math.floor(Math.random() * 2) === 0
+        //                     ? this.__game1p1++
+        //                     : this.__game1p2++;
+        //             }
+        //             this.game1();
+        await context.getGameById(context.track.semiFinalFirstGameId);
+        if (context.track.gameData.state === "over") {
+            this.__game1p1 = context.track.gameData.scor1;
+            this.__game1p2 = context.track.gameData.scor2;
+            this.__game1Winner = context.track.gameData.scor1 > context.track.gameData.scor2 ? 0 : 1;
+            this.game1();
+        }
+    }
+
+    async semiFinalSecondGame() {
+        // if (this.__game2p1 > 10) this.__game2Winner = 0;
+        //             else if (this.__game2p2 > 10) this.__game2Winner = 1;
+        //             else {
+        //                 Math.floor(Math.random() * 2) === 0
+        //                     ? this.__game2p1++
+        //                     : this.__game2p2++;
+        //             }
+        //             this.game2();
+        await context.getGameById(context.track.semiFinalSecondGameId);
+        if (context.track.gameData.state === "over") {
+            this.__game2p1 = context.track.gameData.scor1;
+            this.__game2p2 = context.track.gameData.scor2;
+            this.__game2Winner = context.track.gameData.scor1 > context.track.gameData.scor2 ? 0 : 1;
+            this.game2();
+        }
+
+    }
+
+    async finalGame() {
+        // if (this.__game3p1 > 10)
+        //                                 this.__game3Winner = 0;
+        //                             else if (this.__game3p2 > 10)
+        //                                 this.__game3Winner = 1;
+        //                             else {
+        //                                 Math.floor(Math.random() * 2) === 0
+        //                                     ? this.__game3p1++
+        //                                     : this.__game3p2++;
+        //                             }
+        //                             if (this.__game3Winner !== -1)
+        //                                 this.__game3End = true;
+        //                             this.game3();
+        await context.getGameById(context.track.finalGameId);
+        if (context.track.gameData.state === "over") {
+            this.__game3p1 = context.track.gameData.scor1;
+            this.__game3p2 = context.track.gameData.scor2;
+            this.__game3Winner = context.track.gameData.scor1 > context.track.gameData.scor2 ? 0 : 1;
+            this.__game3End = true;
+            this.game3();
+        }
+    }
+
+    async playAnimation() {
+        await this.semiFinalFirstGame();
+        await this.semiFinalSecondGame();
+        await this.finalGame();
     }
 }
 

@@ -188,8 +188,11 @@ class Track {
         this.tournamentStatus = "pending";
         this.tournamentPlayers = [];
         this.semiFinalFirstGameId = undefined;
+        this.semiFinalFirstGameStatus = "pending";
         this.semiFinalSecondGameId = undefined;
+        this.semiFinalSecondGameStatus = "pending";
         this.finalGameId = undefined;
+        this.finalGameStatus = "pending";
         this.previousLocation = undefined;
 
         this.initProfileOfUser = new Player();
