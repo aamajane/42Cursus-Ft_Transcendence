@@ -58,9 +58,9 @@ async function startTournament() {
                 await context.setUserStatus(false);
                 setTimeout(() => {
                     navigation();
-                    setTimeout(() => {
-                        context.track.gameId = undefined;
-                        playFinalGame
+                    setTimeout(async () => {
+                        await context.getGameById(context.track.semiFinalSecondGameId);
+                        playFinalGame();
                     }, 120000);
                 } , 5000);
                 break;
@@ -72,7 +72,6 @@ async function startTournament() {
                 setTimeout(() => {
                     navigation();
                     setTimeout(() => {
-                        context.track.gameId = undefined;
                         playFinalGame();
                     }, 120000);
                 } , 5000);
@@ -85,10 +84,9 @@ async function startTournament() {
                 setTimeout(() => {
                     navigation();
                     setTimeout(() => {
-                        context.track.gameId = undefined;
-                        context.track.tournamentId = undefined;
+                        tournamentOver();
                     }, 120000);
-                } , 10000);
+                } , 7000);
                 break;
         }
     };
@@ -109,6 +107,14 @@ async function startTournament() {
     function playFinalGame() {
         const message = {
             event: "play_final_game",
+        };
+
+        sendMessage(message);
+    }
+
+    function tournamentOver() {
+        const message = {
+            event: "tournament_over",
         };
 
         sendMessage(message);
