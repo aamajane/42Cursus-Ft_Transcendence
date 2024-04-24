@@ -5,7 +5,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 class TournamentConsumer(AsyncWebsocketConsumer):
     MAX_USERS = 4
     user_count = {}
-    usernames = {}
+    players = {}
     channels_names = {}
     tournament_status = {}
 
@@ -16,7 +16,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         self.user_count.setdefault(self.room_group_name, 0)
-        self.usernames.setdefault(self.room_group_name, [])
+        self.players.setdefault(self.room_group_name, [])
         self.channels_names.setdefault(self.room_group_name, [])
         self.tournament_status.setdefault(self.room_group_name, 'pending')
 
@@ -28,9 +28,9 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        self.channels_names[self.room_group_name].append(self.channel_name)
-
         if self.tournament_status[self.room_group_name] == 'pending':
+            self.channels_names[self.room_group_name].append(self.channel_name)
+
             await self.channel_layer.send(self.channel_name, {
                 'type': 'send.message',
                 'event': 'player_connected'
@@ -65,14 +65,16 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
         if self.tournament_status[self.room_group_name] == 'pending':
             channel_name_index = self.channels_names[self.room_group_name].index(self.channel_name)
+            player = self.players[self.room_group_name][channel_name_index]
+            self.players[self.room_group_name].remove(player)
             await self.channel_layer.group_send(self.room_group_name, {
                 'type': 'send.message',
                 'event': 'remove_player',
-                'username': self.usernames[self.room_group_name][channel_name_index]
+                'players': self.players[self.room_group_name]
             })
 
-        if self.channel_name in self.channels_names[self.room_group_name]:
-            self.channels_names[self.room_group_name].remove(self.channel_name)
+            if self.channel_name in self.channels_names[self.room_group_name]:
+                self.channels_names[self.room_group_name].remove(self.channel_name)
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
@@ -81,11 +83,12 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         event = data.get('event')
 
         if event in ['add_player']:
-            self.usernames[self.room_group_name].append(data.get('username'))
+            player = data.get('player')
+            self.players[self.room_group_name].append(player)
             await self.channel_layer.group_send(self.room_group_name, {
                 'type': 'send.message',
                 'event': 'add_player',
-                'players': self.usernames[self.room_group_name]
+                'players': self.players[self.room_group_name]
             })
 
         if event in ['play_final_game']:

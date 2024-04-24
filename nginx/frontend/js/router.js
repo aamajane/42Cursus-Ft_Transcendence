@@ -65,7 +65,7 @@ function navigation() {
                 routes[profilePath] = "profilePage";
 
                 let pageId = routes[pathname];
-                console.log("navigateTo", pathname, pageId);
+                // console.log("navigateTo", pathname, pageId);
                 if (pageId === undefined)
                     pageId = "errorPage";
                 location = "";

@@ -10,7 +10,6 @@ async function startTournament() {
     const socket = new WebSocket(url);
 
     let players = [];
-    // let playersData = [];
 
     socket.onopen = async () => {
         await context.setUserStatus(true);
@@ -33,7 +32,6 @@ async function startTournament() {
 
         switch (data.event) {
             case "player_connected":
-                console.log("Player connected: ", context.user.name);
                 addPlayer();
                 break;
             case "add_player":
@@ -41,7 +39,6 @@ async function startTournament() {
                 break;
             case "remove_player":
                 players = data.players;
-                console.log("Players: ", players);
                 break;
             case "tournament_ongoing":
                 context.track.tournamentStatus = "ongoing";
@@ -97,10 +94,13 @@ async function startTournament() {
     function addPlayer() {
         const message = {
             event: "add_player",
-            username: context.user.name,
+            player: {
+                username: context.user.name,
+                nickname: context.user.nickname,
+                avatar: context.user.avatarUrl,
+            },
         };
 
-        console.log("1");
         sendMessage(message);
     }
 

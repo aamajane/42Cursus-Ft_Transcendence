@@ -1060,58 +1060,58 @@ class TournamentGate extends HTMLElement {
                 </div>
                 `;
         });
-        let intervalEnds = 0;
-        setTimeout(() => {
-            const interval = setInterval(() => {
-                if (this.__game1Winner === -1) {
-                    if (this.__game1p1 > 10) this.__game1Winner = 0;
-                    else if (this.__game1p2 > 10) this.__game1Winner = 1;
-                    else {
-                        Math.floor(Math.random() * 2) === 0
-                            ? this.__game1p1++
-                            : this.__game1p2++;
-                    }
-                    this.game1();
-                }
-                if (this.__game2Winner === -1) {
-                    if (this.__game2p1 > 10) this.__game2Winner = 0;
-                    else if (this.__game2p2 > 10) this.__game2Winner = 1;
-                    else {
-                        Math.floor(Math.random() * 2) === 0
-                            ? this.__game2p1++
-                            : this.__game2p2++;
-                    }
-                    this.game2();
-                }
-                if (this.__game1Winner !== -1 && this.__game2Winner !== -1) {
-                    setTimeout(() => {
-                        if (this.__game3Start !== true)
-                            (this.__game3Start = true), this.game3();
-                        if (this.__game3Winner === -1 && intervalEnds === 0) {
-                            intervalEnds++;
-                            console.log("game3");
-                            clearInterval(interval);
-                            setTimeout(() => {
-                                interval = setInterval(() => {
-                                    if (this.__game3p1 > 10)
-                                        this.__game3Winner = 0;
-                                    else if (this.__game3p2 > 10)
-                                        this.__game3Winner = 1;
-                                    else {
-                                        Math.floor(Math.random() * 2) === 0
-                                            ? this.__game3p1++
-                                            : this.__game3p2++;
-                                    }
-                                    if (this.__game3Winner !== -1)
-                                        this.__game3End = true;
-                                    this.game3();
-                                }, 500);
-                            }, 1500);
-                        }
-                    }, 5000);
-                }
-            }, 500);
-        }, 6000);
+        // let intervalEnds = 0;
+        // setTimeout(() => {
+        //     const interval = setInterval(() => {
+        //         if (this.__game1Winner === -1) {
+        //             if (this.__game1p1 > 10) this.__game1Winner = 0;
+        //             else if (this.__game1p2 > 10) this.__game1Winner = 1;
+        //             else {
+        //                 Math.floor(Math.random() * 2) === 0
+        //                     ? this.__game1p1++
+        //                     : this.__game1p2++;
+        //             }
+        //             this.game1();
+        //         }
+        //         if (this.__game2Winner === -1) {
+        //             if (this.__game2p1 > 10) this.__game2Winner = 0;
+        //             else if (this.__game2p2 > 10) this.__game2Winner = 1;
+        //             else {
+        //                 Math.floor(Math.random() * 2) === 0
+        //                     ? this.__game2p1++
+        //                     : this.__game2p2++;
+        //             }
+        //             this.game2();
+        //         }
+        //         if (this.__game1Winner !== -1 && this.__game2Winner !== -1) {
+        //             setTimeout(() => {
+        //                 if (this.__game3Start !== true)
+        //                     (this.__game3Start = true), this.game3();
+        //                 if (this.__game3Winner === -1 && intervalEnds === 0) {
+        //                     intervalEnds++;
+        //                     console.log("game3");
+        //                     clearInterval(interval);
+        //                     setTimeout(() => {
+        //                         interval = setInterval(() => {
+        //                             if (this.__game3p1 > 10)
+        //                                 this.__game3Winner = 0;
+        //                             else if (this.__game3p2 > 10)
+        //                                 this.__game3Winner = 1;
+        //                             else {
+        //                                 Math.floor(Math.random() * 2) === 0
+        //                                     ? this.__game3p1++
+        //                                     : this.__game3p2++;
+        //                             }
+        //                             if (this.__game3Winner !== -1)
+        //                                 this.__game3End = true;
+        //                             this.game3();
+        //                         }, 500);
+        //                     }, 1500);
+        //                 }
+        //             }, 5000);
+        //         }
+        //     }, 500);
+        // }, 6000);
 
         startTournament();
     }
