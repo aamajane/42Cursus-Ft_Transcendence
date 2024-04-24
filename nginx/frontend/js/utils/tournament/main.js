@@ -65,10 +65,8 @@ async function startTournament() {
                         if (context.track.gameData.state === "over") {
                             context.track.gameId = undefined;
                             navigation();
-                            console.log(context.track.gameData);
                             if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
                                 (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
-                                console.log("Player won the game");
                                 playFinalGame();
                             }
                             clearInterval(interval);
@@ -89,10 +87,8 @@ async function startTournament() {
                         if (context.track.gameData.state === "over") {
                             context.track.gameId = undefined;
                             navigation();
-                            console.log(context.track.gameData);
                             if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
                                 (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
-                                console.log("Player won the game");
                                 playFinalGame();
                             }
                             clearInterval(interval);
@@ -108,16 +104,14 @@ async function startTournament() {
                     await context.setUserStatus(false);
                     navigation();
 
-                    console.log("Final Game started");
                     const interval = setInterval(async () => {
                         await context.getGameById(context.track.finalGameId);
                         if (context.track.gameData.state === "over") {
                             context.track.gameId = undefined;
                             navigation();
-                            console.log("Final Game ended");
                             tournamentOver();
+                            clearInterval(interval);
                         }
-                        clearInterval(interval);
                     }, 3000);
                 } , 7000);
                 break;
