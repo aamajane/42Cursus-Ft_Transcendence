@@ -358,8 +358,8 @@
         <span></span>
         <h1 class="title">LOGIN</h1>
         <div class="anotherContainer">
-            <div class="sign"><img src="http://localhost/assets/images/goolge.svg" alt="google" class="google" onclick="window.location.href = 'http:\/\/localhost:3000/auth/google'"></div>
-            <div class="sign"><img src="http://localhost/assets/images/42.svg" alt="42" class="school42" onclick="window.location.href = 'http:\/\/localhost:3000/auth/42'"></div>
+            <div class="sign" id="google-btn"><img src="http://localhost/assets/images/goolge.svg" alt="google" class="google"></div>
+            <div class="sign" id="intra-btn"><img src="http://localhost/assets/images/42.svg" alt="42" class="school42"></div>
             <div class="form">
                 <form id="formElement">
 
@@ -375,7 +375,9 @@
         </div>
         <em></em>
         <label>Or via</label>
-        <style src="css/home.css"></style>
+        <style src="../css/home.css"></style>
+        <script src="../js/utils/oauth2/intra42.js"></script>
+        <script src="../js/utils/oauth2/google.js"></script>
         <script>
             let span = document.querySelector('span');
             let sign = document.querySelectorAll('.sign');
@@ -436,6 +438,6 @@
             }
         </script>
     </div>
-    <script src="js/utils/backgroundBody.js"></script>
+    <script src="../js/utils/backgroundBody.js"></script>
 </body>
 </html>

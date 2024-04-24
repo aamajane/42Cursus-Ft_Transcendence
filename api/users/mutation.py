@@ -465,6 +465,16 @@ class UpdateUser(graphene.Mutation):
         except Exception as e:
             return UpdateUser(success=None, error='Error occured during updating the user!')
 
+class SignOut(graphene.Mutation):
+    class Arguments:
+        pass
+
+    success = graphene.String()
+    error = graphene.String()
+
+    def mutate(self, info):
+        info.context.user_signed_out = True
+        return SignOut(success='User signed out successfully!', error=None)
 
 # class UpdateUser(graphene.Mutation):
 #     class Arguments:
@@ -536,3 +546,6 @@ class Mutation(ObjectType):
 
     # set notifiction as read
     set_notification_as_read = SetNotificationAsRead.Field()
+
+    # sign out the user
+    sign_out = SignOut.Field()

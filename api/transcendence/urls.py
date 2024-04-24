@@ -21,8 +21,12 @@ from .middleware import MyGraphQLView
 from . import views
 
 urlpatterns = [
+    path('api', views.root_view),
     path('api/admin/', admin.site.urls),
     path('api/graphql/', MyGraphQLView.as_view(graphiql=True)),
-    path('api/upload/<str:username>/', views.upload_image),
-    # path('oauth2/', include('oauth2.urls')),
+    path('api/oauth2/intra42/consent/', views.intra42_consent),
+    path('api/oauth2/google/consent/', views.google_consent),
+    path('api/oauth2/intra42/exchange/', views.intra42_exchange),
+    path('api/oauth2/google/exchange/', views.google_exchange),
+    path('api/oauth2/verify/', views.verify_token),
 ]

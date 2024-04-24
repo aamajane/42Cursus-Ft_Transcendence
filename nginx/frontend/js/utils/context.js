@@ -96,8 +96,10 @@ class APIContext {
 
         let jsonQuery = JSON.stringify({ query: queryOrMutation });
         // console.log(jsonQuery)
+    
         const headers = {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
             // Add any other headers as needed
           };
           
@@ -228,7 +230,16 @@ class Context {
     // takes a test user for testing purposes
     async initContext(testUser) {
         // retrieve the user name and avatar
-        let query = `
+        let query = `query { whoAmI(accessToken: "${localStorage.getItem('accessToken')}")}`
+
+        await this.api.graphqlFetch(query)
+        if (!this.api.response.whoAmI) {
+            window.location.href = "http://localhost/auth";
+            return;
+        }
+
+        testUser.username = this.api.response.whoAmI;
+        query = `
             query { 
                 getUserByUsername(username: "${testUser.username}") { 
                     username,
@@ -815,6 +826,20 @@ class Context {
             console.log("Error occurred while changing nickname");
             return false;
         }
+    }
+
+    async logout() {
+        localStorage.removeItem("accessToken");
+        let query = `mutation { signOut {
+            success,
+            error
+        } }`;
+        await this.api.graphqlFetch(query);
+        if (this.api.error) {
+            console.log("Error occurred while logging out");
+            return
+        }
+        window.location.href = "http://localhost/auth";
     }
 }
 

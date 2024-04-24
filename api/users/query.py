@@ -4,7 +4,10 @@ from .models import User
 from .models import Followership
 from .models import Notification
 from transcendence.db import users
+from .utils import format_url, verify_access_token, get_username_from_token
 from django.core.exceptions import ObjectDoesNotExist
+from transcendence.settings import INTRA42_CLIENT_ID, INTRA42_CLIENT_SECRET, INTRA42_REDIRECT_URI, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+from transcendence.middleware import GraphQLProtectedResource
 
 ######## Documentation: ##############################################
 ### UserType class to define the fields that can be queried by the user
@@ -90,6 +93,9 @@ class Query(graphene.ObjectType):
 
     # to retrieve users that has a substring in their username
     get_users_by_substring = graphene.List(UserType, substring=graphene.String(required=True))
+
+    # to retrieve who ami using the access token, takes access token and returns back the username
+    who_am_i = graphene.Field(graphene.String(), access_token=graphene.String(required=True))
 
     ################################################
     ### GraphQL resolvers for the queries        ###
@@ -181,3 +187,10 @@ class Query(graphene.ObjectType):
     # to retrieve users that has a substring in their username
     def resolve_get_users_by_substring(root, info, substring):
         return User.objects.filter(nickname__icontains=substring)
+
+    # to retrieve who ami using the access token
+    def resolve_who_am_i(root, info, access_token):
+        if verify_access_token(access_token):
+            username = get_username_from_token(access_token)
+            return get_username_from_token(access_token)
+        return None

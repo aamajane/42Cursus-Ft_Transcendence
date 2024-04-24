@@ -3,6 +3,8 @@ from django.conf import settings
 from jwt import decode, ExpiredSignatureError
 from datetime import datetime, timedelta
 from graphene_django.views import GraphQLView
+from users.utils import verify_access_token, is_token_expired, generate_jwt_access_token
+
 # from authentication.utils import verify_token, generate_access_token, TOKEN_INVALID, TOKEN_EXPIRED
 
 ####### DOCUMENTATION: #########################################################
@@ -19,29 +21,62 @@ class GraphQLAuthorizationMiddleware:
 
     def __call__(self, request):
         requested_url = request.path
+        # if requested_url == '/api/graphql' or requested_url == '/api/graphql/':
+        #     authorization_field = request.headers.get('Authorization') # getting the access token from the request
+        #     if not authorization_field:
+        #         return JsonResponse({'error': 'No authorization found'}, status=401)
+        #     split_authorization_field = authorization_field.split(' ')
+        #     if len(split_authorization_field) != 2:
+        #         return JsonResponse({'error': 'Authorization does not have 2 parts'}, status=401)
 
-        # # protecting the /graphql endpoint
-        # if requested_url == '/graphql' or requested_url == '/graphql/':
-        #     access_token = request.COOKIES.get('access_token') # getting the access token from the request
-        #     refresh_token = request.COOKIES.get('refresh_token') # getting the refresh token from the request
+        #     bearer = split_authorization_field[0]
+        #     token = split_authorization_field[1]
 
-        #     if access_token is not None or refresh_token is not None: # if the access_token or refresh_token is not in the request
-        #         print('YES ACCESS TOKEN OR REFRESH TOKEN')
-        #         access_token_status = verify_token(access_token) # verifying the access token
-        #         refresh_token_status = verify_token(refresh_token) # verifying the refresh token
+        #     if bearer.lower() != 'bearer':
+        #         return JsonResponse({'error': 'Authorization does not have Bearer'}, status=401)
 
-        #         if access_token_status == TOKEN_INVALID: # if access_token is invalid
-        #             return JsonResponse({'error': 'Invalid access token'}, status=401)
-                
-        #         if refresh_token_status == TOKEN_INVALID: # if refresh_token is invalid
-        #             return JsonResponse({'error': 'Invalid refresh token'}, status=401)
-
-        #         if refresh_token_status == TOKEN_EXPIRED: # if refresh_token is expired
-        #             return JsonResponse({'error': 'Expired refresh token'}, status=401)
+        #     is_token_valid = verify_access_token(token)
+        #     if not is_token_valid:
+        #         return JsonResponse({'error': 'Invalid access token'}, status=401)
 
         response = self.get_response(request)
         return response
 
+
+class GraphQLProtectedResource:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        request = args[0]
+        requested_url = request.path
+        is_refresh_token_not_exist = False if request.COOKIES.get('refresh_token') else True
+
+        # if the refresh token is not provided in the request
+        if is_refresh_token_not_exist:
+            return JsonResponse({'error': 'No refresh token found'}, status=401)
+
+        # if the refresh token is invalid        
+        if not verify_access_token(request.COOKIES.get('refresh_token')):
+            return JsonResponse({'error': 'Invalid refresh token'}, status=401)
+
+        if requested_url == '/api/graphql' or requested_url == '/api/graphql/':
+            authorization_field = request.headers.get('Authorization')
+            if not authorization_field:
+                return JsonResponse({'error': 'No authorization found'}, status=401)
+            split_authorization_field = authorization_field.split(' ')
+            if len(split_authorization_field) != 2:
+                return JsonResponse({'error': 'Authorization does not have 2 parts'}, status=401)
+            bearer = split_authorization_field[0]
+            token = split_authorization_field[1]
+
+            if bearer.lower() != 'bearer':
+                return JsonResponse({'error': 'Authorization does not have Bearer'}, status=401)
+            
+            is_token_valid = verify_access_token(token)
+            if not is_token_valid:
+                return JsonResponse({'error': 'Invalid access token'}, status=401)
+        return self.func(*args, **kwargs)
 
 ####### DOCUMENTATION: ############################################################################
 ### - This is a customize GraphQLView user mainly to set cookies                                ###
@@ -66,20 +101,15 @@ class GraphQLAuthorizationMiddleware:
 ###################################################################################################
 class MyGraphQLView(GraphQLView):
     def dispatch(self, request, *args, **kwargs):
-        response = super().dispatch(request, *args, **kwargs)
-        # access_token = request.COOKIES.get('access_token')
-        # refresh_token = request.COOKIES.get('refresh_token')
-        # access_token_status = verify_token(access_token)
-        # refresh_token_status = verify_token(refresh_token)
+        response = super().dispatch(request, *args, **kwargs)        
+        refresh_token = request.COOKIES.get('refresh_token')
 
-        # # checking if the refresh_token is expired
-        # if refresh_token_status == TOKEN_EXPIRED or (hasattr(request, 'user_signed_out') and request.user_signed_out == True):
-        #     response.delete_cookie('access_token')
-        #     response.delete_cookie('refresh_token')
-        # else: # if the refresh_token is not expired
-        #     print('REFRESH_TOKEN OR ACCESS_TOKEN IS NOT EXPIRED')
-        #     if hasattr(request, 'access_token'): # if the access_token is expired then generate a new one
-        #         response.set_cookie('access_token', request.access_token, httponly=True, expires=datetime.now() + timedelta(minutes=15))
-        #     if hasattr(request, 'refresh_token'): # if the refresh_token is in the request then set the refresh_token cookie
-        #         response.set_cookie('refresh_token', request.refresh_token, httponly=True, expires=datetime.now() + timedelta(days=30))
+        # checking if the the user has signed out or the refresh token is invalid
+        if not refresh_token or (hasattr(request, 'user_signed_out') and request.user_signed_out is True) or not verify_access_token(refresh_token):
+            response.delete_cookie('refresh_token')
+
+        # if the refresh token is exist at the request then set it as a cookie
+        if hasattr(request, 'refresh_token'):
+            response.set_cookie('refresh_token', request['refresh_token'], httponly=True, secure=True, expires=datetime.now() + timedelta(days=30))
+
         return response

@@ -535,7 +535,7 @@ class DashboardPage extends HTMLElement {
                             <input type="text" placeholder="Search">
                         </div>
                         <div class="logout">
-                            <a href="#/home">Logout</a>
+                            <a id="logoutElement">Logout</a>
                             <img src="http://localhost/assets/images/dashboardGate/Exit_Sign.svg" alt="logout">
                         </div>
                     </nav>
@@ -577,6 +577,11 @@ class DashboardPage extends HTMLElement {
         </div>
         `;
         this.search();
+
+        this.shadowRoot.querySelector("a#logoutElement").addEventListener("click", async (event) => {
+            event.preventDefault();
+            await context.logout();
+        }) ;
     }
     async searchListener() {
         const input = this.shadowRoot.querySelector("input");
