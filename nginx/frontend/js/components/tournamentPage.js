@@ -1113,7 +1113,8 @@ class TournamentGate extends HTMLElement {
         //     }, 500);
         // }, 6000);
 
-        startTournament();
+        if (context.track.previousLocation !== window.location.pathname)
+            startTournament();
     }
 
     game1() {

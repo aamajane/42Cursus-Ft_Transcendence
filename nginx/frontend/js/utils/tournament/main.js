@@ -9,6 +9,7 @@ async function startTournament() {
     const url = `ws://${window.location.host}/ws/tournament/${tournamentID}/`;
     const socket = new WebSocket(url);
 
+    context.track.previousLocation = window.location.pathname;
     let players = [];
 
     socket.onopen = async () => {
@@ -55,37 +56,69 @@ async function startTournament() {
                 context.track.gameId = context.track.semiFinalFirstGameId;
                 context.track.gameMode = "1v1";
                 context.track.gameMap = "egypt";
-                await context.setUserStatus(false);
-                setTimeout(() => {
+                setTimeout(async () => {
+                    await context.setUserStatus(false);
                     navigation();
-                    setTimeout(async () => {
-                        await context.getGameById(context.track.semiFinalSecondGameId);
-                        playFinalGame();
-                    }, 120000);
+
+                    const interval = setInterval(async () => {
+                        await context.getGameById(context.track.semiFinalFirstGameId);
+                        if (context.track.gameData.state === "over") {
+                            context.track.gameId = undefined;
+                            navigation();
+                            console.log(context.track.gameData);
+                            if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
+                                (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
+                                console.log("Player won the game");
+                                playFinalGame();
+                            }
+                            clearInterval(interval);
+                        }
+                    }, 3000);
                 } , 5000);
                 break;
             case "play_semifinal_second_game":
                 context.track.gameId = context.track.semiFinalSecondGameId;
                 context.track.gameMode = "1v1";
                 context.track.gameMap = "factory";
-                await context.setUserStatus(false);
-                setTimeout(() => {
+                setTimeout(async () => {
+                    await context.setUserStatus(false);
                     navigation();
-                    setTimeout(() => {
-                        playFinalGame();
-                    }, 120000);
+
+                    const interval = setInterval(async () => {
+                        await context.getGameById(context.track.semiFinalSecondGameId);
+                        if (context.track.gameData.state === "over") {
+                            context.track.gameId = undefined;
+                            navigation();
+                            console.log(context.track.gameData);
+                            if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
+                                (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
+                                console.log("Player won the game");
+                                playFinalGame();
+                            }
+                            clearInterval(interval);
+                        }
+                    }, 3000);
                 } , 5000);
                 break;
             case "play_final_game":
                 context.track.gameId = context.track.finalGameId;
                 context.track.gameMode = "1v1";
                 context.track.gameMap = "space";
-                await context.setUserStatus(false);
-                setTimeout(() => {
+                setTimeout(async () => {
+                    await context.setUserStatus(false);
                     navigation();
-                    setTimeout(() => {
-                        tournamentOver();
-                    }, 120000);
+
+                    console.log("Final Game started");
+                    const interval = setInterval(async () => {
+                        await context.getGameById(context.track.finalGameId);
+                        if (context.track.gameData.state === "over") {
+                            context.track.gameId = undefined;
+                            navigation();
+                            console.log("Final Game ended");
+                            tournamentOver();
+                        }
+                        clearInterval(interval);
+                    }, 3000);
                 } , 7000);
                 break;
         }

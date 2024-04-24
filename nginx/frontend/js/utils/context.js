@@ -182,6 +182,7 @@ class Track {
         this.gameId = undefined;
         this.gameMap = undefined;
         this.gameMode = undefined;
+        this.gameData = undefined;
 
         this.tournamentId = undefined;
         this.tournamentStatus = "pending";
@@ -189,6 +190,7 @@ class Track {
         this.semiFinalFirstGameId = undefined;
         this.semiFinalSecondGameId = undefined;
         this.finalGameId = undefined;
+        this.previousLocation = undefined;
 
         this.initProfileOfUser = new Player();
     }
@@ -670,7 +672,7 @@ class Context {
             return false;
         }
 
-        this.gameId = this.api.response.getGameById;
+        this.track.gameData = new Game(this.api.response.getGameById);
         this.api.resetAPIContext();
 
         return true;
@@ -705,10 +707,9 @@ class Context {
     async setTournamentState(state) {
         const ChangeTournament = `
             mutation {
-                SetTournamentState(data: { tournamentId: ${context.track.tournamentId}, state: "${state}" }) {
+                setTournamentState(tournamentId: ${context.track.tournamentId}, state: "${state}") {
                     success,
                     error,
-                    tournamentId
                 }
             }
         `;
