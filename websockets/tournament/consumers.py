@@ -92,8 +92,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             })
 
         if event in ['play_final_game']:
-            channel_name_index = data.get('channel_name_index')
-            await self.channel_layer.send(self.channels_names[self.room_group_name][channel_name_index], {
+            await self.channel_layer.send(self.channel_name, {
                 'type': 'send.message',
                 'event': 'play_final_game'
             })
@@ -106,7 +105,4 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             self.game_status[self.room_group_name] = 'over'
 
     async def send_message(self, data):
-        await self.send(text_data=json.dumps({'data': data}))
-
-    async def send_message_back(self, data):
         await self.send(text_data=json.dumps({'data': data}))

@@ -30,48 +30,48 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
 
         if self.user_count[self.room_group_name] == self.MAX_USERS:
             await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
-                'type': 'send.message.back',
+                'type': 'send.message',
                 'event': 'host_true'
             })
 
             await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
-                'type': 'send.message.back',
+                'type': 'send.message',
                 'event': 'team_one'
             })
 
             await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
-                'type': 'send.message.back',
+                'type': 'send.message',
                 'event': 'paddle_level_one'
             })
 
             await self.channel_layer.send(self.channels_names[self.room_group_name][1], {
-                'type': 'send.message.back',
+                'type': 'send.message',
                 'event': 'team_two'
             })
 
             await self.channel_layer.send(self.channels_names[self.room_group_name][1], {
-                'type': 'send.message.back',
+                'type': 'send.message',
                 'event': 'paddle_level_one'
             })
 
             if self.MAX_USERS == 4:
                 await self.channel_layer.send(self.channels_names[self.room_group_name][2], {
-                    'type': 'send.message.back',
+                    'type': 'send.message',
                     'event': 'team_one'
                 })
 
                 await self.channel_layer.send(self.channels_names[self.room_group_name][2], {
-                    'type': 'send.message.back',
+                    'type': 'send.message',
                     'event': 'paddle_level_two'
                 })
 
                 await self.channel_layer.send(self.channels_names[self.room_group_name][3], {
-                    'type': 'send.message.back',
+                    'type': 'send.message',
                     'event': 'team_two'
                 })
 
                 await self.channel_layer.send(self.channels_names[self.room_group_name][3], {
-                    'type': 'send.message.back',
+                    'type': 'send.message',
                     'event': 'paddle_level_two'
                 })
 
@@ -89,13 +89,13 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
 
         if self.game_status[self.room_group_name] == 'ongoing':
             await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
-                'type': 'send.message.back',
+                'type': 'send.message',
                 'event': 'host_true'
             })
 
         if self.game_status[self.room_group_name] == 'ongoing' and self.user_count[self.room_group_name] == 1:
             await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
-                'type': 'send.message.back',
+                'type': 'send.message',
                 'event': 'give_up'
             })
             self.game_status[self.room_group_name] = 'over'
@@ -124,8 +124,8 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
         if data.get('sender_channel_name') != self.channel_name:
             await self.send(text_data=json.dumps({'data': data}))
 
-    async def send_message_back(self, data):
-        await self.send(text_data=json.dumps({'data': data}))
+    # async def send_message_back(self, data):
+    #     await self.send(text_data=json.dumps({'data': data}))
 
 
 class OneVsOneConsumer(BaseGameConsumer):

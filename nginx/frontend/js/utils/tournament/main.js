@@ -35,10 +35,12 @@ async function startTournament() {
                 addPlayer();
                 break;
             case "add_player":
-                players = data.players;
+                context.track.tournamentPlayers = data.players;
+                console.log(context.track.tournamentPlayers);
                 break;
             case "remove_player":
-                players = data.players;
+                context.track.tournamentPlayers = data.players;
+                console.log(context.track.tournamentPlayers);
                 break;
             case "tournament_ongoing":
                 context.track.tournamentStatus = "ongoing";
@@ -107,7 +109,6 @@ async function startTournament() {
     function playFinalGame() {
         const message = {
             event: "play_final_game",
-            channel_name_index: players.indexOf(context.user.name),
         };
 
         sendMessage(message);
