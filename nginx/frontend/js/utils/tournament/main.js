@@ -1,95 +1,140 @@
-function startTournament() {
+async function startTournament() {
+    if (await context.getUserStatus()) {
+        console.log("User is already playing in a tournament");
+        return;
+    }
+
+    // const tournamentPage = document.querySelector("custom-tournament");
     const tournamentID = context.track.tournamentId;
     const url = `ws://${window.location.host}/ws/tournament/${tournamentID}/`;
     const socket = new WebSocket(url);
-    let tournamentStatus = "pending";
-    let user1 = null;
-    let user2 = null;
-    let user3 = null;
-    let user4 = null;
-    const game1 = {
-        player1: user1,
-        player2: user2,
-        player1Score: 0,
-        player2Score: 0,
-        winner: null,
-    };
-    const game2 = {
-        player1: user3,
-        player2: user4,
-        player1Score: 0,
-        player2Score: 0,
-        winner: null,
-    };
-    const game3 = {
-        player1: game1.winner,
-        player2: game2.winner,
-        player1Score: 0,
-        player2Score: 0,
-        winner: null,
+
+    let players = [];
+    // let playersData = [];
+
+    socket.onopen = async () => {
+        await context.setUserStatus(true);
+        console.log("Tournament Connected to server");
     };
 
-    socket.onopen = () => {
-        console.log("Connected to server");
+    socket.onclose = async () => {
+        await context.setUserStatus(false);
+        console.log("Tournament Disconnected from server");
     };
 
-    socket.onclose = () => {
-        console.log("Disconnected from server");
-        socket.close();
+    socket.onerror = async (event) => {
+        await context.setUserStatus(false);
+        console.log("Tournament Connection error: ", event);
     };
 
-    socket.onerror = (event) => {
-        console.error("Error:", event);
-        socket.close();
-    };
-
-    socket.onmessage = (event) => {
+    socket.onmessage = async (event) => {
         const jsonData = JSON.parse(event.data);
         const data = jsonData["data"];
 
         switch (data.event) {
-            case "update_usernames":
-                user1 = data.usernames[0];
-                user2 = data.usernames[1];
-                user3 = data.usernames[2];
-                user4 = data.usernames[3];
-                console.log("user 1:", user1);
-                console.log("user 2:", user2);
-                console.log("user 3:", user3);
-                console.log("user 4:", user4);
+            case "player_connected":
+                console.log("Player connected: ", context.user.name);
+                addPlayer();
                 break;
-            case "ongoing":
-                tournamentStatus = "ongoing";
-                console.log("Tournament ongoing");
+            case "add_player":
+                players = data.players;
                 break;
-            case "over":
-                tournamentStatus = "over";
-                console.log("Tournament over");
+            case "remove_player":
+                players = data.players;
+                console.log("Players: ", players);
                 break;
-            case "play_game1":
-                const game1ID = 500505;
-                context.track.gameId = game1ID;
+            case "tournament_ongoing":
+                context.track.tournamentStatus = "ongoing";
+                await context.setTournamentState("ongoing");
+                break;
+            case "tournament_over":
+                context.track.tournamentStatus = "over";
+                await context.setTournamentState("over");
+                socket.close();
+                break;
+            case "play_semifinal_first_game":
+                context.track.gameId = context.track.semiFinalFirstGameId;
                 context.track.gameMode = "1v1";
                 context.track.gameMap = "egypt";
-                navigation(`/game/1v1/${game1ID}/`);
-                console.log("Playing game 1");
+                await context.setUserStatus(false);
+                setTimeout(() => {
+                    navigation();
+                    setTimeout(() => {
+                        context.track.gameId = undefined;
+                        playFinalGame
+                    }, 120000);
+                } , 5000);
                 break;
-            case "play_game2":
-                const game2ID = 605005;
-                context.track.gameId = game2ID;
+            case "play_semifinal_second_game":
+                context.track.gameId = context.track.semiFinalSecondGameId;
                 context.track.gameMode = "1v1";
                 context.track.gameMap = "factory";
-                navigation(`/game/1v1/${game2ID}/`);
-                console.log("Playing game 2");
+                await context.setUserStatus(false);
+                setTimeout(() => {
+                    navigation();
+                    setTimeout(() => {
+                        context.track.gameId = undefined;
+                        playFinalGame();
+                    }, 120000);
+                } , 5000);
                 break;
-            case "play_game3":
-                const game3ID = 700605;
-                context.track.gameId = game3ID;
+            case "play_final_game":
+                context.track.gameId = context.track.finalGameId;
                 context.track.gameMode = "1v1";
                 context.track.gameMap = "space";
-                navigation(`/game/1v1/${game3ID}/`);
-                console.log("Playing game 3");
+                await context.setUserStatus(false);
+                setTimeout(() => {
+                    navigation();
+                    setTimeout(() => {
+                        context.track.gameId = undefined;
+                        context.track.tournamentId = undefined;
+                    }, 120000);
+                } , 10000);
                 break;
         }
     };
+
+    function addPlayer() {
+        const message = {
+            event: "add_player",
+            username: context.user.name,
+        };
+
+        console.log("1");
+        sendMessage(message);
+    }
+
+    function playFinalGame() {
+        const message = {
+            event: "play_final_game",
+            channel_name_index: players.indexOf(context.user.name),
+        };
+
+        sendMessage(message);
+    }
+
+    function sendMessage(message) {
+        if (socket.readyState !== WebSocket.OPEN) {
+            console.log("Message not sent: Tournament Connection closed");
+            return;
+        }
+
+        socket.send(JSON.stringify(message));
+    }
+
+    function handleConnectionLost() {
+        const popstateHandler = () => {
+            socket.close();
+            window.removeEventListener("popstate", popstateHandler);
+        };
+        const beforeunloadHandler = async (e) => {
+            await context.setUserStatus(false);
+            socket.close();
+        };
+
+        window.addEventListener("popstate", popstateHandler);
+        window.addEventListener("beforeunload", beforeunloadHandler);
+    }
+
+    handleConnectionLost();
 }

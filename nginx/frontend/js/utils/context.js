@@ -95,7 +95,7 @@ class APIContext {
         this.loading = true;
 
         let jsonQuery = JSON.stringify({ query: queryOrMutation });
-        console.log(jsonQuery)
+        // console.log(jsonQuery)
         const headers = {
             'Content-Type': 'application/json',
             // Add any other headers as needed
@@ -115,7 +115,7 @@ class APIContext {
             if (res.status !== 200) {
                 throw new Error("Error occurred while fetching data from the API");
             }
-              console.log(res.data)
+            //   console.log(res.data)
 
             // // if error occurs during the fetching of the data
             // if (!res || !res.ok) {
@@ -132,7 +132,7 @@ class APIContext {
             // }
 
             // this.response = await res.json();
-            console.log(res.data.data)
+            // console.log(res.data.data)
             this.response = res.data.data;
         } catch (err) {
             // api call failed, or json parsing failed
@@ -184,6 +184,8 @@ class Track {
         this.gameMode = undefined;
 
         this.tournamentId = undefined;
+        this.tournamentStatus = "pending";
+        this.tournamentPlayers = [];
         this.semiFinalFirstGameId = undefined;
         this.semiFinalSecondGameId = undefined;
         this.finalGameId = undefined;

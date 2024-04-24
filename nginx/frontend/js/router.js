@@ -198,6 +198,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
     }
     
-    console.log("DOMContentLoaded", window.location.pathname);
+    // console.log("DOMContentLoaded", window.location.pathname);
     navigation()
 });

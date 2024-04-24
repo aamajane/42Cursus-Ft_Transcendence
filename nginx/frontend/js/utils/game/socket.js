@@ -6,17 +6,17 @@ class Socket {
 
         this.socket.onopen = async () => {
             await context.setUserStatus(true);
-            console.log("WebSocket connection established");
+            console.log("Game Connected to server");
         };
 
         this.socket.onclose = async () => {
             await context.setUserStatus(false);
-            console.log("WebSocket connection closed");
+            console.log("Game Disconnected from server");
         };
 
         this.socket.onerror = async (event) => {
             await context.setUserStatus(false);
-            console.log("WebSocket connection error: ", event);
+            console.log("Game Connection error: ", event);
         };
 
         this.socket.onmessage = async (event) => {
@@ -229,7 +229,7 @@ class Socket {
 
     sendMessage(message) {
         if (this.socket.readyState !== WebSocket.OPEN) {
-            console.log("Message not sent: WebSocket connection closed");
+            console.log("Message not sent: Game Connection closed");
             return;
         }
 

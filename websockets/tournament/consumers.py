@@ -28,58 +28,51 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        if self.tournament_status[self.room_group_name] == 'pending':
-            self.usernames[self.room_group_name].append(self.scope['user'].username)
-            self.channels_names[self.room_group_name].append(self.channel_name)
+        self.channels_names[self.room_group_name].append(self.channel_name)
 
-            await self.channel_layer.group_send(self.room_group_name, {
+        if self.tournament_status[self.room_group_name] == 'pending':
+            await self.channel_layer.send(self.channel_name, {
                 'type': 'send.message',
-                'event': 'update_usernames',
-                'usernames': self.usernames[self.room_group_name]
+                'event': 'player_connected'
             })
 
             if self.user_count[self.room_group_name] == self.MAX_USERS:
                 await self.channel_layer.group_send(self.room_group_name, {
                     'type': 'send.message',
-                    'event': 'ongoing'
+                    'event': 'tournament_ongoing'
                 })
                 self.tournament_status[self.room_group_name] = 'ongoing'
+
                 await self.channel_layer.send(self.channels_names[self.room_group_name][0], {
                     'type': 'send.message',
-                    'event': 'play_game1',
+                    'event': 'play_semifinal_first_game',
                 })
                 await self.channel_layer.send(self.channels_names[self.room_group_name][1], {
                     'type': 'send.message',
-                    'event': 'play_game1',
+                    'event': 'play_semifinal_first_game',
                 })
                 await self.channel_layer.send(self.channels_names[self.room_group_name][2], {
                     'type': 'send.message',
-                    'event': 'play_game2',
+                    'event': 'play_semifinal_second_game',
                 })
                 await self.channel_layer.send(self.channels_names[self.room_group_name][3], {
                     'type': 'send.message',
-                    'event': 'play_game2',
+                    'event': 'play_semifinal_second_game',
                 })
-
-        else:
-            if self.scope['user'].username in self.usernames[self.room_group_name]:
-                await self.send_message_back({'event': 'play_game3'})
 
     async def disconnect(self, close_code):
         self.user_count[self.room_group_name] -= 1
 
         if self.tournament_status[self.room_group_name] == 'pending':
-            if self.scope['user'].username in self.usernames[self.room_group_name]:
-                self.usernames[self.room_group_name].remove(self.scope['user'].username)
-
-            if self.channel_name in self.channels_names[self.room_group_name]:
-                self.channels_names[self.room_group_name].remove(self.channel_name)
-
+            channel_name_index = self.channels_names[self.room_group_name].index(self.channel_name)
             await self.channel_layer.group_send(self.room_group_name, {
                 'type': 'send.message',
-                'event': 'update_usernames',
-                'usernames': self.usernames[self.room_group_name]
+                'event': 'remove_player',
+                'username': self.usernames[self.room_group_name][channel_name_index]
             })
+
+        if self.channel_name in self.channels_names[self.room_group_name]:
+            self.channels_names[self.room_group_name].remove(self.channel_name)
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
@@ -87,11 +80,27 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         event = data.get('event')
 
-        if event in ['update_tournament']:
+        if event in ['add_player']:
+            self.usernames[self.room_group_name].append(data.get('username'))
             await self.channel_layer.group_send(self.room_group_name, {
                 'type': 'send.message',
-                **data
+                'event': 'add_player',
+                'players': self.usernames[self.room_group_name]
             })
+
+        if event in ['play_final_game']:
+            channel_name_index = data.get('channel_name_index')
+            await self.channel_layer.send(self.channels_names[self.room_group_name][channel_name_index], {
+                'type': 'send.message',
+                'event': 'play_final_game'
+            })
+
+        if event in ['tournament_over']:
+            await self.channel_layer.group_send(self.room_group_name, {
+                'type': 'send.message',
+                'event': 'tournament_over'
+            })
+            self.game_status[self.room_group_name] = 'over'
 
     async def send_message(self, data):
         await self.send(text_data=json.dumps({'data': data}))

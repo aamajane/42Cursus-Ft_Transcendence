@@ -14,7 +14,7 @@ async function startGame() {
     canvas.height = GAME_HEIGHT;
 
     if (gameMode !== AIMode && (await context.getUserStatus())) {
-        console.log("User is already playing");
+        console.log("User is already playing in a game");
         return;
     }
 
