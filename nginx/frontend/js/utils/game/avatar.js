@@ -1,9 +1,10 @@
 class Avatar {
-    constructor(url, x, y) {
-        this.image =  new Image();
+    constructor(url, x, y, map) {
+        this.image = new Image();
         this.image.src = url;
         this.x = x;
         this.y = y;
+        this.map = map;
     }
 
     draw(ctx) {
@@ -25,7 +26,7 @@ class Avatar {
         ctx.beginPath();
         ctx.arc(centerX + this.x, centerY + this.y, radius, 0, Math.PI * 2);
         ctx.closePath();
-        ctx.strokeStyle = "rgb(0, 0, 0)";
+        ctx.strokeStyle = this.map.strokeStyle;
         ctx.lineWidth = 10;
         ctx.stroke();
 

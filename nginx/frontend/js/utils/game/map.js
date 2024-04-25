@@ -21,5 +21,41 @@ class Map {
                 this.ballColor = { r: 0, g: 1, b: 1 };
                 break;
         }
+
+        switch (map) {
+            case "egypt":
+                this.waitingFont = EGYPT_WAITING_FONT;
+                this.countdownFont = EGYPT_COUNTDOWN_FONT;
+                this.overFont = EGYPT_OVER_FONT;
+                this.scoreFont = EGYPT_SCORE_FONTS;
+                this.nicknameFont = EGYPT_NICKNAME_FONT;
+                this.fillStyle = EGYPT_FILL_STYLE;
+                this.strokeStyle = EGYPT_STROKE_STYLE;
+                this.scoreLineWidth = EGYPT_SCORE_LINE_WIDTH;
+                this.nicknameLineWidth = EGYPT_NICKNAME_LINE_WIDTH;
+                break;
+            case "factory":
+                this.waitingFont = FACTORY_WAITING_FONT;
+                this.countdownFont = FACTORY_COUNTDOWN_FONT;
+                this.overFont = FACTORY_OVER_FONT;
+                this.scoreFont = FACTORY_SCORE_FONTS;
+                this.nicknameFont = FACTORY_NICKNAME_FONT;
+                this.fillStyle = FACTORY_FILL_STYLE;
+                this.strokeStyle = FACTORY_STROKE_STYLE;
+                this.scoreLineWidth = FACTORY_SCORE_LINE_WIDTH;
+                this.nicknameLineWidth = FACTORY_NICKNAME_LINE_WIDTH;
+                break
+            case "space":
+                this.waitingFont = SPACE_WAITING_FONT;
+                this.countdownFont = SPACE_COUNTDOWN_FONT;
+                this.overFont = SPACE_OVER_FONT;
+                this.scoreFont = SPACE_SCORE_FONTS;
+                this.nicknameFont = SPACE_NICKNAME_FONT;
+                this.fillStyle = SPACE_FILL_STYLE;
+                this.strokeStyle = SPACE_STROKE_STYLE;
+                this.scoreLineWidth = SPACE_SCORE_LINE_WIDTH;
+                this.nicknameLineWidth = SPACE_NICKNAME_LINE_WIDTH;
+                break;
+        }
     }
 }

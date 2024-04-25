@@ -33,14 +33,14 @@ const PADDLE_HEIGHT = 80;
 const PLAYER_PADDLE_X = GAME_WIDTH / 2 - PADDLE_WIDTH / 2;
 const PLAYER_PADDLE_Y = GAME_HEIGHT - PADDLE_HEIGHT - GAME_HEIGHT * 0.15;
 
-const OPPONENT_PADDLE_X = GAME_WIDTH / 2 - PADDLE_WIDTH / 2;
-const OPPONENT_PADDLE_Y = GAME_HEIGHT * 0.15;
-
 const PLAYER_PADDLE1_X = GAME_WIDTH / 4 - PADDLE_WIDTH / 2;
 const PLAYER_PADDLE1_Y = GAME_HEIGHT - PADDLE_HEIGHT - GAME_HEIGHT * 0.15;
 
 const PLAYER_PADDLE2_X = GAME_WIDTH - GAME_WIDTH / 4 - PADDLE_WIDTH / 2;
 const PLAYER_PADDLE2_Y = GAME_HEIGHT - PADDLE_HEIGHT - GAME_HEIGHT * 0.30;
+
+const OPPONENT_PADDLE_X = GAME_WIDTH / 2 - PADDLE_WIDTH / 2;
+const OPPONENT_PADDLE_Y = GAME_HEIGHT * 0.15;
 
 const OPPONENT_PADDLE1_X = GAME_WIDTH - GAME_WIDTH / 4 - PADDLE_WIDTH / 2;
 const OPPONENT_PADDLE1_Y = GAME_HEIGHT * 0.15;
@@ -52,45 +52,76 @@ const OPPONENT_PADDLE2_Y = GAME_HEIGHT * 0.30;
 const PLAYER_SCORE_X = 100;
 const PLAYER_SCORE_Y = GAME_HEIGHT - 40;
 
-const OPPONENT_SCORE_X = GAME_WIDTH - 80;
-const OPPONENT_SCORE_Y = 180;
+const OPPONENT_SCORE_X = GAME_WIDTH - 100;
+const OPPONENT_SCORE_Y = 200;
 
 const WINNING_SCORE = 10;
 const MAX_DIF_SCORE = 3;
 
-/* *************************** NAME CONSTANTS *************************** */
-const PLAYER1_NAME_X = GAME_WIDTH - 110;
-const PLAYER1_NAME_Y = GAME_HEIGHT - 20;
-
-const OPPONENT1_NAME_X = 120;
-const OPPONENT1_NAME_Y = 230;
-
-const PLAYER2_NAME_X = GAME_WIDTH - GAME_WIDTH / 4;
-const PLAYER2_NAME_Y = GAME_HEIGHT - 20;
-
-const OPPONENT2_NAME_X = GAME_WIDTH / 4;
-const OPPONENT2_NAME_Y = 230;
-
 /* *************************** AVATAR CONSTANTS *************************** */
-const AVATAR_SIZE = 140;
+const AVATAR_SIZE = 130;
 
-const PLAYER1_AVATAR_X = GAME_WIDTH - 180;
-const PLAYER1_AVATAR_Y = GAME_HEIGHT - 200;
+const PLAYER1_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 4;
+const PLAYER1_AVATAR_Y = GAME_HEIGHT - 190;
 
-const OPPONENT1_AVATAR_X = 50;
-const OPPONENT1_AVATAR_Y = 40;
+const PLAYER2_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 2 - AVATAR_SIZE / 2;
+const PLAYER2_AVATAR_Y = GAME_HEIGHT - 190;
 
-const PLAYER2_AVATAR_X = GAME_WIDTH - GAME_WIDTH / 4;
-const PLAYER2_AVATAR_Y = GAME_HEIGHT - 200;
+const OPPONENT1_AVATAR_X = GAME_WIDTH / 4 - AVATAR_SIZE;
+const OPPONENT1_AVATAR_Y = 50;
 
-const OPPONENT2_AVATAR_X = GAME_WIDTH / 4;
-const OPPONENT2_AVATAR_Y = 40;
+const OPPONENT2_AVATAR_X = GAME_WIDTH / 2 - AVATAR_SIZE / 2;
+const OPPONENT2_AVATAR_Y = 50;
 
 const AVATAR_URL = "http://localhost/assets/images/game/ai_avatar.webp";
 const PLAYER1_AVATAR_URL = "https://cdn.intra.42.fr/users/6e08f820a216e1a2a90e377609109946/aamajane.jpg";
 const PLAYER2_AVATAR_URL = "https://cdn.intra.42.fr/users/c57fb67bd87763107a61aaf0ad1add71/ael-bekk.jpg";
 const OPPONENT1_AVATAR_URL = "https://cdn.intra.42.fr/users/664d497ee11b0a6944ae13c8cb222edd/hel-mefe.jpg";
 const OPPONENT2_AVATAR_URL = "https://cdn.intra.42.fr/users/b22ad49a1e9011b178a47008ba1ef162/amounadi.jpg";
+
+/* *************************** NAME CONSTANTS *************************** */
+const PLAYER1_NAME_X = PLAYER1_AVATAR_X + AVATAR_SIZE / 2;
+const PLAYER1_NAME_Y = GAME_HEIGHT - 15;
+
+const PLAYER2_NAME_X = PLAYER2_AVATAR_X + AVATAR_SIZE / 2;
+const PLAYER2_NAME_Y = GAME_HEIGHT - 15;
+
+const OPPONENT1_NAME_X = OPPONENT1_AVATAR_X + AVATAR_SIZE / 2;
+const OPPONENT1_NAME_Y = 230;
+
+const OPPONENT2_NAME_X = OPPONENT2_AVATAR_X + AVATAR_SIZE / 2;
+const OPPONENT2_NAME_Y = 230;
+
+/* *************************** MAP CONSTANTS *************************** */
+const EGYPT_WAITING_FONT = "60px Horus";
+const EGYPT_COUNTDOWN_FONT = "200px Horus";
+const EGYPT_OVER_FONT = "120px Horus";
+const EGYPT_SCORE_FONTS = "180px Horus";
+const EGYPT_NICKNAME_FONT = "40px Horus";
+const EGYPT_FILL_STYLE = "rgba(255, 127.5, 127.5, 0.7)";
+const EGYPT_STROKE_STYLE = "rgba(56, 39, 26, 1)";
+const EGYPT_SCORE_LINE_WIDTH = 15;
+const EGYPT_NICKNAME_LINE_WIDTH = 10;
+
+const FACTORY_WAITING_FONT = "60px DemonSker";
+const FACTORY_COUNTDOWN_FONT = "200px DemonSker";
+const FACTORY_OVER_FONT = "120px DemonSker";
+const FACTORY_SCORE_FONTS = "180px DemonSker";
+const FACTORY_NICKNAME_FONT = "40px DemonSker";
+const FACTORY_FILL_STYLE = "rgba(255, 255, 255, 0.7)";
+const FACTORY_STROKE_STYLE = "rgba(0, 0, 0, 1)";
+const FACTORY_SCORE_LINE_WIDTH = 15;
+const FACTORY_NICKNAME_LINE_WIDTH = 10;
+
+const SPACE_WAITING_FONT = "60px AstroSpace";
+const SPACE_COUNTDOWN_FONT = "200px AstroSpace";
+const SPACE_OVER_FONT = "120px AstroSpace";
+const SPACE_SCORE_FONTS = "160px AstroSpace";
+const SPACE_NICKNAME_FONT = "30px AstroSpace";
+const SPACE_FILL_STYLE = "rgba(0, 255, 255, 0.7)";
+const SPACE_STROKE_STYLE = "rgba(0, 0, 0, 1)";
+const SPACE_SCORE_LINE_WIDTH = 15;
+const SPACE_NICKNAME_LINE_WIDTH = 10;
 
 /* *************************** INPUT CONSTANTS *************************** */
 const PLAYER_LEFT_KEY = "ArrowLeft";

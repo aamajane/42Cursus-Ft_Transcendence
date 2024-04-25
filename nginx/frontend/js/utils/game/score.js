@@ -1,8 +1,9 @@
 class Score {
-    constructor(x, y) {
+    constructor(x, y, map) {
         this.value = 0;
         this.x = x;
         this.y = y;
+        this.map = map;
     }
 
     update() {
@@ -10,8 +11,11 @@ class Score {
     }
 
     draw(ctx) {
-        ctx.font = "180px sans-serif";
-        ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+        ctx.font = this.map.scoreFont;
+        ctx.fillStyle = this.map.fillStyle;
+        ctx.strokeStyle = this.map.strokeStyle;
+        ctx.lineWidth = this.map.scoreLineWidth;
+        ctx.strokeText(this.value, this.x, this.y);
         ctx.fillText(this.value, this.x, this.y);
     }
 }

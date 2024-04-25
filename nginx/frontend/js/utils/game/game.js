@@ -13,13 +13,19 @@ class AIGame {
                 PLAYER_LEFT_KEY,
                 PLAYER_RIGHT_KEY
             ),
-            score: new Score(PLAYER_SCORE_X, PLAYER_SCORE_Y),
+            score: new Score(PLAYER_SCORE_X, PLAYER_SCORE_Y, map),
             nickname: new Nickname(
                 this.nickname,
                 PLAYER1_NAME_X,
-                PLAYER1_NAME_Y
+                PLAYER1_NAME_Y,
+                map
             ),
-            avatar: new Avatar(this.avatar, PLAYER1_AVATAR_X, PLAYER1_AVATAR_Y),
+            avatar: new Avatar(
+                this.avatar,
+                PLAYER1_AVATAR_X,
+                PLAYER1_AVATAR_Y,
+                map
+            ),
         };
         this.opponent = {
             paddle: new Paddle(
@@ -29,12 +35,18 @@ class AIGame {
                 OPPONENT_LEFT_KEY,
                 OPPONENT_RIGHT_KEY
             ),
-            score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y),
-            nickname: new Nickname("BOT", OPPONENT1_NAME_X, OPPONENT1_NAME_Y),
+            score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y, map),
+            nickname: new Nickname(
+                "BOT",
+                OPPONENT1_NAME_X,
+                OPPONENT1_NAME_Y,
+                map
+            ),
             avatar: new Avatar(
                 AVATAR_URL,
                 OPPONENT1_AVATAR_X,
-                OPPONENT1_AVATAR_Y
+                OPPONENT1_AVATAR_Y,
+                map
             ),
         };
         this.ball = new Ball(
@@ -117,19 +129,30 @@ class MultiplayerGame {
                     PLAYER_RIGHT_KEY
                 ),
             }),
-            score: new Score(PLAYER_SCORE_X, PLAYER_SCORE_Y),
+            score: new Score(PLAYER_SCORE_X, PLAYER_SCORE_Y, map),
             username1: null,
             username2: null,
-            nickname1: new Nickname(null, PLAYER1_NAME_X, PLAYER1_NAME_Y),
+            nickname1: new Nickname(null, PLAYER1_NAME_X, PLAYER1_NAME_Y, map),
             ...(mode === TWO_VS_TWO && {
-                nickname2: new Nickname(null, PLAYER2_NAME_X, PLAYER2_NAME_Y),
+                nickname2: new Nickname(
+                    null,
+                    PLAYER2_NAME_X,
+                    PLAYER2_NAME_Y,
+                    map
+                ),
             }),
-            avatar1: new Avatar(AVATAR_URL, PLAYER1_AVATAR_X, PLAYER1_AVATAR_Y),
+            avatar1: new Avatar(
+                AVATAR_URL,
+                PLAYER1_AVATAR_X,
+                PLAYER1_AVATAR_Y,
+                map
+            ),
             ...(mode === TWO_VS_TWO && {
                 avatar2: new Avatar(
                     AVATAR_URL,
                     PLAYER2_AVATAR_X,
-                    PLAYER2_AVATAR_Y
+                    PLAYER2_AVATAR_Y,
+                    map
                 ),
             }),
         };
@@ -150,27 +173,35 @@ class MultiplayerGame {
                     null
                 ),
             }),
-            score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y),
+            score: new Score(OPPONENT_SCORE_X, OPPONENT_SCORE_Y, map),
             username1: null,
             username2: null,
-            nickname1: new Nickname(null, OPPONENT1_NAME_X, OPPONENT1_NAME_Y),
+            nickname1: new Nickname(
+                null,
+                OPPONENT1_NAME_X,
+                OPPONENT1_NAME_Y,
+                map
+            ),
             ...(mode === TWO_VS_TWO && {
                 nickname2: new Nickname(
                     null,
                     OPPONENT2_NAME_X,
-                    OPPONENT2_NAME_Y
+                    OPPONENT2_NAME_Y,
+                    map
                 ),
             }),
             avatar1: new Avatar(
                 AVATAR_URL,
                 OPPONENT1_AVATAR_X,
-                OPPONENT1_AVATAR_Y
+                OPPONENT1_AVATAR_Y,
+                map
             ),
             ...(mode === TWO_VS_TWO && {
                 avatar2: new Avatar(
                     AVATAR_URL,
                     OPPONENT2_AVATAR_X,
-                    OPPONENT2_AVATAR_Y
+                    OPPONENT2_AVATAR_Y,
+                    map
                 ),
             }),
         };

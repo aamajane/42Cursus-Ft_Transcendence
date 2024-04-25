@@ -13,6 +13,8 @@ async function startGame() {
     canvas.width = GAME_WIDTH;
     canvas.height = GAME_HEIGHT;
 
+    ctx.textAlign = "center";
+
     if (gameMode !== AIMode && (await context.getUserStatus())) {
         console.log("User is already playing in a game");
         return;
@@ -47,26 +49,29 @@ async function startGame() {
     function gamePending() {
         const message = "Waiting for opponent...";
 
-        ctx.font = "50px sans-serif";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-
-        ctx.fillText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        ctx.font = gameMap.waitingFont;
+        ctx.fillStyle = gameMap.fillStyle;
+        ctx.strokeStyle = gameMap.strokeStyle;
+        ctx.lineWidth = gameMap.nicknameLineWidth;
+        ctx.strokeText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30);
+        ctx.fillText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30);
     }
 
     function gameCountdown() {
         const currentTime = Date.now();
         const timeElapsed = currentTime - game.startTime;
-        const countdownTime = 3000;
+        const countdownTime = 5000;
 
         if (timeElapsed < countdownTime) {
             const countdown = Math.ceil((countdownTime - timeElapsed) / 1000);
 
-            ctx.font = "100px sans-serif";
-            ctx.fillStyle = "white";
-            ctx.textAlign = "center";
+            ctx.font = gameMap.countdownFont;
+            ctx.fillStyle = gameMap.fillStyle;
+            ctx.strokeStyle = gameMap.strokeStyle;
+            ctx.lineWidth = gameMap.nicknameLineWidth;
 
-            ctx.fillText(countdown, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+            ctx.strokeText(countdown, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 100);
+            ctx.fillText(countdown, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 100);
         } else {
             game.status = ONGOING;
         }
@@ -78,11 +83,15 @@ async function startGame() {
     }
 
     function gameOver() {
-        ctx.font = "100px sans-serif";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
+        const message = "Game Over";
 
-        ctx.fillText("Game Over", GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        ctx.font = gameMap.overFont;
+        ctx.fillStyle = gameMap.fillStyle;
+        ctx.strokeStyle = gameMap.strokeStyle;
+        ctx.lineWidth = gameMap.nicknameLineWidth;
+
+        ctx.strokeText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 60);
+        ctx.fillText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 60);
     }
 
     render();
