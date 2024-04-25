@@ -234,7 +234,7 @@ class Context {
 
         await this.api.graphqlFetch(query)
         if (!this.api.response.whoAmI) {
-            window.location.href = "http://localhost/auth";
+            window.location.href = "http://localhost/home";
             return;
         }
 
