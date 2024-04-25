@@ -219,6 +219,14 @@ class Socket {
         this.sendMessage(message);
     }
 
+    updateHost() {
+        const message = {
+            event: "update_host",
+        };
+
+        this.sendMessage(message);
+    }
+
     GameOver() {
         const message = {
             event: "game_over",
@@ -236,7 +244,7 @@ class Socket {
         this.socket.send(JSON.stringify(message));
     }
 
-    handleConnectionLost () {
+    handleConnectionLost() {
         const popstateHandler = () => {
             this.game.status = OVER;
             this.socket.close();
@@ -248,9 +256,12 @@ class Socket {
         };
         const visibilitychangeHandler = () => {
             if (document.visibilityState === "hidden") {
-                this.game.status = OVER;
-                this.socket.close();
-                window.removeEventListener("visibilitychange", visibilitychangeHandler);
+                if (this.socket.readyState === WebSocket.OPEN && this.game.isHost) {
+                    this.game.isHost = false;
+                    this.updateHost();
+                } else if (this.socket.readyState === WebSocket.CLOSED) {
+                    window.removeEventListener("visibilitychange", visibilitychangeHandler);
+                }
             }
         };
 

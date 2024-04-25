@@ -113,6 +113,14 @@ class BaseGameConsumer(AsyncWebsocketConsumer):
                 **data
             })
 
+        if event in ['update_host']:
+            channel_name_index = self.channels_names[self.room_group_name].index(self.channel_name)
+            channel_name_index_new_host = (channel_name_index + 1) % self.MAX_USERS
+            await self.channel_layer.send(self.channels_names[self.room_group_name][channel_name_index_new_host], {
+                'type': 'send.message',
+                'event': 'host_true'
+            })
+
         if event in ['game_over']:
             await self.channel_layer.group_send(self.room_group_name, {
                 'type': 'send.message',
