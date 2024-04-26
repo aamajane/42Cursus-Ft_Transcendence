@@ -1,8 +1,20 @@
 import graphene
+import pyotp
+import time
+import qrcode
 from graphene.types import ObjectType
 from transcendence.db import users, in_users
 from users.models import User, Notification, Followership
 from transcendence.utils import hash_password, verify_password
+
+key = "hel-mefe-ael-bekk-aamajane"
+
+import uuid
+
+def generate_random_filename(extension='png'):
+    random_string = uuid.uuid4().hex
+    return f"{random_string}.{extension}"
+
 
 ####### Documentation: ##############################################
 #### - Create a new user

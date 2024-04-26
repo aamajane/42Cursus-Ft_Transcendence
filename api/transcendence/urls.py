@@ -29,4 +29,7 @@ urlpatterns = [
     path('api/oauth2/intra42/exchange/', views.intra42_exchange),
     path('api/oauth2/google/exchange/', views.google_exchange),
     path('api/oauth2/verify/', views.verify_token),
+    path('api/qr_code/', views.generate_qr_code),
+    path('api/qr_code/<str:filename>/', views.get_qr_code_file),
+    path('api/qr_code/verify_2fa_code/', views.verify_2fa_code),
 ]

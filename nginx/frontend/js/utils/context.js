@@ -27,7 +27,7 @@ class Player {
         this.firstName = data?.firstName || null;
         this.lastName = data?.lastName || null;
         this.nickname = data?.nickname || null;
-        this.twoFactorAuthentication = data?.twoFactorAuthentication || false;
+        this.twoFactorAuthentication = data?.twoFactorAuth || false;
         this.avatarUrl = data?.avatarUrl || null;
         this.score = data?.pointsEarned || null;
         this.level = undefined;
@@ -232,12 +232,42 @@ class Context {
         // retrieve the user name and avatar
         let query = `query { whoAmI(accessToken: "${localStorage.getItem('accessToken')}")}`
 
+
         await this.api.graphqlFetch(query)
+        alert(this.api.response.whoAmI)
         if (!this.api.response.whoAmI) {
-            window.location.href = "http://localhost/home";
+            await fetch('http://localhost/api/qr_code/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
+                }
+            })
+            .then(response => {
+                if (response.status !== 200)
+                    throw new Error("Error occurred while proceeding with 2FA");
+                return response.json()
+            })
+            .then(data => {
+                console.log(data)
+                let url = data.url
+                localStorage.setItem("qrCode", url)
+                window.location.href = "http://localhost/2fa";
+            })
+            .catch(err => {
+                localStorage.removeItem("accessToken");
+                alert("Error occurred while proceeding with 2FA");
+                window.location.href = "http://localhost/home";
+            })
+            // window.location.href = "http://localhost/home";
             return;
         }
 
+        if (this.api.error) {
+            alert("Error occurred while fetching user data [CONTEXT]");
+            return ;
+        }
+
+        
         testUser.username = this.api.response.whoAmI;
         query = `
             query { 
@@ -253,7 +283,7 @@ class Context {
         await this.api.graphqlFetch(query);
         if (this.api.error) {
             alert("Error occurred while fetching user data [CONTEXT]");
-            return;
+            return ;
         }
 
         this.user = new Player(this.api.response.getUserByUsername);

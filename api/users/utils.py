@@ -9,6 +9,7 @@ from transcendence.settings import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGL
 
 # used to limit the number of iterations to generate a unique username
 MAX_NUMBER_OF_USERNAME_ITERATIONS = 20
+MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES_2FA_ENABLED = 2
 AVRG_USERNAME_LENGTH = 8
 ENCRYPTING_ALGORITHM = 'HS256'
 MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES = 15
@@ -31,11 +32,15 @@ def format_url(platform: str,
 #####################################################################################################
 
 # to generate the access token for a user with jwt token, returns the jwt token if the token is successfully generated, None otherwise
-def generate_jwt_access_token(username: str) -> str:
+def generate_jwt_access_token(username: str, two_factor_auth: bool) -> str:
+
+    # if the 2fa is enabled, the expiration time is 1 minute, otherwise it is 15 minutes
     payload = {
         'username': username,
-        'exp': datetime.now(timezone.utc) + timedelta(minutes=MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES),
+        'exp': datetime.now(timezone.utc) + timedelta(minutes=MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES if not two_factor_auth else MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES_2FA_ENABLED),
     }
+    payload['2fa_passed'] = False if two_factor_auth else True
+
     try:
         jwt_token = jwt.encode(payload, JWT_SECRET_KEY, algorithm=ENCRYPTING_ALGORITHM)
     except Exception as e: # if an exception is raised, return None
@@ -45,10 +50,28 @@ def generate_jwt_access_token(username: str) -> str:
 # to verify the access token of a user, returns True if the access token is valid, False otherwise
 def verify_access_token(access_token: str) -> bool:
     try:
-        jwt.decode(access_token, JWT_SECRET_KEY, algorithms=[ENCRYPTING_ALGORITHM])
+        decoded = jwt.decode(access_token, JWT_SECRET_KEY, algorithms=[ENCRYPTING_ALGORITHM])
+        if decoded['2fa_passed'] is False: # if the 2fa_passed is False, return False to indicate that the user has not passed the 2fa
+            return False
     except Exception as e:
         return False
     return True
+
+# deserialize token to get the username
+def get_username_from_token(access_token: str) -> str:
+    try:
+        decoded = jwt.decode(access_token, JWT_SECRET_KEY, algorithms=[ENCRYPTING_ALGORITHM])
+        return decoded['username']
+    except Exception as e:
+        return None
+
+# get is 2fa passed from the token
+def get_is_2fa_passed(access_token: str) -> str:
+    try:
+        decoded = jwt.decode(access_token, JWT_SECRET_KEY, algorithms=[ENCRYPTING_ALGORITHM])
+        return decoded['2fa_passed']
+    except Exception as e:
+        return None
 
 #####################################################################################################
 # The following functions are used to check if a username is already taken in the database
@@ -127,15 +150,16 @@ def register_user_google(access_token: str) -> bool:
     avatar_url = response['picture']
     # if the user is already in the database, return jwt access token
     if check_is_pair_identifier_in_db(response['given_name'], response['family_name']): 
-        username = User.objects.get(first_name=response['given_name'], last_name=response['family_name']).username
-        jwt_access_token = generate_jwt_access_token(username)
+        user = User.objects.get(first_name=response['given_name'], last_name=response['family_name'])
+        username = user.username
+        jwt_access_token = generate_jwt_access_token(username, user.two_factor_auth)
         return jwt_access_token
     
     # if the user is not in the database, register the user in the database
     username = generate_username_for_google(response['given_name'], response['family_name'])
     try:
         user = User.objects.create(username=username, nickname=username, avatar_url=avatar_url, first_name=response['given_name'], last_name=response['family_name'], oauth2_platform='google')
-        jwt_access_token = generate_jwt_access_token(username)
+        jwt_access_token = generate_jwt_access_token(username, user.two_factor_auth)
         return jwt_access_token
     except Exception as e:
         return None
@@ -198,18 +222,18 @@ def register_user_intra42(access_token: str) -> bool:
         return None
     username = response['login']
     avatar_url = response['image']['link']
-    print('Username => ', username)
-    print('AvatarUrl => ', avatar_url)
+
     # if the user is already in the database, return jwt access token
     if check_is_username_in_db(username):
         print('YES USERNAME IS IN DB')
-        jwt_access_token = generate_jwt_access_token(username)
+        user = User.objects.get(username=username)
+        jwt_access_token = generate_jwt_access_token(username, user.two_factor_auth)
         return jwt_access_token
 
     # if the user is not in the database, register the user in the database
     try:
         user = User.objects.create(username=username, nickname=username, avatar_url=avatar_url, oauth2_platform='intra42')
-        jwt_access_token = generate_jwt_access_token(username)
+        jwt_access_token = generate_jwt_access_token(username, user.two_factor_auth)
         return jwt_access_token
     except Exception as e:
         return None

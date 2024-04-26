@@ -354,76 +354,71 @@
             text-align: center;
             /* border: 1px solid rgba(215, 215, 215, 0.307); */
         }
+
+        .image-container {
+            align-self: center ;
+            justify-self: center ;
+            display: flex ;
+            flex-direction: column ;
+            align-items: center ;
+            background-color: black ;
+            color: white ;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .bg-danger {
+            background-color: red ;
+        }
+    
     </style>
 </head>
 <body>
-    <h2 class="bg">Loading ...</h2>
+    <div class="image-container">
+        <img id="qr-code" src="http://localhost/assets/images/pong.png" alt="Pong" class="logo">
+        <!-- <form class="forma">
+            <input type="text" name="code" id="code" placeholder="Enter the code">
+            <label id="msg hidden bg-danger">Invalid Code</label>
+            <button type="submit" class="submit hidden" id="submit-btn">Submit</button>
+        </form> -->
+    </div>
     <script src="../../js/utils/backgroundBody.js"></script>
-
     <script>
+        const qrCode = document.getElementById('qr-code');
+        const submitBtn = document.getElementById('submit-btn');
+        const labelMsg = document.getElementById('msg');
 
-        // setting the code if exists
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
+        qrCode.src = localStorage.getItem('qrCode');
 
-        // chekcking if the user is already authenticated
-        if (localStorage.getItem("accessToken"))
-        {
-            fetch("http://localhost/api/oauth2/verify/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    token: localStorage.getItem("accessToken")
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success)
-                    window.location.href = "http://localhost/" ;            
-            })
+        if (qrCode.src === null) {
+            window.location.href = 'http://localhost/home' ;
+            localStorage.deleteItem('qrCode');
+            localStorage.deleteItem('accessToken')
         }
 
-        // if user is not authenticated, and code is exist at the url
-        if (code) {
-            // exchange the code for an access token
-            // show the loading element
-            // hide the buttons
-            // show the loading element
-            // fetch the access token
-            // if success, redirect to the home page
-            // if error, show the error message
-
-            fetch("http://localhost/api/oauth2/intra42/exchange/", {
-                method: "POST",
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const code = document.getElementById('code').value;
+            const accessToken = localStorage.getItem('accessToken');
+            const response = await fetch('http://localhost/api/qr_code/verify_2fa_code', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({
-                    code: code
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (data.success) {
-                    // redirect to the home page
-                    localStorage.removeItem("accessToken")
-                    localStorage.setItem("accessToken", data.token)
-
-                    window.location.href = "http://localhost/" ;
-                }
-                else {
-                    // show the error message
-                    alert(data.error)
-                }
-                console.log(data)
+                body: JSON.stringify({ code })
             });
-        }				
-
-
-
-    </script>
+            const data = await response.json();
+            if (data.status === 'success') {
+                localStorage.setItem('accessToken', data.accessToken);
+                window.location.href = 'http://localhost/home';
+            } else {
+                msg.classList.remove('hidden');
+                alert(data.error);
+            }
+        });
+</script>
 </body>
 </html>
