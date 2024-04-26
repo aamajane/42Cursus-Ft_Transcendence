@@ -130,7 +130,28 @@ class GamePage extends HTMLElement {
             <div>
         `;
 
-        this.shadowRoot.addEventListener("load", startGame());
+        const imageElements = [
+            "egypt_background", "egypt_player_paddle", "egypt_opponent_paddle",
+            "factory_background", "factory_player_paddle", "factory_opponent_paddle",
+            "space_background", "space_player_paddle", "space_opponent_paddle",
+            "ball_0", "ball_1", "ball_2", "ball_3", "ball_4", "ball_5", "ball_6", "ball_7", "ball_8", "ball_9", "ball_10", "ball_11", "ball_12", "ball_13", "ball_14", "ai_avatar"
+        ];
+    
+        let loadedResources = 0;
+    
+        const checkAllResourcesLoaded = () => {
+            loadedResources++;
+            if (loadedResources === imageElements.length) {
+                startGame();
+            }
+        };
+    
+        imageElements.forEach(imageId => {
+            const image = this.shadowRoot.getElementById(imageId);
+            if (image) {
+                image.addEventListener("load", checkAllResourcesLoaded);
+            }
+        });
     }
 }
 

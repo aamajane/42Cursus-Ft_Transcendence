@@ -1,14 +1,12 @@
 class Ball {
     constructor(
         image,
-        color,
         playerPaddle1,
         playerPaddle2,
         opponentPaddle1,
         opponentPaddle2
     ) {
         this.image = image;
-        this.color = color;
         this.frame = 0;
         this.playerPaddle1 = playerPaddle1;
         this.playerPaddle2 = playerPaddle2;
@@ -68,11 +66,8 @@ class Ball {
 
         applyShadow(ctx, 20, (this.x - GAME_WIDTH / 2) / BALL_SIZE, 10);
 
-        const currentImage = this.image[(this.frame += 1) % BALL_MAX_FRAME];
-        const newImage = changeImageColor(currentImage, this.color);
-
         ctx.drawImage(
-            newImage,
+            this.image[(this.frame += 1) % BALL_MAX_FRAME],
             this.x - this.radius,
             this.y - this.radius,
             this.radius * 2,

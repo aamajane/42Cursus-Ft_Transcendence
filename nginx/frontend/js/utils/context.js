@@ -233,7 +233,7 @@ class Context {
         let query = `query { whoAmI(accessToken: "${localStorage.getItem('accessToken')}")}`
 
         await this.api.graphqlFetch(query)
-        alert(this.api.response.whoAmI)
+        // alert(this.api.response.whoAmI)
         if (!this.api.response.whoAmI) {
             window.location.href = "http://localhost/home";
             return;

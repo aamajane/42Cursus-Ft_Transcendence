@@ -51,7 +51,6 @@ class AIGame {
         };
         this.ball = new Ball(
             map.ballImage,
-            map.ballColor,
             this.player.paddle,
             null,
             this.opponent.paddle,
@@ -207,7 +206,6 @@ class MultiplayerGame {
         };
         this.ball = new Ball(
             map.ballImage,
-            map.ballColor,
             this.player.paddle1,
             mode === TWO_VS_TWO ? this.player.paddle2 : null,
             this.opponent.paddle1,

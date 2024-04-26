@@ -2,8 +2,12 @@ class Map {
     constructor(map) {
         const shadowRoot = document.getElementById("custom-game").shadowRoot;
         this.backgroundImage = shadowRoot.getElementById(`${map}_background`);
-        this.playerPaddleImage = shadowRoot.getElementById(`${map}_player_paddle`);
-        this.opponentPaddleImage = shadowRoot.getElementById(`${map}_opponent_paddle`);
+        this.playerPaddleImage = shadowRoot.getElementById(
+            `${map}_player_paddle`
+        );
+        this.opponentPaddleImage = shadowRoot.getElementById(
+            `${map}_opponent_paddle`
+        );
 
         this.ballImage = [];
         for (let i = 0; i <= 14; i++) {
@@ -13,12 +17,30 @@ class Map {
         switch (map) {
             case "egypt":
                 this.ballColor = { r: 1, g: 0.5, b: 0.5 };
+                for (let i = 0; i <= 14; i++) {
+                    this.ballImage[i] = changeImageColor(
+                        this.ballImage[i],
+                        this.ballColor
+                    );
+                }
                 break;
             case "factory":
                 this.ballColor = { r: 0.9, g: 0.9, b: 0.9 };
+                for (let i = 0; i <= 14; i++) {
+                    this.ballImage[i] = changeImageColor(
+                        this.ballImage[i],
+                        this.ballColor
+                    );
+                }
                 break;
             case "space":
                 this.ballColor = { r: 0, g: 1, b: 1 };
+                for (let i = 0; i <= 14; i++) {
+                    this.ballImage[i] = changeImageColor(
+                        this.ballImage[i],
+                        this.ballColor
+                    );
+                }
                 break;
         }
 
@@ -44,7 +66,7 @@ class Map {
                 this.strokeStyle = FACTORY_STROKE_STYLE;
                 this.scoreLineWidth = FACTORY_SCORE_LINE_WIDTH;
                 this.nicknameLineWidth = FACTORY_NICKNAME_LINE_WIDTH;
-                break
+                break;
             case "space":
                 this.waitingFont = SPACE_WAITING_FONT;
                 this.countdownFont = SPACE_COUNTDOWN_FONT;
