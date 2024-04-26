@@ -232,33 +232,10 @@ class Context {
         // retrieve the user name and avatar
         let query = `query { whoAmI(accessToken: "${localStorage.getItem('accessToken')}")}`
 
-
         await this.api.graphqlFetch(query)
         alert(this.api.response.whoAmI)
         if (!this.api.response.whoAmI) {
-            await fetch('http://localhost/api/qr_code/', {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem("accessToken"),
-                }
-            })
-            .then(response => {
-                if (response.status !== 200)
-                    throw new Error("Error occurred while proceeding with 2FA");
-                return response.json()
-            })
-            .then(data => {
-                console.log(data)
-                let url = data.url
-                localStorage.setItem("qrCode", url)
-                window.location.href = "http://localhost/2fa";
-            })
-            .catch(err => {
-                localStorage.removeItem("accessToken");
-                alert("Error occurred while proceeding with 2FA");
-                window.location.href = "http://localhost/home";
-            })
-            // window.location.href = "http://localhost/home";
+            window.location.href = "http://localhost/home";
             return;
         }
 
@@ -822,14 +799,9 @@ class Context {
 
     async changeAvatar(avatarFile) {
         const uploadFile = async (file) => {
-            console.log(file, "UPLOAD FILE CALLBACK")
             const formData = new FormData();
-            formData.append('image', file);
-            formData['image'] = file
-            console.log(formData['image'])
-            console.log(formData)
-            console.log('REQUEST URL ==> ', `/api/upload/${context.user.name}`)
-            const response = await fetch(`/api/upload/${context.user.name}`, {
+            formData.append('myfile', file);
+            const response = await fetch(`http://localhost/api/upload/${context.user.name}/`, {
               method: 'POST',
               body: formData,
             });
@@ -838,7 +810,7 @@ class Context {
             console.log(data);
           };
           console.log(avatarFile, "UPLOAD FILE PARENT")
-        uploadFile(avatarFile);
+        await uploadFile(avatarFile);
     }
 
     async changeNickname(nickname) {

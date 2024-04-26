@@ -39,7 +39,7 @@ def generate_jwt_access_token(username: str, two_factor_auth: bool) -> str:
         'username': username,
         'exp': datetime.now(timezone.utc) + timedelta(minutes=MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES if not two_factor_auth else MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES_2FA_ENABLED),
     }
-    payload['2fa_passed'] = False if two_factor_auth else True
+    payload['2fa_passed'] = True # always true for now
 
     try:
         jwt_token = jwt.encode(payload, JWT_SECRET_KEY, algorithm=ENCRYPTING_ALGORITHM)
