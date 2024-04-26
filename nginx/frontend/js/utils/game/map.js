@@ -18,34 +18,9 @@ class Map {
             case "egypt":
                 this.ballColor = { r: 1, g: 0.5, b: 0.5 };
                 for (let i = 0; i <= 14; i++) {
-                    this.ballImage[i] = changeImageColor(
-                        this.ballImage[i],
-                        this.ballColor
-                    );
+                    this.ballImage[i] = changeImageColor(this.ballImage[i], this.ballColor);
                 }
-                break;
-            case "factory":
-                this.ballColor = { r: 0.9, g: 0.9, b: 0.9 };
-                for (let i = 0; i <= 14; i++) {
-                    this.ballImage[i] = changeImageColor(
-                        this.ballImage[i],
-                        this.ballColor
-                    );
-                }
-                break;
-            case "space":
-                this.ballColor = { r: 0, g: 1, b: 1 };
-                for (let i = 0; i <= 14; i++) {
-                    this.ballImage[i] = changeImageColor(
-                        this.ballImage[i],
-                        this.ballColor
-                    );
-                }
-                break;
-        }
 
-        switch (map) {
-            case "egypt":
                 this.waitingFont = EGYPT_WAITING_FONT;
                 this.countdownFont = EGYPT_COUNTDOWN_FONT;
                 this.overFont = EGYPT_OVER_FONT;
@@ -57,6 +32,11 @@ class Map {
                 this.nicknameLineWidth = EGYPT_NICKNAME_LINE_WIDTH;
                 break;
             case "factory":
+                this.ballColor = { r: 0.9, g: 0.9, b: 0.9 };
+                for (let i = 0; i <= 14; i++) {
+                    this.ballImage[i] = changeImageColor(this.ballImage[i], this.ballColor);
+                }
+
                 this.waitingFont = FACTORY_WAITING_FONT;
                 this.countdownFont = FACTORY_COUNTDOWN_FONT;
                 this.overFont = FACTORY_OVER_FONT;
@@ -68,6 +48,11 @@ class Map {
                 this.nicknameLineWidth = FACTORY_NICKNAME_LINE_WIDTH;
                 break;
             case "space":
+                this.ballColor = { r: 0, g: 1, b: 1 };
+                for (let i = 0; i <= 14; i++) {
+                    this.ballImage[i] = changeImageColor(this.ballImage[i], this.ballColor);
+                }
+
                 this.waitingFont = SPACE_WAITING_FONT;
                 this.countdownFont = SPACE_COUNTDOWN_FONT;
                 this.overFont = SPACE_OVER_FONT;
