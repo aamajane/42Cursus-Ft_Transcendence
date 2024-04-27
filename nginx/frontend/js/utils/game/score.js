@@ -15,6 +15,7 @@ class Score {
         ctx.fillStyle = this.map.fillStyle;
         ctx.strokeStyle = this.map.strokeStyle;
         ctx.lineWidth = this.map.scoreLineWidth;
+
         ctx.strokeText(this.value, this.x, this.y);
         ctx.fillText(this.value, this.x, this.y);
     }

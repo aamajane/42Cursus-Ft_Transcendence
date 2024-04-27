@@ -53,6 +53,7 @@ async function startGame() {
         ctx.fillStyle = gameMap.fillStyle;
         ctx.strokeStyle = gameMap.strokeStyle;
         ctx.lineWidth = gameMap.nicknameLineWidth;
+
         ctx.strokeText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30);
         ctx.fillText(message, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30);
     }

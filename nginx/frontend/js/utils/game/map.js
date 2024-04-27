@@ -2,12 +2,8 @@ class Map {
     constructor(map) {
         const shadowRoot = document.getElementById("custom-game").shadowRoot;
         this.backgroundImage = shadowRoot.getElementById(`${map}_background`);
-        this.playerPaddleImage = shadowRoot.getElementById(
-            `${map}_player_paddle`
-        );
-        this.opponentPaddleImage = shadowRoot.getElementById(
-            `${map}_opponent_paddle`
-        );
+        this.playerPaddleImage = shadowRoot.getElementById(`${map}_player_paddle`);
+        this.opponentPaddleImage = shadowRoot.getElementById(`${map}_opponent_paddle`);
 
         this.ballImage = [];
         for (let i = 0; i <= 14; i++) {
