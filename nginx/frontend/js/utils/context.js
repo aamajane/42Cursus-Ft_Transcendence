@@ -131,6 +131,12 @@ class APIContext {
             // this.response = await res.json();
             // console.log(res.data.data)
             this.response = res.data.data;
+            console.log(res.data)
+            if (res?.data?.accessToken) {
+                console.log('ACCESS_TOKEN ==> ', res.data.accessToken)
+                localStorage.removeItem("accessToken");
+                localStorage.setItem("accessToken", res.data.accessToken);
+            }
         } catch (err) {
             // api call failed, or json parsing failed
             alert(err);

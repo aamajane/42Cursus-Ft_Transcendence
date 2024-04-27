@@ -4,7 +4,7 @@ from .models import User
 from .models import Followership
 from .models import Notification
 from transcendence.db import users
-from .utils import format_url, verify_access_token, get_username_from_token
+from .utils import get_username_from_token_decode_strictly, format_url, verify_access_token, get_username_from_token
 from django.core.exceptions import ObjectDoesNotExist
 from transcendence.settings import INTRA42_CLIENT_ID, INTRA42_CLIENT_SECRET, INTRA42_REDIRECT_URI, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 from transcendence.middleware import GraphQLProtectedResource
@@ -190,7 +190,5 @@ class Query(graphene.ObjectType):
 
     # to retrieve who ami using the access token
     def resolve_who_am_i(root, info, access_token):
-        if verify_access_token(access_token):
-            username = get_username_from_token(access_token)
-            return get_username_from_token(access_token)
-        return None
+        username = get_username_from_token_decode_strictly(access_token)
+        return username

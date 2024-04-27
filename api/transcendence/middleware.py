@@ -3,7 +3,8 @@ from django.conf import settings
 from jwt import decode, ExpiredSignatureError
 from datetime import datetime, timedelta
 from graphene_django.views import GraphQLView
-from users.utils import verify_access_token, is_token_expired, generate_jwt_access_token
+from users.utils import verify_access_token, is_token_expired, generate_jwt_access_token, check_and_refresh_token
+import json
 
 # from authentication.utils import verify_token, generate_access_token, TOKEN_INVALID, TOKEN_EXPIRED
 
@@ -54,11 +55,11 @@ class GraphQLProtectedResource:
 
         # if the refresh token is not provided in the request
         if is_refresh_token_not_exist:
-            return JsonResponse({'error': 'No refresh token found'}, status=401)
+            return JsonResponse({'error': 'Token not found'}, status=401)
 
         # if the refresh token is invalid        
         if not verify_access_token(request.COOKIES.get('refresh_token')):
-            return JsonResponse({'error': 'Invalid refresh token'}, status=401)
+            return JsonResponse({'error': 'Invalid token'}, status=401)
 
         if requested_url == '/api/graphql' or requested_url == '/api/graphql/':
             authorization_field = request.headers.get('Authorization')
@@ -73,10 +74,23 @@ class GraphQLProtectedResource:
             if bearer.lower() != 'bearer':
                 return JsonResponse({'error': 'Authorization does not have Bearer'}, status=401)
             
+            # # checking if the token is expired or not
+            # if is_token_expired(token):
+            #     return JsonResponse({'error': 'Token has expired'}, status=401)
+            
+            # checking if the token is valid or not
             is_token_valid = verify_access_token(token)
             if not is_token_valid:
                 return JsonResponse({'error': 'Invalid access token'}, status=401)
-        return self.func(*args, **kwargs)
+
+        response = self.func(*args, **kwargs)
+        modified_response = {
+            'data': response.data,
+            'errors': response.errors,
+            'accessToken': check_and_refresh_token(token)
+        }
+        print(modified_response)
+        return modified_response
 
 ####### DOCUMENTATION: ############################################################################
 ### - This is a customize GraphQLView user mainly to set cookies                                ###
@@ -112,4 +126,20 @@ class MyGraphQLView(GraphQLView):
         if hasattr(request, 'refresh_token'):
             response.set_cookie('refresh_token', request['refresh_token'], httponly=True, secure=True, expires=datetime.now() + timedelta(days=30))
 
-        return response
+        authorization_field = request.headers.get('Authorization')
+        if not authorization_field:
+            return JsonResponse({'error': 'No authorization found'}, status=401)
+        split_authorization_field = authorization_field.split(' ')
+        if len(split_authorization_field) != 2:
+            return JsonResponse({'error': 'Authorization does not have 2 parts'}, status=401)
+        bearer = split_authorization_field[0]
+        token = split_authorization_field[1]
+
+        if bearer.lower() != 'bearer':
+            return JsonResponse({'error': 'Authorization does not have Bearer'}, status=401)
+        
+        response_content = json.loads(response.content)
+        response_content['accessToken'] = check_and_refresh_token(token)
+        print('TOKEN => ', response_content['accessToken'])
+        print(response_content)
+        return JsonResponse(response_content)

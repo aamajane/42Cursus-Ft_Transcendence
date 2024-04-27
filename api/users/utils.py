@@ -12,7 +12,7 @@ MAX_NUMBER_OF_USERNAME_ITERATIONS = 20
 MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES_2FA_ENABLED = 2
 AVRG_USERNAME_LENGTH = 8
 ENCRYPTING_ALGORITHM = 'HS256'
-MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES = 15
+MAX_JWT_TOKEN_EXPIRATION_TIME_IN_MINUTES = 1
 
 # format the url for the consent page
 def format_url(platform: str, 
@@ -57,7 +57,35 @@ def verify_access_token(access_token: str) -> bool:
         return False
     return True
 
-# deserialize token to get the username
+# check is token is valid then return it, otherwise create another one and return it
+def check_and_refresh_token(access_token: str) -> str:
+    # if token is expired then do these
+    if is_token_expired(access_token):
+        decoded_token = jwt.decode(access_token, options={"verify_signature": False})
+        username = decoded_token['username']
+        new_access_token = generate_jwt_access_token(username, False)
+        print('NEW ACCESS TOKEN GENERATED FOR => ', username)
+        print('TOKEN = ', new_access_token)
+        return new_access_token
+    return access_token # otherwise return the access_token
+
+# to verify if the access token is expired, returns True if the access token is expired, False otherwise
+def is_token_expired(access_token: str) -> bool:
+    try:
+        decoded = jwt.decode(access_token, JWT_SECRET_KEY, algorithms=[ENCRYPTING_ALGORITHM])
+        expiration_time = decoded.get("exp")
+        if expiration_time:
+            current_time = int(time.time())
+            if current_time > expiration_time:
+                return True
+        return False
+    except jwt.ExpiredSignatureError:
+        return True
+    except jwt.InvalidTokenError:
+        return False
+    return False
+
+# decode token to get the username
 def get_username_from_token(access_token: str) -> str:
     try:
         decoded = jwt.decode(access_token, JWT_SECRET_KEY, algorithms=[ENCRYPTING_ALGORITHM])
@@ -65,6 +93,13 @@ def get_username_from_token(access_token: str) -> str:
     except Exception as e:
         return None
 
+# decode token to get the username, but only checks for valid token not expiration
+def get_username_from_token_decode_strictly(access_token: str) -> str:
+    try:
+        decoded = jwt.decode(access_token, JWT_SECRET_KEY, algorithms=[ENCRYPTING_ALGORITHM], options={"verify_signature": False})
+        return decoded['username']
+    except Exception as e:
+        return None
 # get is 2fa passed from the token
 def get_is_2fa_passed(access_token: str) -> str:
     try:
