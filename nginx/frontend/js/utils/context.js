@@ -41,12 +41,7 @@ class Tournament {
         this.id = data?.id || null;
         this.mode = data?.mode || null;
         this.state = data?.state || null;
-        this.players = {
-            player1: undefined,
-            player2: undefined,
-            player3: undefined,
-            player4: undefined,
-        };
+        this.players = [];
         this.games = {
             semiFinalGame1: new Game(data?.semiFinalFirstGame),
             semiFinalGame2: new Game(data?.semiFinalSecondGame),
@@ -360,7 +355,7 @@ class Context {
         // fetch the list of all tournaments
         const queryListOfAllTournaments = `
             query {
-                getTournamentsPlayedByUser(data:{username:"hel-mefe"}) {
+                getTournamentsPlayedByUser(data:{username:"${username}"}) {
                     id,
                     semiFinalFirstGame {
                         id,
@@ -428,22 +423,29 @@ class Context {
             return false;
         }
 
-        // console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
-        // this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
-        // this.profileOfUser.tournaments.forEach(tournament => {
-        //     console.log("TOURNAMENT => ", tournament)
-        //     if (tournament.games.semiFinalGame1.score1 > tournament.games.semiFinalGame1.score2)
-        //         tournament.players.player4 = tournament.games.semiFinalGame1.player1 ;
-        //     if (tournament.games.semiFinalGame2.score1 > tournament.games.semiFinalGame2.score2)
-        //         tournament.players.player3 = tournament.games.semiFinalGame2.player1 ;
-        //     if (tournament.games.finalGame.score1 > tournament.games.finalGame.score2)
-        //         tournament.players.player1 = tournament.games.finalGame.player1,
-        //         tournament.players.player2 = tournament.games.finalGame.player2 ;
-        //     else
-        //         tournament.players.player1 = tournament.games.finalGame.player2,
-        //         tournament.players.player2 = tournament.games.finalGame.player1 ;
-        // })
-        // console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
+        console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
+        this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
+
+        this.profileOfUser.tournaments.forEach(tournament => {
+            console.log("TOURNAMENT => ", tournament)
+            if (tournament.games.semiFinalGame1.score1 > tournament.games.semiFinalGame1.score2)
+                tournament.players[3] = tournament.games.semiFinalGame1.player2 ;
+            else
+                tournament.players[3] = tournament.games.semiFinalGame1.player1 ;
+
+            if (tournament.games.semiFinalGame2.score1 > tournament.games.semiFinalGame2.score2)
+                tournament.players[2] = tournament.games.semiFinalGame2.player2 ;
+            else
+                tournament.players[2] = tournament.games.semiFinalGame2.player1 ;
+    
+            if (tournament.games.finalGame.score1 > tournament.games.finalGame.score2)
+                tournament.players[0] = tournament.games.finalGame.player1,
+                tournament.players[1] = tournament.games.finalGame.player2 ;
+            else
+                tournament.players[0] = tournament.games.finalGame.player2,
+                tournament.players[1] = tournament.games.finalGame.player1 ;
+        })
+        console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
 
         // fetch the list of all followers
         const queryListOfFollowers = `

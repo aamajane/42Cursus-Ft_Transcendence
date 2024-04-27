@@ -1075,7 +1075,7 @@ class PopUpProfile extends HTMLElement {
         }
         .rank1 img, .rank2 img, .rank3 img, .rank4 img {
             position: relative;
-            top: 5px;
+            top: -3px;
             width: 45px;
             height: 45px;
             clip-path: url(#clip10);
@@ -1685,155 +1685,39 @@ function showGame2Vs2HistoryProfile(data) {
 }
 
 function showTournamentHistoryProfile(data) {
-    const tournamentData = [
-        [
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 1",
-                score: 20,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 2",
-                score: 15,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 3",
-                score: 10,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 4",
-                score: 5,
-            },
-        ],
-        [
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 5",
-                score: 30,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 6",
-                score: 25,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 7",
-                score: 20,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 8",
-                score: 15,
-            },
-        ],
-        [
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 9",
-                score: 10,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 10",
-                score: 5,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 11",
-                score: 30,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 12",
-                score: 25,
-            },
-        ],
-        [
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 13",
-                score: 20,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 14",
-                score: 15,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 15",
-                score: 10,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 16",
-                score: 5,
-            },
-        ],
-        [
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 17",
-                score: 30,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 18",
-                score: 25,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
-                player: "Player 19",
-                score: 20,
-            },
-            {
-                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
-                player: "Player 20",
-                score: 15,
-            },
-        ],
-    ];
-    const rankTitle = ["1st", "2nd", "3rd", "4th", "5th"];
-    // data.innerHTML = `
-    //         ${context.profileOfUser.tournaments
-    //             .map(
-    //                 (tournaments) => `
-    //             <div class="tournament">
-    //                 ${tournaments
-    //                     .map(
-    //                         (player, index) => `
-    //                     <div class="rank${index + 1}">
-    //                         <img src="${player.avatar}" alt="friend">
-    //                         <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
-    //                             <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
-    //                             <defs>
-    //                                 <clipPath id="clip10" transform="translate(4.50064 1.07627)">
-    //                                     <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="1"/>
-    //                                 </clipPath>
-    //                                 <linearGradient id="paint0_linear_268_905" x1="8.59091" y1="3" x2="29.0565" y2="40.091" gradientUnits="userSpaceOnUse">
-    //                                     <stop stop-color="#000"/>
-    //                                     <stop offset="1" stop-color="#00EBFF55"/>
-    //                                 </linearGradient>
-    //                             </defs>
-    //                         </svg>
-    //                         <div>
-    //                             <h1>${player.player}</h1>
-    //                             <h1>Score : ${player.score}</h1>
-    //                             <h1 class="rankTitle">${rankTitle[index]}</h1>
-    //                         </div>
-    //                     </div>
-    //                 `
-    //                     )
-    //                     .join("")}
-    //             </div>
-    //         `
-    //             )
-    //             .join("")}
-    // `;
+    const rankTitle = ["1st", "2nd", "3rd", "4th"];
+    data.innerHTML = `
+            ${context.profileOfUser.tournaments.map(tournaments => `
+                <div class="tournament">
+                    ${ tournaments.players.map( (player, index) => `
+                        <div class="rank${index + 1}">
+                            <img src="${player.avatarUrl}" alt="friend">
+                            <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
+                                <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="3"/>
+                                <defs>
+                                    <clipPath id="clip10" transform="translate(4.50064 1.07627)">
+                                        <path d="M18.5204 2.14608L18 1.82893L17.4796 2.14608L1.89114 11.6461L1.41154 11.9384V12.5V31.5V32.0616L1.89114 32.3539L17.4796 41.8539L18 42.1711L18.5204 41.8539L34.1089 32.3539L34.5885 32.0616V31.5V12.5V11.9384L34.1089 11.6461L18.5204 2.14608Z" fill="url(#pattern0)" stroke="url(#paint0_linear_268_905)" stroke-width="1"/>
+                                    </clipPath>
+                                    <linearGradient id="paint0_linear_268_905" x1="8.59091" y1="3" x2="29.0565" y2="40.091" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#000"/>
+                                        <stop offset="1" stop-color="#00EBFF55"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div>
+                                <h1>${player.nickname}</h1>
+                                <h1>Score : ${index === 0 ? "10" : index === 1 ? "5" : "0"}</h1>
+                                <h1 class="rankTitle">${rankTitle[index]}</h1>
+                            </div>
+                        </div>
+                    `
+                        )
+                        .join("")}
+                </div>
+            `
+                )
+                .join("")}
+    `;
 }
 
 function changeFriends(choice) {
