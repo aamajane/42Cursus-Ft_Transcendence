@@ -76,8 +76,8 @@ class APIResponse {
  ******************************************************************************/
 class APIContext {
     constructor() {
-        this.websocketEndpoint = `http://${window.location.host}:80/ws`;
-        this.graphqlEndpoint = `http://${window.location.host}:80/api/graphql/`;
+        this.websocketEndpoint = `https://${window.location.host}:443/ws`;
+        this.graphqlEndpoint = `https://${window.location.host}:443/api/graphql/`;
         this.loading = false;
         this.response = undefined;
         this.error = undefined;
@@ -235,7 +235,7 @@ class Context {
         await this.api.graphqlFetch(query)
         // alert(this.api.response.whoAmI)
         if (!this.api.response.whoAmI) {
-            window.location.href = "http://localhost/home";
+            window.location.href = "https://localhost/home";
             return;
         }
 
@@ -801,7 +801,7 @@ class Context {
         const uploadFile = async (file) => {
             const formData = new FormData();
             formData.append('myfile', file);
-            const response = await fetch(`http://localhost/api/upload/${context.user.name}/`, {
+            const response = await fetch(`https://localhost/api/upload/${context.user.name}/`, {
               method: 'POST',
               body: formData,
             });
@@ -841,7 +841,7 @@ class Context {
             console.log("Error occurred while logging out");
             return
         }
-        window.location.href = "http://localhost/auth";
+        window.location.href = "https://localhost/auth";
     }
 }
 

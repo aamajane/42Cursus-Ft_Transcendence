@@ -32,7 +32,7 @@ class TournamentGate extends HTMLElement {
                 height: 100vh;
                 background-color: #000;
                 color: #fff;
-                background-image: url('http://localhost/assets/images/tournamentGate/bg.jpeg');
+                background-image: url('https://localhost/assets/images/tournamentGate/bg.jpeg');
                 background-size: cover;
                 perspective: 1000px;
                 overflow: hidden;
@@ -87,7 +87,7 @@ class TournamentGate extends HTMLElement {
                 align-items: center;
                 transform-style: preserve-3d;
                 transform: rotateX(60deg) translateZ(300px) translateY(-15%) translateX(-50%);
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
                 background-color: #000;
                 animation: entrance 4s linear forwards;
@@ -116,7 +116,7 @@ class TournamentGate extends HTMLElement {
                 width: 40%;
                 height: 100%;
                 transform: rotateY(-90deg) translateX(50%) translateZ(-600px);
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
             }
             .rightBg {
@@ -126,7 +126,7 @@ class TournamentGate extends HTMLElement {
                 width: 40%;
                 height: 100%;
                 transform: rotateY(90deg) translateX(-50%) translateZ(-600px);
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
             }
             .topBg {
@@ -139,7 +139,7 @@ class TournamentGate extends HTMLElement {
                 justify-content: center;
                 align-items: end;
                 transform: rotateX(-90deg) translateY(-50%);
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
             }
             .screen {
@@ -156,7 +156,7 @@ class TournamentGate extends HTMLElement {
                 width: 100%;
                 height: 50%;
                 top: 0;
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
                 background-position: bottom left;
                 animation: bgOpen 1s linear forwards 4s;
@@ -166,7 +166,7 @@ class TournamentGate extends HTMLElement {
                 width: 100%;
                 height: 50%;
                 bottom: 0;
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
                 animation: bgOpen 1s linear forwards 4s;
             }
@@ -229,7 +229,7 @@ class TournamentGate extends HTMLElement {
                 justify-content: center;
                 align-items: end;
                 transform: translateZ(800px);
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
                 transform-style: preserve-3d;
             }
@@ -258,7 +258,7 @@ class TournamentGate extends HTMLElement {
                 justify-content: center;
                 align-items: end;
                 transform: rotateX(-90deg) translateY(-50%) translateZ(2000px);
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
                 clip-path: path('M0,0 L600,0 L1000,0 L850,100 L750,200 L750,400 L850,500 L1000,500 L1150,500 L1250,400 L1250,200 L1150,100 L1000,0 L1400,0 L2000,0 L2000,2000 L0,2000 Z');
                 transform-style: preserve-3d;
@@ -281,7 +281,7 @@ class TournamentGate extends HTMLElement {
                 height: 2000px;
                 background-color: #0009;
                 transform: translateZ(300px) translateY(100%) translateX(-50%);
-                background-image: url('http://localhost/assets/images/tournamentGate/ground.svg');
+                background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                 background-size: 100px 100px;
                 transform-style: preserve-3d;
             }
@@ -949,7 +949,7 @@ class TournamentGate extends HTMLElement {
             }
         </style>
         <div class="tournamentGate">
-            <img src="http://localhost/assets/images/tournamentGate/frontGround1.gif" alt="Pong">
+            <img src="https://localhost/assets/images/tournamentGate/frontGround1.gif" alt="Pong">
             <div class="tournamentGate__content">
                 <div class="tournamentGate__content__wrapper">
                     <div class="leftBg"></div>
@@ -979,15 +979,15 @@ class TournamentGate extends HTMLElement {
                     <div class="rightBg"></div>
                     <div class="upBg">
                         <div class="osgardBg">
-                            <img src="http://localhost/assets/images/tournamentGate/osgard.svg" alt="Pong">
+                            <img src="https://localhost/assets/images/tournamentGate/osgard.svg" alt="Pong">
                         </div>
                         <div class="osgardBg door">
-                            <img src="http://localhost/assets/images/tournamentGate/door.png" alt="Pong">
+                            <img src="https://localhost/assets/images/tournamentGate/door.png" alt="Pong">
                         </div>
                     </div>
                     <div class="frontBg"> 
                         <div class="osgardBg">
-                            <img src="http://localhost/assets/images/tournamentGate/osgard.svg" alt="Pong">
+                            <img src="https://localhost/assets/images/tournamentGate/osgard.svg" alt="Pong">
                         </div>
                     </div>
                     <div class="gateBg">
@@ -995,20 +995,20 @@ class TournamentGate extends HTMLElement {
                         <span></span>
                     </div>
                     <div class="avatar avatar1">
-                        <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
-                        <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
+                        <img class="plAvatar" src="https://localhost/assets/images/anonimous.jpeg">
+                        <img src="https://localhost/assets/images/tournamentGate/avatarFrame.svg">
                     </div>
                     <div class="avatar avatar2">
-                        <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
-                        <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
+                        <img class="plAvatar" src="https://localhost/assets/images/anonimous.jpeg">
+                        <img src="https://localhost/assets/images/tournamentGate/avatarFrame.svg">
                     </div>
                     <div class="avatar avatar3">
-                        <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
-                        <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
+                        <img class="plAvatar" src="https://localhost/assets/images/anonimous.jpeg">
+                        <img src="https://localhost/assets/images/tournamentGate/avatarFrame.svg">
                     </div>
                     <div class="avatar avatar4">
-                        <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
-                        <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
+                        <img class="plAvatar" src="https://localhost/assets/images/anonimous.jpeg">
+                        <img src="https://localhost/assets/images/tournamentGate/avatarFrame.svg">
                     </div>
                 </div>
             </div>
@@ -1029,16 +1029,16 @@ class TournamentGate extends HTMLElement {
                             (indx < 3 &&
                                 `<div class="chair chairLeft">
                                 <div class="seat">
-                                    <img src="http://localhost/assets/images/tournamentGate/chair.svg" alt="Pong" id="up">
-                                    <img src="http://localhost/assets/images/tournamentGate/chair2.svg" alt="Pong" id="side">
-                                    <img src="http://localhost/assets/images/tournamentGate/chair3.svg" alt="Pong" id="down">
+                                    <img src="https://localhost/assets/images/tournamentGate/chair.svg" alt="Pong" id="up">
+                                    <img src="https://localhost/assets/images/tournamentGate/chair2.svg" alt="Pong" id="side">
+                                    <img src="https://localhost/assets/images/tournamentGate/chair3.svg" alt="Pong" id="down">
                                 </div>
                             </div>
                             <div class="chair chairRight">
                                 <div class="seat">
-                                    <img src="http://localhost/assets/images/tournamentGate/chair.svg" alt="Pong" id="up">
-                                    <img src="http://localhost/assets/images/tournamentGate/chair2.svg" alt="Pong" id="side">
-                                    <img src="http://localhost/assets/images/tournamentGate/chair3.svg" alt="Pong" id="down">
+                                    <img src="https://localhost/assets/images/tournamentGate/chair.svg" alt="Pong" id="up">
+                                    <img src="https://localhost/assets/images/tournamentGate/chair2.svg" alt="Pong" id="side">
+                                    <img src="https://localhost/assets/images/tournamentGate/chair3.svg" alt="Pong" id="down">
                                 </div>
                             </div>`) ||
                             ""
@@ -1055,21 +1055,21 @@ class TournamentGate extends HTMLElement {
                     <div class"infs">
                         <div class="playerAvatar">
                             <div class="score">0</div>
-                            <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
-                            <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
+                            <img class="plAvatar" src="https://localhost/assets/images/anonimous.jpeg">
+                            <img src="https://localhost/assets/images/tournamentGate/avatarFrame.svg">
                         </div>
                         <div class="nickName"><h1>@anonimous</h1></div>
                         <div class="Fname"></div>
                     </div>
                 </div>
-                <img src="http://localhost/assets/images/tournamentGate/vsBg.gif">
-                <img src="http://localhost/assets/images/tournamentGate/vs.gif" id="vs">
+                <img src="https://localhost/assets/images/tournamentGate/vsBg.gif">
+                <img src="https://localhost/assets/images/tournamentGate/vs.gif" id="vs">
                 <div class="player player2">
                     <div class"infs">
                         <div class="playerAvatar">
                             <div class="score">0</div>
-                            <img class="plAvatar" src="http://localhost/assets/images/anonimous.jpeg">
-                            <img src="http://localhost/assets/images/tournamentGate/avatarFrame.svg">
+                            <img class="plAvatar" src="https://localhost/assets/images/anonimous.jpeg">
+                            <img src="https://localhost/assets/images/tournamentGate/avatarFrame.svg">
                         </div>
                         <div class="nickName"><h1>@anonimous</h1></div>
                         <div class="Fname"></div>
@@ -1330,7 +1330,7 @@ class TournamentGate extends HTMLElement {
             this.shadowRoot.querySelector(".avatar" + (indx + 1)).classList.add("avatarEnter");
         });
         for (let i = context.track.tournamentPlayers.length; i < 4; i++) {
-            this.shadowRoot.querySelector(".avatar" + (i + 1) + " .plAvatar").src = "http://localhost/assets/images/anonimous.jpeg";
+            this.shadowRoot.querySelector(".avatar" + (i + 1) + " .plAvatar").src = "https://localhost/assets/images/anonimous.jpeg";
             console.log(".StandingsSemiFinaleRight .player" + (i + 1) + " .nickName h1")
             if (i < 2)
                 this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player" + (i + 1) + " .nickName h1").textContent = "@anonymous";

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong</title>
-    <link rel="icon" href="http://localhost/assets/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://localhost/assets/favicon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style >
         body {
@@ -44,12 +44,12 @@
 
         @font-face {
             font-family: 'Robot';
-            src: url("http://localhost/assets/fonts/fobot/Sdglitchrobotdemo-GOPdO.ttf");
+            src: url("https://localhost/assets/fonts/fobot/Sdglitchrobotdemo-GOPdO.ttf");
         }
 
         @font-face {
             font-family: 'Robot2';
-            src: url("http://localhost/assets/fonts/fbot2/SdglitchdemoRegular-YzROj.ttf");
+            src: url("https://localhost/assets/fonts/fbot2/SdglitchdemoRegular-YzROj.ttf");
         }
 
         .signIn {
@@ -368,7 +368,7 @@
         // chekcking if the user is already authenticated
         if (localStorage.getItem("accessToken"))
         {
-            fetch("http://localhost/api/oauth2/verify/", {
+            fetch("https://localhost/api/oauth2/verify/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -380,7 +380,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success)
-                    window.location.href = "http://localhost/" ;            
+                    window.location.href = "https://localhost/" ;            
             })
         }
 
@@ -393,7 +393,7 @@
             // if success, redirect to the home page
             // if error, show the error message
 
-            fetch("http://localhost/api/oauth2/google/exchange/", {
+            fetch("https://localhost/api/oauth2/google/exchange/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -410,7 +410,7 @@
                     localStorage.removeItem("accessToken")
                     localStorage.setItem("accessToken", data.token)
                         
-                    window.location.href = "http://localhost/" ;
+                    window.location.href = "https://localhost/" ;
                 }
                 else {
                     // show the error message

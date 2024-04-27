@@ -4,7 +4,7 @@ const intraBtn = document.getElementById('intra-btn');
 // the fetch request to the backend for redirection to the 42 intra auth page
 intraBtn.addEventListener('click', () => {
 
-    fetch("http://localhost/api/oauth2/intra42/consent/", {
+    fetch("https://localhost/api/oauth2/intra42/consent/", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

@@ -73,7 +73,7 @@ const OPPONENT1_AVATAR_Y = 50;
 const OPPONENT2_AVATAR_X = GAME_WIDTH / 2 - AVATAR_SIZE / 2;
 const OPPONENT2_AVATAR_Y = 50;
 
-const AVATAR_URL = "http://localhost/assets/images/game/ai_avatar.webp";
+const AVATAR_URL = "https://localhost/assets/images/game/ai_avatar.webp";
 const PLAYER1_AVATAR_URL = "https://cdn.intra.42.fr/users/6e08f820a216e1a2a90e377609109946/aamajane.jpg";
 const PLAYER2_AVATAR_URL = "https://cdn.intra.42.fr/users/c57fb67bd87763107a61aaf0ad1add71/ael-bekk.jpg";
 const OPPONENT1_AVATAR_URL = "https://cdn.intra.42.fr/users/664d497ee11b0a6944ae13c8cb222edd/hel-mefe.jpg";

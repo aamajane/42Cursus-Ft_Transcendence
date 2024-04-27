@@ -37,7 +37,7 @@ class CreateUser(graphene.Mutation):
         if is_user_not_exist:
             try:
                 if not avatar_url:
-                    avatar_url = 'http://localhost/assets/images/anonimous.jpeg'
+                    avatar_url = 'https://localhost/assets/images/anonimous.jpeg'
                 User.objects.create(username=username, avatar_url=avatar_url, nickname=username)
                 return CreateUser(success="User created successfully", error=None)
             except Exception as e:

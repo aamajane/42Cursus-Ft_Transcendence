@@ -69,7 +69,7 @@ class CustomErrorPage extends HTMLElement {
                 <div class="container">
                     <h1>Oops! Something went wrong.</h1>
                     <p>We're sorry, but it seems that an error has occurred.</p>
-                    <a href="http://localhost/" class="button">Go Back</a>
+                    <a href="https://localhost/" class="button">Go Back</a>
                 </div>
             </div>
         `;

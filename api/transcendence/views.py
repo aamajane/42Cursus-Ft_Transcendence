@@ -29,7 +29,7 @@ def intra42_consent(request):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     authorization_base_url = 'https://api.intra.42.fr/oauth/authorize'
     client_id = 'u-s4t2ud-b6b88edd4d4f5119f7dddb97ea26fe24cd2430e7649bc5416d377099689575ca'
-    redirect_uri = 'http://localhost/auth/intra42'
+    redirect_uri = 'https://localhost/auth/intra42'
     response_type = 'code'
     scopes = ['public', 'profile']
     scope = ' '.join(scopes)
@@ -44,7 +44,7 @@ def google_consent(request):
     authorization_base_url = 'https://accounts.google.com/o/oauth2/auth'
     params = {
         'client_id': GOOGLE_CLIENT_ID,
-        'redirect_uri': 'http://localhost/auth/google',
+        'redirect_uri': 'https://localhost/auth/google',
         'response_type': 'code',
         'scope': 'openid email profile',
     }
@@ -139,7 +139,7 @@ def upload_image(request, username):
         fs = FileSystemStorage(location=MEDIA_ROOT)
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
-        user.avatar_url = f'http://localhost/api/media{uploaded_file_url}'
+        user.avatar_url = f'https://localhost/api/media{uploaded_file_url}'
         user.save()
         return JsonResponse({'success': True, 'url': uploaded_file_url})
     if not request.FILES:

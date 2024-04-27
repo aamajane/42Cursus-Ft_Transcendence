@@ -244,7 +244,7 @@ class GameGates extends HTMLElement {
                 position: relative;
                 width: 650px;
                 display: flex;
-                background-image: url('http://localhost/assets/images/gameGate/laser11.gif');
+                background-image: url('https://localhost/assets/images/gameGate/laser11.gif');
                 background-repeat: repeat;
                 background-position: center;
                 background-size: 50px;
@@ -828,27 +828,27 @@ class GameGates extends HTMLElement {
                 <div class="gates__content">
                     <div class="gatesFrontGround">
                         <div class="base00">
-                            <img src="http://localhost/assets/images/gameGate/baseGate1.svg" class="frontGroundGatesBase" id="land">
+                            <img src="https://localhost/assets/images/gameGate/baseGate1.svg" class="frontGroundGatesBase" id="land">
                         </div>   
-                        <img src="http://localhost/assets/images/gameGate/baseGate2.svg" class="frontGroundGatesBase" id="land">
+                        <img src="https://localhost/assets/images/gameGate/baseGate2.svg" class="frontGroundGatesBase" id="land">
                     </div>
                     <div class='gateWorld' id='gate1'></div>
                     <div class='gateWorld' id='gate2'></div>
                     <div class='gateWorld' id='gate3'></div>
                     <div class='laserHologram' id="base">
-                        <img src='http://localhost/assets/images/gameGate/gate.gif' alt='laserHologram'>
+                        <img src='https://localhost/assets/images/gameGate/gate.gif' alt='laserHologram'>
                     </div>
                     <div class='laserHologram' id="laser">
                         <span></span>
                         <div class='laserHoloWrapper'>
-                            <img src='http://localhost/assets/images/gameGate/laser1.gif' alt='laserHologram'>
+                            <img src='https://localhost/assets/images/gameGate/laser1.gif' alt='laserHologram'>
                         </div>
                     </div>
                 </div>
             </div>
             <div class='gateDescription'>
-                <img src='http://localhost/assets/images/gameGate/tenor.gif' alt='gateDescription'>
-                <img src='http://localhost/assets/images/gameGate/pastInfo.svg' alt='gateDescription' id="timeLine">
+                <img src='https://localhost/assets/images/gameGate/tenor.gif' alt='gateDescription'>
+                <img src='https://localhost/assets/images/gameGate/pastInfo.svg' alt='gateDescription' id="timeLine">
                 <div class='gateDescriptionText'>
                     <div class='gateDescriptionTitleWrapper'>
                         <h1 class='gateDescriptionTitle'></h1>
@@ -883,31 +883,31 @@ class GameGates extends HTMLElement {
             const gatePath = `
                 <div class='gatePath' id='gatePath${index + 1}'>
                     <div class='gatePort'>
-                        <img src="http://localhost/assets/images/gameGate/gatePort.svg" alt="gatePort">
+                        <img src="https://localhost/assets/images/gameGate/gatePort.svg" alt="gatePort">
                     </div>
-                    <img id="a" src="http://localhost/assets/images/gameGate/portal0.gif" alt="gate">
-                    <img id="b" src="http://localhost/assets/images/gameGate/portal2.gif" alt="gate">
+                    <img id="a" src="https://localhost/assets/images/gameGate/portal0.gif" alt="gate">
+                    <img id="b" src="https://localhost/assets/images/gameGate/portal2.gif" alt="gate">
                     <img id="c" src="${
                         index === 0
-                            ? "http://localhost/assets/images/gameGate/egypt.png"
+                            ? "https://localhost/assets/images/gameGate/egypt.png"
                             : index === 1
-                            ? "http://localhost/assets/images/gameGate/space.png"
-                            : "http://localhost/assets/images/gameGate/factory.png"
+                            ? "https://localhost/assets/images/gameGate/space.png"
+                            : "https://localhost/assets/images/gameGate/factory.png"
                     }" alt="gate">
                     <div class="index">
                         <div class="indexWrapper">
-                            <img id="a" src="http://localhost/assets/images/gameGate/effect3.gif" alt="index">
-                            <img id="b" src="http://localhost/assets/images/gameGate/smoke.gif" alt="index">
-                            <img id="c" src="http://localhost/assets/images/gameGate/waves.gif" alt="index">
+                            <img id="a" src="https://localhost/assets/images/gameGate/effect3.gif" alt="index">
+                            <img id="b" src="https://localhost/assets/images/gameGate/smoke.gif" alt="index">
+                            <img id="c" src="https://localhost/assets/images/gameGate/waves.gif" alt="index">
                             <div class="indexWrapper2">
-                                <img id="d" src="http://localhost/assets/images/gameGate/${
+                                <img id="d" src="https://localhost/assets/images/gameGate/${
                                     index === 0
                                         ? "past.png"
                                         : index === 2
                                         ? "present.jpeg"
                                         : "future.jpeg"
                                 }" alt="index">
-                                <img id="e" src="http://localhost/assets/images/gameGate/blackHole1.gif" alt="index">
+                                <img id="e" src="https://localhost/assets/images/gameGate/blackHole1.gif" alt="index">
                             </div>
                         </div>
                     </div>
@@ -1123,7 +1123,7 @@ class GameGates extends HTMLElement {
                 "#gate1"
             ).style.transform = `translate(-50%, -50%) translateZ(300px) rotate(${this.__angle}deg)`;
             this.shadowRoot.querySelector(".gateDescription #timeLine").src =
-                "http://localhost/assets/images/gameGate/pastInfo.svg";
+                "https://localhost/assets/images/gameGate/pastInfo.svg";
             this.shadowRoot.querySelector(".gateDescriptionTitle").textContent =
                 "Egypt";
             this.shadowRoot.querySelector("#inf1").textContent =
@@ -1141,7 +1141,7 @@ class GameGates extends HTMLElement {
                 120 + this.__angle
             }deg)`;
             this.shadowRoot.querySelector(".gateDescription #timeLine").src =
-                "http://localhost/assets/images/gameGate/futureInfo.svg";
+                "https://localhost/assets/images/gameGate/futureInfo.svg";
             this.shadowRoot.querySelector(".gateDescriptionTitle").textContent =
                 "Space";
             this.shadowRoot.querySelector("#inf1").textContent =
@@ -1159,7 +1159,7 @@ class GameGates extends HTMLElement {
                 240 + this.__angle
             }deg)`;
             this.shadowRoot.querySelector(".gateDescription #timeLine").src =
-                "http://localhost/assets/images/gameGate/presentInfo.svg";
+                "https://localhost/assets/images/gameGate/presentInfo.svg";
             this.shadowRoot.querySelector(".gateDescriptionTitle").textContent =
                 "Factory";
             this.shadowRoot.querySelector("#inf1").textContent =

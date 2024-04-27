@@ -1,6 +1,6 @@
 // Initializes the API for the frontend
-const GRAPHQL_ENDPOINT = 'http://localhost:8000/api/graphql';
-const WEBSOCKET_URL = 'ws://localhost:8000/ws';
+const GRAPHQL_ENDPOINT = 'https://localhost:8000/api/graphql';
+const WEBSOCKET_URL = 'wss://localhost:8000/ws';
 
 // Fetches data from the GraphQL endpoint
 // @param {string} gqlQuery - The GraphQL query to fetch data
@@ -44,8 +44,8 @@ async function gqlFetch({
 }
 
 
-const getAllUsers = require('http://localhost/users/queries.js').gqlGetAllUsers;
-const getUserById = require('http://localhost/users/queries.js').gqlGetUserById;
+const getAllUsers = require('https://localhost/users/queries.js').gqlGetAllUsers;
+const getUserById = require('https://localhost/users/queries.js').gqlGetUserById;
 
 module.exports = {
     gqlFetch,

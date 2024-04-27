@@ -1318,26 +1318,26 @@ class PopUpProfile extends HTMLElement {
         }
         </style>
         <div class="popup">
-            <img src="http://localhost/assets/images/tenor.gif">
+            <img src="https://localhost/assets/images/tenor.gif">
             <div class="popup-inner">
-                <img src="http://localhost/assets/images/profile/screen.svg" id="bg" class="bgs1">
-                <img src="http://localhost/assets/images/profile/screen 2.svg" id="bg" class="bgs2">
+                <img src="https://localhost/assets/images/profile/screen.svg" id="bg" class="bgs1">
+                <img src="https://localhost/assets/images/profile/screen 2.svg" id="bg" class="bgs2">
                 <div class="avatar">
                     <div class="bg3Container">
-                        <img src="http://localhost/assets/images/bg3.gif" class="bg3">
+                        <img src="https://localhost/assets/images/bg3.gif" class="bg3">
                     </div>
                     <img src="${context.profileOfUser.player.avatarUrl}">
-                    <img id="avBg" src="http://localhost/assets/images/profile/avatarScreen.svg">
+                    <img id="avBg" src="https://localhost/assets/images/profile/avatarScreen.svg">
                     <h2>${context.profileOfUser.player.nickname}</h2>
                 </div>
                 <div class="follow" style="display: ${context.profileOfUser.player.name === context.user.name ? "none" : "block"}">
-                    <img id="followBg" src="http://localhost/assets/images/profile/followScreen.svg">
+                    <img id="followBg" src="https://localhost/assets/images/profile/followScreen.svg">
                     <div class="follow-inner" onclick="followUser()">
                         <h3>${context.profileOfUser.doIFollow ? "Unfollow" : "Follow"}</h3>
                     </div>
                 </div>
                 <div class="submit" style="display: ${context.profileOfUser.player.name !== context.user.name ? "none" : "block"}">
-                    <img id="followBg" src="http://localhost/assets/images/profile/followScreen.svg">
+                    <img id="followBg" src="https://localhost/assets/images/profile/followScreen.svg">
                     <div class="follow-inner" onclick="submitChanges()">
                         <h3>Submit Changes</h3>
                     </div>
@@ -1352,7 +1352,7 @@ class PopUpProfile extends HTMLElement {
                     <input type="text" id="username" placeholder="Change Username">
                 </div>
                 <div class="friends">
-                    <img id="bg" src="http://localhost/assets/images/profile/friendsScreen2.svg">
+                    <img id="bg" src="https://localhost/assets/images/profile/friendsScreen2.svg">
                     <svg id="bg" width="180" height="241" viewBox="0 0 180 241" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <clipPath id="clip-friends" transform="translate(-2 -46) scale(2.21)">
                             <path d="M1 21H179.5V218.5L157.5 240.5H24.5L1 217V21Z" fill="#073C7011" fill-opacity="0.55" stroke="#00FFF0" stroke-opacity="0.63"/>
@@ -1370,12 +1370,12 @@ class PopUpProfile extends HTMLElement {
                     </div>
                 </div>
                 <div class="statistics">
-                    <img src="http://localhost/assets/images/profile/statisticsScreen.svg">
+                    <img src="https://localhost/assets/images/profile/statisticsScreen.svg">
                     <div class="statisticsWrapper">
                     </div>
                 </div>
                 <div class="history">
-                    <img id="bg" src="http://localhost/assets/images/profile/historyScreen.svg">
+                    <img id="bg" src="https://localhost/assets/images/profile/historyScreen.svg">
                     <svg id="bg" width="576" height="346" viewBox="0 0 576 346" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <clipPath id="clip-history" transform="translate(-8 -4) scale(0.866)">
                                 <path d="M22 15.5L30.5 7H50.5L59 15.5H22Z" fill="#00FF66" fill-opacity="0.1" stroke-width="5"/>
@@ -1416,7 +1416,7 @@ class PopUpProfile extends HTMLElement {
             friendWrapper.innerHTML += `
                 <div class="profile" id="profile${i}">
                     <div class="avatar">
-                        <img src="http://localhost/assets/images/profileScreen.svg" alt="profile">
+                        <img src="https://localhost/assets/images/profileScreen.svg" alt="profile">
                         <div class="avatarInfo">
                             <img src="${followUsers[i].avatarUrl}" alt="profile">
                             <h3>${followUsers[i].nickname}</h3>
@@ -1429,7 +1429,7 @@ class PopUpProfile extends HTMLElement {
                     </div>
                     <div class="info">
                         <a href="/profile" id="pages" class="profilePage" playerName="${followUsers[i].name}"></a>
-                        <img src="http://localhost/assets/images/nameScreen.svg" alt="profile">
+                        <img src="https://localhost/assets/images/nameScreen.svg" alt="profile">
                         <div class="infoWrapper">
                             <h3>show</h3>
                         </div>
@@ -1505,7 +1505,7 @@ class PopUpProfile extends HTMLElement {
                 </div>
             </div>
             <div class="rankIcon">
-                <img src="http://localhost/assets/images/leagues/${context.profileOfUser.league}.png" alt="rank">
+                <img src="https://localhost/assets/images/leagues/${context.profileOfUser.league}.png" alt="rank">
             </div>
         `;
     }
@@ -1589,10 +1589,10 @@ function showGame1Vs1HistoryProfile(data) {
                         </svg>
                     </div>
                     <div class="win">
-                        <img src="http://localhost/assets/images/win.jpeg" alt="win">
+                        <img src="https://localhost/assets/images/win.jpeg" alt="win">
                     </div>
                     <div class="lose">
-                        <img src="http://localhost/assets/images/lose.jpeg" alt="lose">
+                        <img src="https://localhost/assets/images/lose.jpeg" alt="lose">
                     </div>
                 </div>
             `
@@ -1672,10 +1672,10 @@ function showGame2Vs2HistoryProfile(data) {
                         </div>
                     </div>
                     <div class="win">
-                        <img src="http://localhost/assets/images/win.jpeg" alt="win">
+                        <img src="https://localhost/assets/images/win.jpeg" alt="win">
                     </div>
                     <div class="lose">
-                        <img src="http://localhost/assets/images/lose.jpeg" alt="lose">
+                        <img src="https://localhost/assets/images/lose.jpeg" alt="lose">
                     </div>
                 </div>
             `
@@ -1688,110 +1688,110 @@ function showTournamentHistoryProfile(data) {
     const tournamentData = [
         [
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 1",
                 score: 20,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 2",
                 score: 15,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 3",
                 score: 10,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 4",
                 score: 5,
             },
         ],
         [
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 5",
                 score: 30,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 6",
                 score: 25,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 7",
                 score: 20,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 8",
                 score: 15,
             },
         ],
         [
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 9",
                 score: 10,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 10",
                 score: 5,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 11",
                 score: 30,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 12",
                 score: 25,
             },
         ],
         [
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 13",
                 score: 20,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 14",
                 score: 15,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 15",
                 score: 10,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 16",
                 score: 5,
             },
         ],
         [
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 17",
                 score: 30,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 18",
                 score: 25,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar1.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar1.svg",
                 player: "Player 19",
                 score: 20,
             },
             {
-                avatar: "http://localhost/assets/images/devCard/avatar3.svg",
+                avatar: "https://localhost/assets/images/devCard/avatar3.svg",
                 player: "Player 20",
                 score: 15,
             },

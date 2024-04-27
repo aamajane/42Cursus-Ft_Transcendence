@@ -166,4 +166,4 @@ GOOGLE_USER_INFO_URL=os.environ.get('GOOGLE_USER_INFO_URL')
 
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 
-HTTP_BASE_URL = 'http://localhost:8000'
+HTTP_BASE_URL = 'https://localhost:8000'

@@ -6,7 +6,7 @@ async function startTournament() {
 
     const tournamentPage = document.querySelector("custom-tournament");
     const tournamentID = context.track.tournamentId;
-    const url = `ws://${window.location.host}/ws/tournament/${tournamentID}/`;
+    const url = `wss://${window.location.host}/ws/tournament/${tournamentID}/`;
     const socket = new WebSocket(url);
 
     context.track.previousLocation = window.location.pathname;

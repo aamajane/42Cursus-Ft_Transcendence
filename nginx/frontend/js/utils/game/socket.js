@@ -1,7 +1,7 @@
 class Socket {
     constructor(game) {
         this.game = game;
-        this.url = `ws://${window.location.host}/ws/game/${game.mode}/${game.id}/`;
+        this.url = `wss://${window.location.host}/ws/game/${game.mode}/${game.id}/`;
         this.socket = new WebSocket(this.url);
 
         this.socket.onopen = async () => {
