@@ -520,6 +520,21 @@ class DashboardPage extends HTMLElement {
                     grid-template-columns: 1fr;
                 }
             }
+            .is-playing
+            {
+                position: absolute;
+                width: 15px ;
+                height: 15px ;
+                border-radius: 50%;
+                bottom: 5px;
+                right: 5px;
+            }
+            .is-playing.online {
+                background-color: #0f0;
+            }
+            .is-playing.offline {
+                background-color: #f00;
+            }
         </style>
         <div class="dashboard">
                     <nav>
@@ -619,7 +634,11 @@ class DashboardPage extends HTMLElement {
                                     <path d="M234 22H43L22 43V319.5L43 340.5H234L255 319.5V43L234 22Z" fill="#00FEFF30"/>
                                 </clipPath>
                             </svg>
+                            <div class="is-playing ${
+                                context.searchResults[i].isPlaying ? "offline" : "online"
+                            }"></div>
                         </div>
+
                     </div>
                     <div class="searchResults-info">
                         <a href="/profile" id="pages" class="searchResults-profilePage" playerName="${context.searchResults[i].username}"></a>

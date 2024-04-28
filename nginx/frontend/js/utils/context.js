@@ -28,6 +28,7 @@ class Player {
         this.lastName = data?.lastName || null;
         this.nickname = data?.nickname || null;
         this.twoFactorAuthentication = data?.twoFactorAuth || false;
+        this.isPlaying = data?.isPlaying || false;
         this.avatarUrl = data?.avatarUrl || null;
         this.score = data?.pointsEarned || null;
         this.level = undefined;

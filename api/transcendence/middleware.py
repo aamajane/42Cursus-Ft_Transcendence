@@ -140,6 +140,4 @@ class MyGraphQLView(GraphQLView):
         
         response_content = json.loads(response.content)
         response_content['accessToken'] = check_and_refresh_token(token)
-        print('TOKEN => ', response_content['accessToken'])
-        print(response_content)
         return JsonResponse(response_content)
