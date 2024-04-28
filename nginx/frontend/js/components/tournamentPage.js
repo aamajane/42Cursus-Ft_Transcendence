@@ -1326,10 +1326,18 @@ class TournamentGate extends HTMLElement {
         //             this.game1();
         await context.getGameById(context.track.semiFinalFirstGameId);
         if (context.track.gameData.state === "over") {
-            this.__game1p1 = context.track.gameData.scor1;
-            this.__game1p2 = context.track.gameData.scor2;
-            this.__game1Winner = context.track.gameData.scor1 > context.track.gameData.scor2 ? 0 : 1;
+            const score1 = context.track.tournamentPlayers[0].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            const score2 = context.track.tournamentPlayers[1].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            context.track.winners[0] = (context.track.tournamentPlayers[score1 > score2 ? 0 : 1]);
+            this.__game1p1 = score1;
+            this.__game1p2 = score2;
+            this.__game1Winner = score1 > score2 ? 0 : 1;
+            console.log("semi final first game", this.__game1p1, this.__game1p2, this.__game1Winner);
             this.game1();
+            this.__game3Start = true;
+            setTimeout(() => {
+                this.game3();
+            }, 5000);
         }
     }
 
@@ -1344,10 +1352,18 @@ class TournamentGate extends HTMLElement {
         //             this.game2();
         await context.getGameById(context.track.semiFinalSecondGameId);
         if (context.track.gameData.state === "over") {
-            this.__game2p1 = context.track.gameData.scor1;
-            this.__game2p2 = context.track.gameData.scor2;
-            this.__game2Winner = context.track.gameData.scor1 > context.track.gameData.scor2 ? 0 : 1;
+            const score1 = context.track.tournamentPlayers[2].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            const score2 = context.track.tournamentPlayers[3].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            context.track.winners[1] = (context.track.tournamentPlayers[score1 > score2 ? 2 : 3]);
+            this.__game2p1 = score1;
+            this.__game2p2 = score2;
+            this.__game2Winner = score1 > score2 ? 0 : 1;
             this.game2();
+            console.log("semi final second game", this.__game2p1, this.__game2p2, this.__game2Winner);
+            this.__game3Start = true;
+            setTimeout(() => {
+                this.game3();
+            }, 5000);
         }
 
     }
@@ -1367,18 +1383,23 @@ class TournamentGate extends HTMLElement {
         //                             this.game3();
         await context.getGameById(context.track.finalGameId);
         if (context.track.gameData.state === "over") {
-            this.__game3p1 = context.track.gameData.scor1;
-            this.__game3p2 = context.track.gameData.scor2;
-            this.__game3Winner = context.track.gameData.scor1 > context.track.gameData.scor2 ? 0 : 1;
+            const score1 = context.track.winners[0].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            const score2 = context.track.winners[1].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            this.__game3p1 = score1;
+            this.__game3p2 = score2;
+            this.__game3Winner = score1 > score2 ? 0 : 1;
             this.__game3End = true;
+            console.log("final game", this.__game3p1, this.__game3p2, this.__game3Winner, this.__game3End);
             this.game3();
         }
     }
 
     async playAnimation() {
+        console.log("playAnimation---------------------------------------------------------------------------");
         await this.semiFinalFirstGame();
         await this.semiFinalSecondGame();
         await this.finalGame();
+        console.log("playAnimation---------------------------------------------------------------------------");
     }
 }
 

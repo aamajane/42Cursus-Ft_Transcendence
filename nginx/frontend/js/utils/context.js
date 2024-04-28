@@ -191,6 +191,7 @@ class Track {
         this.tournamentId = undefined;
         this.tournamentStatus = "pending";
         this.tournamentPlayers = [];
+        this.winners = new Array(2);
         this.semiFinalFirstGameId = undefined;
         this.semiFinalFirstGameStatus = "pending";
         this.semiFinalSecondGameId = undefined;
