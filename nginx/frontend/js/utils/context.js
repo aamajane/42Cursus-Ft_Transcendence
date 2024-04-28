@@ -104,11 +104,12 @@ class APIContext {
                 url: this.graphqlEndpoint,
                 data: { query: queryOrMutation },
                 headers: headers,
-                withCredentials: false, // Equivalent to 'credentials: "omit"' in fetch
+                withCredentials: true, // Equivalent to 'credentials: "omit"' in fetch
                 validateStatus: function (status) {
                     return status == 200
                 }
             })
+            console.log(res)
             if (res.status !== 200) {
                 throw new Error("Error occurred while fetching data from the API");
             }
