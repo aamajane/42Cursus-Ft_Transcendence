@@ -32,8 +32,8 @@ class TournamentGate extends HTMLElement {
                 height: 100vh;
                 background-color: #000;
                 color: #fff;
-                background-image: url('https://localhost/assets/images/tournamentGate/bg.jpeg');
-                background-size: cover;
+                background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+                background-size: 300px 300px;
                 perspective: 1000px;
                 overflow: hidden;
                 animation: start 4s linear forwards;
@@ -949,18 +949,10 @@ class TournamentGate extends HTMLElement {
             }
         </style>
         <div class="tournamentGate">
-            <img src="https://localhost/assets/images/tournamentGate/frontGround1.gif" alt="Pong">
             <div class="tournamentGate__content">
                 <div class="tournamentGate__content__wrapper">
-                    <div class="leftBg"></div>
                     <div class="topBg">
                         <div class="screen">
-                            <div class="screenTopBg"></div>
-                            <div class="screenBottomBg"></div>
-                            <div class="screenTopBg2"></div>
-                            <div class="screenBottomBg2"></div>
-                            <div class="screenTopBg3"></div>
-                            <div class="screenBottomBg3"></div>
                             <div class="Standings">
                                 <div class="StandingsFinal">
                                     <div class="standing"></div>
@@ -975,24 +967,6 @@ class TournamentGate extends HTMLElement {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="rightBg"></div>
-                    <div class="upBg">
-                        <div class="osgardBg">
-                            <img src="https://localhost/assets/images/tournamentGate/osgard.svg" alt="Pong">
-                        </div>
-                        <div class="osgardBg door">
-                            <img src="https://localhost/assets/images/tournamentGate/door.png" alt="Pong">
-                        </div>
-                    </div>
-                    <div class="frontBg"> 
-                        <div class="osgardBg">
-                            <img src="https://localhost/assets/images/tournamentGate/osgard.svg" alt="Pong">
-                        </div>
-                    </div>
-                    <div class="gateBg">
-                        <span></span>
-                        <span></span>
                     </div>
                     <div class="avatar avatar1">
                         <img class="plAvatar" src="https://localhost/assets/images/anonimous.jpeg">
