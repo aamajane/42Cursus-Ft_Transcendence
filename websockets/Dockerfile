@@ -8,6 +8,9 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Install netcat for the start script
+RUN apt-get update && apt-get install -y netcat
+
 # Copy the requirements file
 COPY requirements.txt .
 

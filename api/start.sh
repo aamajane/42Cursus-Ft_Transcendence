@@ -1,52 +1,25 @@
 #!/bin/sh
 
-cd ./backend
+DB_NAME=$POSTGRES_DB
+DB_USER=$POSTGRES_USER
+DB_PASSWORD=$POSTGRES_PASSWORD
+DB_HOST=$POSTGRES_HOST
+DB_PORT=$POSTGRES_PORT
 
-echo "Waiting for postgres..."
-sleep 8
-# Database connection parameters
+if [ "$DATABASE" = "postgres" ]
+then
+    echo "Waiting for postgres..."
 
-# POSTGRES_DB='postgres_name'
-# POSTGRES_USER='postgres_user'
-# POSTGRES_PASSWORD='postgres_password'
-# POSTGRES_HOST='postgres'
-# POSTGRES_PORT='5432'
+    while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
+      sleep 0.1
+    done
 
-DB_HOST="localhost"
-DB_PORT="5432"
-DB_NAME="postgres_name"
-DB_USER="postgres_user"
-DB_PASSWORD="postgres_password"
-
-# while ! nc -z localhost 5432; do sleep 2; done;
-
-echo "Database connection is ready. Proceeding with the script."
-
+    echo "PostgreSQL started"
+fi
 
 echo "Applying database migrations..."
 python3 manage.py makemigrations
 python3 manage.py migrate
 
-# echo "Creating superuser..."
-# export DJANGO_SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
-# python3 manage.py createsuperuser --noinput --username=${SUPERUSER_USERNAME} --email=${SUPERUSER_EMAIL}
-
-# echo "Creating 4 test users..."
-# python manage.py shell <<EOF
-# from django.contrib.auth.models import User
-
-# # Create regular users
-# User.objects.create_user('user1', password='user1')
-# User.objects.create_user('user2', password='user2')
-# User.objects.create_user('user3', password='user3')
-# User.objects.create_user('user4', password='user4')
-
-# # Grant staff status to the test users
-# for username in ['user1', 'user2', 'user3', 'user4']:
-#     user = User.objects.get(username=username)
-#     user.is_staff = True
-#     user.save()
-# EOF
-
-echo "Starting Django development server..."
+echo "Starting Django development server at port 8000..."
 python3 manage.py runserver 0.0.0.0:8000
