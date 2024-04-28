@@ -1349,7 +1349,7 @@ class PopUpProfile extends HTMLElement {
                     <input type="file" id="avatar" accept="image/*">
                 </div>
                 <div class="changeUsername" style="display: ${context.profileOfUser.player.name === context.user.name ? "flex" : "none"}">
-                    <input type="text" id="username" placeholder="Change Username">
+                    <input type="text" id="username" placeholder="Change Username" maxlength="8">
                 </div>
                 <div class="friends">
                     <img id="bg" src="https://localhost/assets/images/profile/friendsScreen2.svg">
