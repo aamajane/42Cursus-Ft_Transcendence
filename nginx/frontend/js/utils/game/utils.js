@@ -1,4 +1,4 @@
-function calculateBallVelocity(ball, paddle, level = 1) {
+function calculateBallVelocity(ball, paddle) {
     const paddleXCenter = paddle.x + PADDLE_WIDTH / 2;
     const collidePoint = (ball.x - paddleXCenter) / (PADDLE_WIDTH / 2);
     const angleRad = (Math.PI / 4) * collidePoint;
