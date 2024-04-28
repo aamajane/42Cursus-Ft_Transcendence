@@ -1410,6 +1410,7 @@ class PopUpProfile extends HTMLElement {
     }
     fillFriends(toShow) {
         const friendWrapper = this.shadowRoot.querySelector(".friendWrapper");
+        if (friendWrapper === null) return;
         friendWrapper.innerHTML = "";
         const followUsers = toShow === "followers" ? context.profileOfUser.followers : context.profileOfUser.following;
         for (let i = 0; i < followUsers.length; i++) {

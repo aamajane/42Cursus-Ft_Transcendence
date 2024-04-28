@@ -15,8 +15,8 @@ class Game {
         this.tournamentId = data?.tournamentId || undefined;
         this.createdAt = data?.createdAt || null;
         this.winner = data?.winner || undefined;
-        this.score1 = data?.score1 || null;
-        this.score2 = data?.score2 || null;
+        this.score1 = data?.score1 || 0;
+        this.score2 = data?.score2 || 0;
     }
 }
 
@@ -131,9 +131,9 @@ class APIContext {
             // this.response = await res.json();
             // console.log(res.data.data)
             this.response = res.data.data;
-            console.log(res.data)
+            // console.log(res.data)
             if (res?.data?.accessToken) {
-                console.log('ACCESS_TOKEN ==> ', res.data.accessToken)
+                // console.log('ACCESS_TOKEN ==> ', res.data.accessToken)
                 localStorage.removeItem("accessToken");
                 localStorage.setItem("accessToken", res.data.accessToken);
             }
