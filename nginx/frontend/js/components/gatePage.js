@@ -889,10 +889,10 @@ class GameGates extends HTMLElement {
                     <img id="b" src="https://localhost/assets/images/gameGate/portal2.gif" alt="gate">
                     <img id="c" src="${
                         index === 0
-                            ? "https://localhost/assets/images/gameGate/egypt.png"
+                            ? "https://localhost/assets/images/gameGate/egypt.webp"
                             : index === 1
-                            ? "https://localhost/assets/images/gameGate/space.png"
-                            : "https://localhost/assets/images/gameGate/factory.png"
+                            ? "https://localhost/assets/images/gameGate/space.webp"
+                            : "https://localhost/assets/images/gameGate/factory.webp"
                     }" alt="gate">
                     <div class="index">
                         <div class="indexWrapper">
@@ -902,10 +902,10 @@ class GameGates extends HTMLElement {
                             <div class="indexWrapper2">
                                 <img id="d" src="https://localhost/assets/images/gameGate/${
                                     index === 0
-                                        ? "past.png"
+                                        ? "past.webp"
                                         : index === 2
-                                        ? "present.jpeg"
-                                        : "future.jpeg"
+                                        ? "present.webp"
+                                        : "future.webp"
                                 }" alt="index">
                                 <img id="e" src="https://localhost/assets/images/gameGate/blackHole1.gif" alt="index">
                             </div>
