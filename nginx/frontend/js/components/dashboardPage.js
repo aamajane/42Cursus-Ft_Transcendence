@@ -242,7 +242,7 @@ class DashboardPage extends HTMLElement {
             .profile h1 {
                 position: relative;
                 // border: 1px solid #0ff;
-                width: 100%;
+                width: 100px;
                 height: 50px;
                 color: #0ff;
                 left: -100%;
@@ -314,9 +314,24 @@ class DashboardPage extends HTMLElement {
                 justify-content: space-between;
                 align-items: center;
                 right: 50px;
+                cursor: pointer;
                 // border: 1px solid #0ff;
             }
             .logout > a {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #0ff;
+                text-decoration: none;
+                font-family: 'Games', sans-serif;
+                font-size: 17px;
+                line-height: 100%;
+                z-index: 10;
+            }
+            .logout > h3 {
                 position: relative;
                 width: 100%;
                 height: 100%;
@@ -535,7 +550,8 @@ class DashboardPage extends HTMLElement {
                             <input type="text" placeholder="Search">
                         </div>
                         <div class="logout">
-                            <a id="logoutElement">Logout</a>
+                            <a id="logoutElement"></a>
+                            <h3>Logout</h3>
                             <img src="https://localhost/assets/images/dashboardGate/Exit_Sign.svg" alt="logout">
                         </div>
                     </nav>

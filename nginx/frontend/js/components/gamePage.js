@@ -17,6 +17,7 @@ class GamePage extends HTMLElement {
                     padding: 0;
                     box-sizing: border-box;
                     overflow: hidden;
+                    
                 }
         
                 .pong-wrapper {
@@ -27,8 +28,9 @@ class GamePage extends HTMLElement {
                     // background-color: rgba(0, 0, 0, 0);
                     // background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
                     // background-size: 100px 100px;
-                    perspective: 1000px;
+                    // perspective: 1000px;
                     overflow: hidden;
+                    
                 }
         
                 .pong-container {
@@ -36,8 +38,12 @@ class GamePage extends HTMLElement {
                     width: 900px;
                     height: 1200px;
                     animation: cameraTransition 5s;
-                    border: 5px solid #00FFFF;
+                    // border: 2px solid #00FFFF;
                     // transform-style: preserve-3d;
+                    box-shadow: 0 0 100px 10px black inset,
+                                50px 0 100px 10px black inset,
+                                -50px 0 100px 10px black inset,
+                                0 0 10px 10px black inset;
                 }
         
                 .pong {
@@ -49,7 +55,7 @@ class GamePage extends HTMLElement {
         
                 @keyframes cameraTransition {
                     0% {
-                        transform: perspective(1000px) translateZ(-1000px);
+                        transform: perspective(1000px) translateZ(1000px) translateY(-100px)
                     }
                 }
                 .sides {
@@ -92,10 +98,6 @@ class GamePage extends HTMLElement {
                 <div class="pong-wrapper">
                     <div id="pong-container" class="pong-container">
                         <canvas id="pong" class="pong"></canvas>
-                        <div id="up" class="sides"></div>
-                        <div id="down" class="sides"></div>
-                        <div id="left" class="sides"></div>
-                        <div id="right" class="sides"></div>
                     </div>
                 </div>
                 <img src="https://localhost/assets/images/game/egypt_background.webp" id="egypt_background" style="display: none;">

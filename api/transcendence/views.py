@@ -153,6 +153,12 @@ def upload_image(request, username):
 def serve_image(request, image_file):
     if not image_file:
         return HttpResponse(status=404)
+    print('IMAGE FILE => ', image_file)
     fs = FileSystemStorage(location=MEDIA_ROOT)
-    file = fs.open(image_file)
-    return HttpResponse(file, content_type='image/png')
+    try:
+        file = fs.open(image_file)
+        return HttpResponse(file, content_type='image/png')
+    except:
+        return HttpResponse(status=403)
+    # file = fs.open(image_file)
+    # return HttpResponse(file, content_type='image/png')

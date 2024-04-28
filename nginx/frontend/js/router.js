@@ -82,7 +82,7 @@ function navigation() {
                                 setTimeout( () => {
                                     location = `${pathname}/${context.track.gameId}`;
                                     handleLinkClick(event);
-                                }, 1000);
+                                }, 700);
                             })
                         );
                     }

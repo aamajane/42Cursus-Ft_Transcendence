@@ -446,7 +446,6 @@ class DeleteNotification(graphene.Mutation):
 ### returns success and error return values fields
 #####################################################################
 
-        
 class UpdateUser(graphene.Mutation):
     class Arguments:
         username = graphene.String(required=True)
@@ -461,6 +460,8 @@ class UpdateUser(graphene.Mutation):
 
     def mutate(self, info, username, avatar_url=None, first_name=None, last_name=None, nickname=None, two_factor_auth=None):
         try:
+            if len(nickname) > 8:
+                return UpdateUser(success=None, error='Nickname is too long!')
             user = User.objects.filter(username=username).first()
             if avatar_url is not None:
                 user.avatar_url = avatar_url
