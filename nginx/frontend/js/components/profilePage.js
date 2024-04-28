@@ -928,9 +928,16 @@ class PopUpProfile extends HTMLElement {
         .game div:nth-of-type(2) > :nth-child(2) {
             font-size: 3em;
             width: 60%;
-            color: #055;
+            color: #24C2E5;
             // border: 1px solid #ffffff44;
         }
+        .game div:nth-of-type(2) > .ww {
+            color: #5AE1A1;
+        }
+        .game div:nth-of-type(2) > .ll {
+            color: #FF0000;
+        }
+
         .game2 {
             position: relative;
             width: 100%;
@@ -994,6 +1001,13 @@ class PopUpProfile extends HTMLElement {
             width: 20%;
             font-size: 5em;
             // border: 1px solid #ffffff44;
+        }
+
+        .game2 .ww {
+            color: #5AE1A1;
+        }
+        .game2 .ll {
+            color: #FF0000;
         }
         .teamPlayer {
             position: relative;
@@ -1572,9 +1586,9 @@ function showGame1Vs1HistoryProfile(data) {
                         <h1>${game.player1.nickname}</h1>
                     </div>
                     <div>
-                        <h1>${game.score1}</h1>
+                        <h1 class="${game.score1 > game.score2 ? "ww" : "ll"}">${game.score1}</h1>
                         <h1>Vs</h1>
-                        <h1> ${game.score2}</h1>
+                        <h1 class="${game.score1 < game.score2 ? "ww" : "ll"}">${game.score2}</h1>
                     </div>
                     <div class="player">
                         <h1>${game.player2.nickname}</h1>
@@ -1588,12 +1602,6 @@ function showGame1Vs1HistoryProfile(data) {
                                 </linearGradient>
                             </defs>
                         </svg>
-                    </div>
-                    <div class="win">
-                        <img src="https://localhost/assets/images/win.jpeg" alt="win">
-                    </div>
-                    <div class="lose">
-                        <img src="https://localhost/assets/images/lose.jpeg" alt="lose">
                     </div>
                 </div>
             `
@@ -1639,9 +1647,9 @@ function showGame2Vs2HistoryProfile(data) {
                         </div>
                     </div>
                     <div>
-                        <h1>${game.score1}</h1>
+                        <h1 class="${game.score1 > game.score2 ? "ww" : "ll"}">${game.score1}</h1>
                         <h1>Vs</h1>
-                        <h1> ${game.score2}</h1>
+                        <h1 class="${game.score1 < game.score2 ? "ww" : "ll"}">${game.score2}</h1>
                     </div>
                     <div class="team">
                         <div class="teamPlayer">
@@ -1671,12 +1679,6 @@ function showGame2Vs2HistoryProfile(data) {
                             <h1>${game.player4?.nickname}</h1>
                             <img src="${game.player4?.avatarUrl}" alt="friend">
                         </div>
-                    </div>
-                    <div class="win">
-                        <img src="https://localhost/assets/images/win.jpeg" alt="win">
-                    </div>
-                    <div class="lose">
-                        <img src="https://localhost/assets/images/lose.jpeg" alt="lose">
                     </div>
                 </div>
             `
