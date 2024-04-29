@@ -905,6 +905,10 @@ class TournamentGate extends HTMLElement {
                 font-size: 80px;
                 font-weight: bold;
                 color: #fffa;
+                text-shadow: 0 0 10px #000,
+                            0 0 20px #000,
+                            0 0 50px #000,
+                            0 0 70px #000;
                 // background-color: #0005;
                 // border: 1px solid #fff;
             }
@@ -954,17 +958,23 @@ class TournamentGate extends HTMLElement {
                     <div class="topBg">
                         <div class="screen">
                             <div class="Standings">
+
                                 <div class="StandingsFinal">
                                     <div class="standing"></div>
                                 </div>
+
                                 <div class="StandingsSemiFinale">
+
                                     <div class="StandingsSemiFinaleLeft">
                                         <div class="standing"></div>
                                     </div>
+
                                     <div class="StandingsSemiFinaleRight">
                                         <div class="standing"></div>
                                     </div>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -1297,19 +1307,10 @@ class TournamentGate extends HTMLElement {
     playersEnter() {
         context.track.tournamentPlayers.forEach((el, indx) => {
             this.shadowRoot.querySelector(".avatar" + (indx + 1) + " .plAvatar").src = el.avatar;
-            if (indx < 2)
-                this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player" + (indx + 1) + " .nickName h1").textContent = '@' + el.nickname;
-            else
-                this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player" + (indx + 1 - 2) + " .nickName h1").textContent = '@' + el.nickname;
             this.shadowRoot.querySelector(".avatar" + (indx + 1)).classList.add("avatarEnter");
         });
         for (let i = context.track.tournamentPlayers.length; i < 4; i++) {
             this.shadowRoot.querySelector(".avatar" + (i + 1) + " .plAvatar").src = "https://localhost/assets/images/anonimous.jpeg";
-            console.log(".StandingsSemiFinaleRight .player" + (i + 1) + " .nickName h1")
-            if (i < 2)
-                this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player" + (i + 1) + " .nickName h1").textContent = "@anonymous";
-            else
-                this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player" + (i + 1 - 2) + " .nickName h1").textContent = "@anonymous";
             this.shadowRoot.querySelector(".avatar" + (i + 1)).classList.remove("avatarEnter");
             this.shadowRoot.querySelector(".avatar" + (i + 1)).offsetHeight;
         }
@@ -1328,11 +1329,21 @@ class TournamentGate extends HTMLElement {
         if (context.track.gameData.state === "over") {
             const score1 = context.track.tournamentPlayers[0].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
             const score2 = context.track.tournamentPlayers[1].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            const _player1 = context.track.tournamentPlayers[0].username === context.track.gameData.player1.username ? context.track.gameData.player1 : context.track.gameData.player2;
+            const _player2 = context.track.tournamentPlayers[1].username === context.track.gameData.player1.username ? context.track.gameData.player1 : context.track.gameData.player2;
             context.track.winners[0] = (context.track.tournamentPlayers[score1 > score2 ? 0 : 1]);
             this.__game1p1 = score1;
             this.__game1p2 = score2;
             this.__game1Winner = score1 > score2 ? 0 : 1;
             console.log("semi final first game", this.__game1p1, this.__game1p2, this.__game1Winner);
+
+
+            this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player1 .nickName h1").textContent = '@' + _player1.nickname;
+            this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player1 .plAvatar").src = _player1.avatarUrl;
+
+            this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player2 .nickName h1").textContent = '@' + _player2.nickname;
+            this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player2 .plAvatar").src = _player2.avatarUrl;
+
             this.game1();
             this.__game3Start = true;
             setTimeout(() => {
@@ -1354,10 +1365,19 @@ class TournamentGate extends HTMLElement {
         if (context.track.gameData.state === "over") {
             const score1 = context.track.tournamentPlayers[2].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
             const score2 = context.track.tournamentPlayers[3].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            const _player1 = context.track.tournamentPlayers[2].username === context.track.gameData.player1.username ? context.track.gameData.player1 : context.track.gameData.player2;
+            const _player2 = context.track.tournamentPlayers[3].username === context.track.gameData.player1.username ? context.track.gameData.player1 : context.track.gameData.player2;
             context.track.winners[1] = (context.track.tournamentPlayers[score1 > score2 ? 2 : 3]);
             this.__game2p1 = score1;
             this.__game2p2 = score2;
             this.__game2Winner = score1 > score2 ? 0 : 1;
+
+            this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player1 .nickName h1").textContent = '@' + _player1.nickname;
+            this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player1 .plAvatar").src = _player1.avatarUrl;
+
+            this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player2 .nickName h1").textContent = '@' + _player2.nickname;
+            this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player2 .plAvatar").src = _player2.avatarUrl;
+
             this.game2();
             console.log("semi final second game", this.__game2p1, this.__game2p2, this.__game2Winner);
             this.__game3Start = true;
@@ -1385,11 +1405,20 @@ class TournamentGate extends HTMLElement {
         if (context.track.gameData.state === "over") {
             const score1 = context.track.winners[0].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
             const score2 = context.track.winners[1].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
+            const _player1 = context.track.winners[0].username === context.track.gameData.player1.username ? context.track.gameData.player1 : context.track.gameData.player2;
+            const _player2 = context.track.winners[1].username === context.track.gameData.player1.username ? context.track.gameData.player1 : context.track.gameData.player2;
             this.__game3p1 = score1;
             this.__game3p2 = score2;
             this.__game3Winner = score1 > score2 ? 0 : 1;
             this.__game3End = true;
             console.log("final game", this.__game3p1, this.__game3p2, this.__game3Winner, this.__game3End);
+
+            this.shadowRoot.querySelector(".StandingsFinal .player1 .nickName h1").textContent = '@' + _player1.nickname;
+            this.shadowRoot.querySelector(".StandingsFinal .player1 .plAvatar").src = _player1.avatarUrl;
+
+            this.shadowRoot.querySelector(".StandingsFinal .player2 .nickName h1").textContent = '@' + _player2.nickname;
+            this.shadowRoot.querySelector(".StandingsFinal .player2 .plAvatar").src = _player2.avatarUrl;
+
             this.game3();
         }
     }

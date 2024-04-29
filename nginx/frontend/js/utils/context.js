@@ -228,6 +228,7 @@ class Context {
         this.profileOfUser = undefined;
         this.track = new Track();
         this.navigation = undefined;
+        this.navigateTo = undefined;
         this.searchResults = [];
     }
 

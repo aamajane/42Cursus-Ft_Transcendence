@@ -131,6 +131,7 @@ function navigation() {
     }
     // if (context.navigation === undefined)
     context.navigation = handleLinkClick;
+    context.navigateTo = navigateTo;
 
     window.addEventListener("popstate", async () => {
         if (window.location.pathname.includes("/profile")) {

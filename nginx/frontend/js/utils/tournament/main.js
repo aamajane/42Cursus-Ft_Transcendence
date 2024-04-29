@@ -72,6 +72,12 @@ async function startTournament() {
                             if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
                                 (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
                                 playFinalGame();
+                            } else {
+                                setTimeout(() => {
+                                    socket.close();
+                                    window.history.pushState({}, "/", window.location.origin + "/");
+                                    context.navigateTo("/");
+                                }, 15000);
                             }
                             clearInterval(interval);
                         }
@@ -96,6 +102,12 @@ async function startTournament() {
                             if ((context.track.gameData.player1.username === context.user.name && context.track.gameData.isTeam1Won) ||
                                 (context.track.gameData.player2.username === context.user.name && !context.track.gameData.isTeam1Won)) {
                                 playFinalGame();
+                            } else {
+                                setTimeout(() => {
+                                    socket.close();
+                                    window.history.pushState({}, "/", window.location.origin + "/");
+                                    context.navigateTo("/");
+                                }, 15000);
                             }
                             clearInterval(interval);
                         }
