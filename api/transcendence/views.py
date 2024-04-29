@@ -34,7 +34,6 @@ def intra42_consent(request):
     scopes = ['public', 'profile']
     scope = ' '.join(scopes)
     url = f'{authorization_base_url}?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}'
-    print(url)
     return JsonResponse({'url': url})
 
 ########## GOOGLE CONSENT PAGE ########################################
@@ -49,7 +48,6 @@ def google_consent(request):
         'scope': 'openid email profile',
     }
     url = authorization_base_url + '?' + '&'.join([f'{key}={value}' for key, value in params.items()])
-    print(url)
     return JsonResponse({'url': url})
 
 
@@ -92,7 +90,6 @@ def google_exchange(request):
         if not code:
             return JsonResponse({'error': 'No code provided'}, status=400)
 
-        print('BEFORE GENERTING ACCESS TOKEN')
         access_token = generate_access_token_for_google(code)
         if not access_token: # error occured during the process of generating a token
             return JsonResponse({'error': 'Error occured during the token generation!'}, status=500)
@@ -128,7 +125,6 @@ def verify_token(request):
 ## - takes the username to update the image for from the header of the request
 ##################################################################################
 def upload_image(request, username):
-    print('REQUEST => ', request.FILES)
     if request.method == 'POST' and request.FILES:
         if not username:
             return JsonResponse({'error': 'No username provided'}, status=400)
@@ -142,8 +138,7 @@ def upload_image(request, username):
         user.avatar_url = f'https://localhost/api/media{uploaded_file_url}'
         user.save()
         return JsonResponse({'success': True, 'url': uploaded_file_url})
-    if not request.FILES:
-        print('NO FILE UPLOADED')
+
     return JsonResponse({'success': False, 'error': 'No file uploaded'})
 
 ######### SERVE IMAGE ####################################################
@@ -153,7 +148,6 @@ def upload_image(request, username):
 def serve_image(request, image_file):
     if not image_file:
         return HttpResponse(status=404)
-    print('IMAGE FILE => ', image_file)
     fs = FileSystemStorage(location=MEDIA_ROOT)
     try:
         file = fs.open(image_file)

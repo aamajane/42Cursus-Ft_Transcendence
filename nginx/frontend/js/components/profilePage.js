@@ -1482,7 +1482,6 @@ class PopUpProfile extends HTMLElement {
             a.addEventListener("click", async (event) => {
                 if (theAllProfile.__enter) {
                     theAllProfile.__enter = false;
-                    console.log(event.target.getAttribute("playerName"), "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
                     event.preventDefault();
                     context.track.initProfileOfUser.name = event.target.getAttribute("playerName");
                     await context.navigation(event);
@@ -1759,7 +1758,6 @@ function followUser() {
     if (context.profileOfUser.player.name === context.user.name) return;
 
     if (context.profileOfUser.doIFollow === true) {
-        console.log(context.profileOfUser.followers)
         context.profileOfUser.followers = context.profileOfUser.followers.filter(
             (user) => user.name !== context.user.name
         );
@@ -1783,7 +1781,6 @@ function submitChanges() {
 
     const username = popup.shadowRoot.querySelector("#username").value;
     const avatar = popup.shadowRoot.querySelector("#avatar").files[0];
-    console.log(username, avatar);
 
     if (username) {
         context.changeNickname(username);

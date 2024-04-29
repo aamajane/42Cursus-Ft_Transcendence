@@ -59,7 +59,6 @@ def register_user_from_intra42(access_token: str) -> bool:
     if response.status_code == 200:
         # Parse JSON response
         profile_data = response.json()
-        print('SUCCESS INTRA42:', profile_data)
         # # Extract profile information
         profile_picture_url = profile_data['image']['link']
         username = profile_data['login']

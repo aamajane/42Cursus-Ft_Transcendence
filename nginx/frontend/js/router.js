@@ -65,7 +65,6 @@ function navigation() {
                 routes[profilePath] = "profilePage";
 
                 let pageId = routes[pathname];
-                // console.log("navigateTo", pathname, pageId);
                 if (pageId === undefined)
                     pageId = "errorPage";
                 location = "";
@@ -177,7 +176,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
     }
     if (window.location.pathname == "/profile") {
-        console.log("profile", context)
         window.history.pushState(
             {},
             window.location.pathname,
@@ -199,6 +197,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
     }
     
-    // console.log("DOMContentLoaded", window.location.pathname);
     navigation()
 });

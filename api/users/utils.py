@@ -64,8 +64,6 @@ def check_and_refresh_token(access_token: str) -> str:
         decoded_token = jwt.decode(access_token, options={"verify_signature": False})
         username = decoded_token['username']
         new_access_token = generate_jwt_access_token(username, False)
-        print('NEW ACCESS TOKEN GENERATED FOR => ', username)
-        print('TOKEN = ', new_access_token)
         return new_access_token
     return access_token # otherwise return the access_token
 
@@ -120,11 +118,8 @@ def check_is_pair_identifier_in_db(first_name: str, last_name: str) -> bool:
 
 # checks if user is already in the database for intra42, returns True if the user is already in the database, False otherwise
 def check_is_username_in_db(username: str) -> bool:
-    print('BEFORE CHECKING')
     if User.objects.filter(username=username).exists():
-        print('AFTER CHECKING TRUE')
         return True
-    print('AFTER CHECKING FALSE')
     return False
 
 #####################################################################################################
@@ -160,12 +155,9 @@ def generate_access_token_for_google(code: str) -> str:
         'grant_type': 'authorization_code'
     }
     response = requests.post(GOOGLE_TOKEN_URL, data=data)
-    print(response.json())
-    print('GOOGLE RESPONDED WITH => ', response.status_code)
     if response.status_code != 200: # if the response is not 200, return None
         return None
     response = response.json()
-    print(response)
     if 'access_token' not in response: # if the access token is not in the response, return None
         return None
     return response['access_token']
@@ -229,14 +221,12 @@ def generate_access_token_for_intra42(code: str) -> str:
     }
     token_url = 'https://api.intra.42.fr/oauth/token'
     response = requests.post(token_url, data=data)
-    print(response.status_code)
     if response.status_code != 200: # if the response is not 200, return None
-        print('Response is not 200')
         return None
     try:
         response = response.json()
     except Exception as e:
-        print('EXCEPTION => ', e)
+        return None
     if 'access_token' not in response: # if the access token is not in the response, return None
         return None
     return response['access_token']
@@ -246,13 +236,10 @@ def register_user_intra42(access_token: str) -> bool:
     headers = {
         'Authorization': f'Bearer {access_token}'
     }
-    print('AccessToken => ', access_token)
     response = requests.get('https://api.intra.42.fr/v2/me/', headers=headers)
-    print(response.status_code)
     if response.status_code != 200: # if the response is not 200, return None
         return None
     response = response.json()
-    print(response)
     if 'login' not in response or 'image' not in response: # if the login is not in the response, return None
         return None
     username = response['login']
@@ -260,7 +247,6 @@ def register_user_intra42(access_token: str) -> bool:
 
     # if the user is already in the database, return jwt access token
     if check_is_username_in_db(username):
-        print('YES USERNAME IS IN DB')
         user = User.objects.get(username=username)
         jwt_access_token = generate_jwt_access_token(username, user.two_factor_auth)
         return jwt_access_token
@@ -287,19 +273,15 @@ def is_token_valid(access_token: str) -> bool:
         if expiration_time:
             current_time = int(time.time())
             if current_time > expiration_time:
-                print("Access token has expired")
                 return False
         
         # Additional checks can be performed here if needed
         
-        print("Access token is valid")
         return True
     
     except jwt.ExpiredSignatureError:
-        print("Access token has expired")
         return False
     except jwt.InvalidTokenError:
-        print("Invalid access token")
         return False
 
 # takes an access token and returns the username if the token is valid, None otherwise

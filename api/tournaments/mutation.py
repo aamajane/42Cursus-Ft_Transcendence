@@ -79,18 +79,13 @@ class CreateTournaments(graphene.Mutation):
         for i in range(data.number_of_tournaments):
             tournament_hoster = None
 
-            print('Before modes')
             # determining all the games modes for the tournament
             modes = ['egypt', 'factory', 'space']
             semi_final_first_game_mode = random.choice(modes)
-            print('After first choice')
             modes.pop(modes.index(semi_final_first_game_mode))
-            print(modes)
             semi_final_second_game_mode = random.choice(modes)
-            print('After second choice')
             modes.pop(modes.index(semi_final_second_game_mode))
             final_game_mode = modes[0]
-            print('Final choice')
             
 
             
@@ -111,10 +106,8 @@ class CreateTournaments(graphene.Mutation):
                                 final_game=final_game,
                                 state='pending',
                                 )
-                print('Tournament', i, ' created')
                 tournament.save()
             except Exception as e:
-                print('Error creating tournament games', e)
                 return CreateTournaments(success=None, error='Error creating tournament games')
         return CreateTournaments(success='Tournaments created successfully', error=None)    
 
@@ -203,7 +196,6 @@ class GetAvailableTournament(graphene.Mutation):
                                                 success='Tournament created successfully', 
                                                 error=None)
             except Exception as e:
-                print("EXCEPTION => ", e)
                 return GetAvailableTournament(tournament_id=None, success=None, error='Error creating games or the whole tournament!')
 
 class DeleteAllTournaments(graphene.Mutation):
@@ -216,14 +208,10 @@ class DeleteAllTournaments(graphene.Mutation):
     def mutate(self, info):
         try:
             all_tournaments = Tournament.objects.all()
-            print('After all')
             for e in all_tournaments:
-                print("ELEMENT => ", e)
                 e.delete()
-            print('All tournaments', all_tournaments)
             return DeleteAllTournaments(success='All tournaments deleted successfully', error=None)
         except Exception as e:
-            print("EXCEPTION => ", e)
             return DeleteAllTournaments(success=None, error='Error deleting all tournaments')
 
 class SetTournamentState(graphene.Mutation):

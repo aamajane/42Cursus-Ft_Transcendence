@@ -237,7 +237,6 @@ class Socket {
 
     sendMessage(message) {
         if (this.socket.readyState !== WebSocket.OPEN) {
-            console.log("Message not sent: Game Connection closed");
             return;
         }
 

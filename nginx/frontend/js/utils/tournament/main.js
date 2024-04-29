@@ -38,12 +38,10 @@ async function startTournament() {
             case "add_player":
                 context.track.tournamentPlayers = data.players;
                 tournamentPage.playersEnter();
-                console.log(context.track.tournamentPlayers);
                 break;
             case "remove_player":
                 context.track.tournamentPlayers = data.players;
                 tournamentPage.playersEnter();
-                console.log(context.track.tournamentPlayers);
                 break;
             case "tournament_ongoing":
                 context.track.tournamentStatus = "ongoing";
@@ -180,7 +178,6 @@ async function startTournament() {
 
     function sendMessage(message) {
         if (socket.readyState !== WebSocket.OPEN) {
-            console.log("Message not sent: Tournament Connection closed");
             return;
         }
 

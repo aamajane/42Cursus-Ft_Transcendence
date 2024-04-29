@@ -1062,58 +1062,6 @@ class TournamentGate extends HTMLElement {
                 </div>
                 `;
         });
-        // let intervalEnds = 0;
-        // setTimeout(() => {
-        //     const interval = setInterval(() => {
-        //         if (this.__game1Winner === -1) {
-        //             if (this.__game1p1 > 10) this.__game1Winner = 0;
-        //             else if (this.__game1p2 > 10) this.__game1Winner = 1;
-        //             else {
-        //                 Math.floor(Math.random() * 2) === 0
-        //                     ? this.__game1p1++
-        //                     : this.__game1p2++;
-        //             }
-        //             this.game1();
-        //         }
-        //         if (this.__game2Winner === -1) {
-        //             if (this.__game2p1 > 10) this.__game2Winner = 0;
-        //             else if (this.__game2p2 > 10) this.__game2Winner = 1;
-        //             else {
-        //                 Math.floor(Math.random() * 2) === 0
-        //                     ? this.__game2p1++
-        //                     : this.__game2p2++;
-        //             }
-        //             this.game2();
-        //         }
-        //         if (this.__game1Winner !== -1 && this.__game2Winner !== -1) {
-        //             setTimeout(() => {
-        //                 if (this.__game3Start !== true)
-        //                     (this.__game3Start = true), this.game3();
-        //                 if (this.__game3Winner === -1 && intervalEnds === 0) {
-        //                     intervalEnds++;
-        //                     console.log("game3");
-        //                     clearInterval(interval);
-        //                     setTimeout(() => {
-        //                         interval = setInterval(() => {
-        //                             if (this.__game3p1 > 10)
-        //                                 this.__game3Winner = 0;
-        //                             else if (this.__game3p2 > 10)
-        //                                 this.__game3Winner = 1;
-        //                             else {
-        //                                 Math.floor(Math.random() * 2) === 0
-        //                                     ? this.__game3p1++
-        //                                     : this.__game3p2++;
-        //                             }
-        //                             if (this.__game3Winner !== -1)
-        //                                 this.__game3End = true;
-        //                             this.game3();
-        //                         }, 500);
-        //                     }, 1500);
-        //                 }
-        //             }, 5000);
-        //         }
-        //     }, 500);
-        // }, 6000);
 
         if (context.track.previousLocation !== window.location.pathname)
             this.shadowRoot.addEventListener("load", startTournament());
@@ -1317,14 +1265,6 @@ class TournamentGate extends HTMLElement {
     }
 
     async semiFinalFirstGame() {
-        // if (this.__game1p1 > 10) this.__game1Winner = 0;
-        //             else if (this.__game1p2 > 10) this.__game1Winner = 1;
-        //             else {
-        //                 Math.floor(Math.random() * 2) === 0
-        //                     ? this.__game1p1++
-        //                     : this.__game1p2++;
-        //             }
-        //             this.game1();
         await context.getGameById(context.track.semiFinalFirstGameId);
         if (context.track.gameData.state === "over") {
             const score1 = context.track.tournamentPlayers[0].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
@@ -1335,7 +1275,6 @@ class TournamentGate extends HTMLElement {
             this.__game1p1 = score1;
             this.__game1p2 = score2;
             this.__game1Winner = score1 > score2 ? 0 : 1;
-            console.log("semi final first game", this.__game1p1, this.__game1p2, this.__game1Winner);
 
 
             this.shadowRoot.querySelector(".StandingsSemiFinaleLeft .player1 .nickName h1").textContent = '@' + _player1.nickname;
@@ -1353,14 +1292,6 @@ class TournamentGate extends HTMLElement {
     }
 
     async semiFinalSecondGame() {
-        // if (this.__game2p1 > 10) this.__game2Winner = 0;
-        //             else if (this.__game2p2 > 10) this.__game2Winner = 1;
-        //             else {
-        //                 Math.floor(Math.random() * 2) === 0
-        //                     ? this.__game2p1++
-        //                     : this.__game2p2++;
-        //             }
-        //             this.game2();
         await context.getGameById(context.track.semiFinalSecondGameId);
         if (context.track.gameData.state === "over") {
             const score1 = context.track.tournamentPlayers[2].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
@@ -1379,7 +1310,6 @@ class TournamentGate extends HTMLElement {
             this.shadowRoot.querySelector(".StandingsSemiFinaleRight .player2 .plAvatar").src = _player2.avatarUrl;
 
             this.game2();
-            console.log("semi final second game", this.__game2p1, this.__game2p2, this.__game2Winner);
             this.__game3Start = true;
             setTimeout(() => {
                 this.game3();
@@ -1389,18 +1319,6 @@ class TournamentGate extends HTMLElement {
     }
 
     async finalGame() {
-        // if (this.__game3p1 > 10)
-        //                                 this.__game3Winner = 0;
-        //                             else if (this.__game3p2 > 10)
-        //                                 this.__game3Winner = 1;
-        //                             else {
-        //                                 Math.floor(Math.random() * 2) === 0
-        //                                     ? this.__game3p1++
-        //                                     : this.__game3p2++;
-        //                             }
-        //                             if (this.__game3Winner !== -1)
-        //                                 this.__game3End = true;
-        //                             this.game3();
         await context.getGameById(context.track.finalGameId);
         if (context.track.gameData.state === "over") {
             const score1 = context.track.winners[0].username === context.track.gameData.player1.username ? context.track.gameData.score1 : context.track.gameData.score2;
@@ -1411,7 +1329,6 @@ class TournamentGate extends HTMLElement {
             this.__game3p2 = score2;
             this.__game3Winner = score1 > score2 ? 0 : 1;
             this.__game3End = true;
-            console.log("final game", this.__game3p1, this.__game3p2, this.__game3Winner, this.__game3End);
 
             this.shadowRoot.querySelector(".StandingsFinal .player1 .nickName h1").textContent = '@' + _player1.nickname;
             this.shadowRoot.querySelector(".StandingsFinal .player1 .plAvatar").src = _player1.avatarUrl;
@@ -1424,11 +1341,9 @@ class TournamentGate extends HTMLElement {
     }
 
     async playAnimation() {
-        console.log("playAnimation---------------------------------------------------------------------------");
         await this.semiFinalFirstGame();
         await this.semiFinalSecondGame();
         await this.finalGame();
-        console.log("playAnimation---------------------------------------------------------------------------");
     }
 }
 

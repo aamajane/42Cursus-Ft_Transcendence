@@ -13,7 +13,6 @@ intraBtn.addEventListener('click', () => {
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data)
         window.location.href = data.url
     })
     .catch(err => console.log(err))

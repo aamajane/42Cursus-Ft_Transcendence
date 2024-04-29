@@ -89,7 +89,6 @@ class GraphQLProtectedResource:
             'errors': response.errors,
             'accessToken': check_and_refresh_token(token)
         }
-        print(modified_response)
         return modified_response
 
 ####### DOCUMENTATION: ############################################################################

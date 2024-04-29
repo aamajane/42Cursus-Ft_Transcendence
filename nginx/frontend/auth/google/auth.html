@@ -404,7 +404,6 @@
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 if (data.success) {
                     // redirect to the home page
                     localStorage.removeItem("accessToken")
@@ -416,7 +415,6 @@
                     // show the error message
                     alert(data.error)
                 }
-                console.log(data)
             });
         }				
 

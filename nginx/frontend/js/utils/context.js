@@ -91,7 +91,6 @@ class APIContext {
         this.loading = true;
 
         let jsonQuery = JSON.stringify({ query: queryOrMutation });
-        // console.log(jsonQuery)
     
         const headers = {
             'Content-Type': 'application/json',
@@ -110,32 +109,12 @@ class APIContext {
                     return status == 200
                 }
             })
-            console.log(res)
             if (res.status !== 200) {
                 throw new Error("Error occurred while fetching data from the API");
             }
-            //   console.log(res.data)
 
-            // // if error occurs during the fetching of the data
-            // if (!res || !res.ok) {
-            //     this.error = "Error occurred while fetching data from the API";
-            //     this.loading = false;
-            //     return;
-            // }
-
-            // // if the data is fetched successfully
-            // if (res.data?.error) {
-            //     this.loading = false;
-            //     this.error = "Error returned from the API server";
-            //     return;
-            // }
-
-            // this.response = await res.json();
-            // console.log(res.data.data)
             this.response = res.data.data;
-            // console.log(res.data)
             if (res?.data?.accessToken) {
-                // console.log('ACCESS_TOKEN ==> ', res.data.accessToken)
                 localStorage.removeItem("accessToken");
                 localStorage.setItem("accessToken", res.data.accessToken);
             }
@@ -313,7 +292,6 @@ class Context {
 
         this.profileOfUser = new Profile();
         this.profileOfUser.player = new Player(this.api.response.getUserByUsername);
-        console.log("USER                            =========================== => ", this.profileOfUser.player);
         if (this.profileOfUser.player.name === null) {
             return ;
         }
@@ -357,11 +335,8 @@ class Context {
             return false;
         }
 
-        console.log("GAMES => ", this.api.response.getAllGamesPlayedByPlayer);
         this.profileOfUser.games1v1 = this.api.response.getAllGamesPlayedByPlayer.filter((game) => game.is2x2 === false).map((game) => new Game(game));
         this.profileOfUser.games2v2 = this.api.response.getAllGamesPlayedByPlayer.filter((game) => game.is2x2 === true).map((game) => new Game(game));
-        console.log("GAMES 1V1 => ", this.profileOfUser.games1v1);
-        console.log("GAMES 2V2 => ", this.profileOfUser.games2v2);
 
         // fetch the list of all tournaments
         const queryListOfAllTournaments = `
@@ -434,11 +409,9 @@ class Context {
             return false;
         }
 
-        console.log("TOURNAMENTS => ", this.api.response.getTournamentsPlayedByUser)
         this.profileOfUser.tournaments = this.api.response.getTournamentsPlayedByUser.map(tournament => new Tournament(tournament));
 
         this.profileOfUser.tournaments.forEach(tournament => {
-            console.log("TOURNAMENT => ", tournament)
             if (tournament.games.semiFinalGame1.score1 > tournament.games.semiFinalGame1.score2)
                 tournament.players[3] = tournament.games.semiFinalGame1.player2 ;
             else
@@ -456,7 +429,6 @@ class Context {
                 tournament.players[0] = tournament.games.finalGame.player2,
                 tournament.players[1] = tournament.games.finalGame.player1 ;
         })
-        console.log("TOURNAMENTS => ", this.profileOfUser.tournaments)
 
         // fetch the list of all followers
         const queryListOfFollowers = `
@@ -478,7 +450,6 @@ class Context {
         }
 
         this.profileOfUser.followers = this.api.response.getUserFollowers.map(follower => new Player(follower.user));
-        console.log("FOLLOWERS => ", this.profileOfUser.followers);
 
         // fetch the list of all following
         const queryListOfFollowing = `
@@ -500,14 +471,12 @@ class Context {
         }
 
         this.profileOfUser.following = this.api.response.getUserFollowing.map(following => new Player(following.following));
-        console.log("FOLLOWING => ", this.profileOfUser.following);
 
         //  calculate the total games played
         this.profileOfUser.totalGamesPlayed = this.profileOfUser.games1v1.length + this.profileOfUser.games2v2.length;
 
         // calculate the total games won
         this.profileOfUser.totalGamesWon = this.profileOfUser.games1v1.filter((game) => {
-            console.log(game.player1.username, context.profileOfUser.player.name, game.isTeam1Won)
             if (game.player1.username === context.profileOfUser.player.name && game.isTeam1Won === true)
                 return true;
             if (game.player2.username === context.profileOfUser.player.name && game.isTeam1Won === false)
@@ -614,7 +583,6 @@ class Context {
 
         await this.api.graphqlFetch(query);
         if (this.api.error) {
-            console.log("Error occurred while fetching user data [CONTEXT]");
             return false;
         }
 
@@ -702,7 +670,6 @@ class Context {
 
         await this.api.graphqlFetch(query);
         if (this.api.error) {
-            console.log("Error occurred while fetching game data getGameById");
             return false;
         }
 
@@ -769,7 +736,6 @@ class Context {
 
         await this.api.graphqlFetch(query);
         if (this.api.error) {
-            console.log("Error occurred while fetching search data");
             return false;
         }
 
@@ -789,7 +755,6 @@ class Context {
 
         await this.api.graphqlFetch(query);
         if (this.api.error) {
-            console.log("Error occurred while following user");
             return false;
         }
     }
@@ -806,7 +771,6 @@ class Context {
 
         await this.api.graphqlFetch(query);
         if (this.api.error) {
-            console.log("Error occurred while unfollowing user");
             return false;
         }
     }
@@ -821,9 +785,7 @@ class Context {
             });
           
             const data = await response.json();
-            console.log(data);
           };
-          console.log(avatarFile, "UPLOAD FILE PARENT")
         await uploadFile(avatarFile);
     }
 
@@ -839,7 +801,6 @@ class Context {
 
         await this.api.graphqlFetch(query);
         if (this.api.error) {
-            console.log("Error occurred while changing nickname");
             return false;
         }
     }
@@ -852,7 +813,6 @@ class Context {
         } }`;
         await this.api.graphqlFetch(query);
         if (this.api.error) {
-            console.log("Error occurred while logging out");
             return
         }
         window.location.href = "https://localhost/auth";

@@ -619,7 +619,6 @@ class DashboardPage extends HTMLElement {
         const searchResults = this.shadowRoot.querySelector(".searchResults");
         searchResults.style.display = "grid";
         await context.search(input.value);
-        console.log(context.searchResults, "searchResultssssssss");
         searchResults.innerHTML = "";
         for (let i = 0; i < context.searchResults.length; i++) {
             searchResults.innerHTML += `
