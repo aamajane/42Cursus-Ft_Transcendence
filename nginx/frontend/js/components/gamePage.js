@@ -13,24 +13,20 @@ class GamePage extends HTMLElement {
                     position: relative;
                     width: 100%;
                     height: 100%;
-                    margin: 0;
-                    padding: 0;
                     box-sizing: border-box;
                     overflow: hidden;
-                    
                 }
         
                 .pong-wrapper {
+                    position: relative;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    min-height: 100vh;
-                    // background-color: rgba(0, 0, 0, 0);
-                    // background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
-                    // background-size: 100px 100px;
-                    // perspective: 1000px;
+                    width: fit-content;
+                    height: fit-content;
+                    left: 50%;
+                    transform: translateX(-50%);
                     overflow: hidden;
-                    
                 }
         
                 .pong-container {
@@ -38,12 +34,11 @@ class GamePage extends HTMLElement {
                     width: 900px;
                     height: 1200px;
                     animation: cameraTransition 5s;
-                    // border: 2px solid #00FFFF;
-                    // transform-style: preserve-3d;
                     box-shadow: 0 0 100px 10px black inset,
                                 50px 0 100px 10px black inset,
                                 -50px 0 100px 10px black inset,
                                 0 0 10px 10px black inset;
+                    overflow: hidden;
                 }
         
                 .pong {
@@ -58,40 +53,11 @@ class GamePage extends HTMLElement {
                         transform: perspective(1000px) translateZ(1000px) translateY(-100px)
                     }
                 }
-                .sides {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    background-image: url('https://localhost/assets/images/tournamentGate/ground.svg');
-                    background-size: 100px 100px;
-                    z-index: 10;
-                }
-                .sides#up, .sides#down {
-                    background-size: 300px 300px;
-                }
-                #up {
-                    top: 0;
-                    left: 0;
-                    transform: perspective(1000px)  translateY(-100%) rotateX(-133.5deg);
-                    transform-origin: bottom;
-                }
-                #down {
-                    bottom: 0;
-                    left: 0;
-                    transform: perspective(1000px)  translateY(100%) rotateX(133.5deg);
-                    transform-origin: top;
-                }
-                #left {
-                    top: 0;
-                    left: 0;
-                    transform: perspective(1000px)  translateX(-100%) rotateY(80deg);
-                    transform-origin: right;
-                }
-                #right {
-                    top: 0;
-                    right: 0;
-                    transform: perspective(1000px)  translateX(100%) rotateY(-80deg);
-                    transform-origin: left;
+
+                @media (max-width: 768px) {
+                    .pong-wrapper {
+                        transform: scale(0.5) translateX(-100%) translateY(-50%);
+                    }
                 }
             </style>
             <div class="custom-game">

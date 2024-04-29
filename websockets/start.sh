@@ -1,5 +1,11 @@
 #!/bin/sh
 
+DB_NAME=$POSTGRES_DB
+DB_USER=$POSTGRES_USER
+DB_PASSWORD=$POSTGRES_PASSWORD
+DB_HOST=$POSTGRES_HOST
+DB_PORT=$POSTGRES_PORT
+
 if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."
