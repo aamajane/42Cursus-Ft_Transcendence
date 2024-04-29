@@ -210,6 +210,7 @@ class Search {
         this.username = data?.username || null;
         this.avatarUrl = data?.avatarUrl || null;
         this.nickname = data?.nickname || null;
+        this.isPlaying = data?.isPlaying || false;
     }
 }
 
@@ -760,7 +761,8 @@ class Context {
                 getUsersBySubstring(substring: "${username}") {
                     username,
                     nickname,
-                    avatarUrl
+                    avatarUrl,
+                    isPlaying
                 }
             }
         `;
