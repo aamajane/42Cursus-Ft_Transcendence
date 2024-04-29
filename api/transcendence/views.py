@@ -1,18 +1,14 @@
 from django.http import HttpResponse, JsonResponse
 from users.utils import get_username_from_token, get_is_2fa_passed, generate_access_token_for_intra42, generate_jwt_access_token, verify_access_token, register_user_intra42, generate_access_token_for_google, register_user_google
-from .settings import GOOGLE_CLIENT_ID, INTRA42_REDIRECT_URI, MEDIA_ROOT
+from .settings import GOOGLE_CLIENT_ID, INTRA42_REDIRECT_URI, MEDIA_ROOT, INTRA42_CLIENT_ID, GOOGLE_REDIRECT_URI
 from django.core.files.storage import FileSystemStorage
 import json
 from users.models import User
 from datetime import datetime, timedelta
-import pyotp
 import time
-import qrcode
 import uuid
 import jwt
 import os
-
-key = "HichamElmefeddelApp"
 
 def generate_random_filename(extension='png'):
     random_string = uuid.uuid4().hex
@@ -28,8 +24,8 @@ def intra42_consent(request):
     if request.method != 'GET':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     authorization_base_url = 'https://api.intra.42.fr/oauth/authorize'
-    client_id = 'u-s4t2ud-b6b88edd4d4f5119f7dddb97ea26fe24cd2430e7649bc5416d377099689575ca'
-    redirect_uri = 'https://localhost/auth/intra42'
+    client_id = INTRA42_CLIENT_ID
+    redirect_uri = INTRA42_REDIRECT_URI
     response_type = 'code'
     scopes = ['public', 'profile']
     scope = ' '.join(scopes)
@@ -43,7 +39,7 @@ def google_consent(request):
     authorization_base_url = 'https://accounts.google.com/o/oauth2/auth'
     params = {
         'client_id': GOOGLE_CLIENT_ID,
-        'redirect_uri': 'https://localhost/auth/google',
+        'redirect_uri': GOOGLE_REDIRECT_URI,
         'response_type': 'code',
         'scope': 'openid email profile',
     }

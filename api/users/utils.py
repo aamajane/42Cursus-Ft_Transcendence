@@ -151,7 +151,7 @@ def generate_access_token_for_google(code: str) -> str:
         'code': code,
         'client_id': GOOGLE_CLIENT_ID,
         'client_secret': GOOGLE_CLIENT_SECRET,
-        'redirect_uri': 'https://localhost/auth/google',
+        'redirect_uri': GOOGLE_REDIRECT_URI,
         'grant_type': 'authorization_code'
     }
     response = requests.post(GOOGLE_TOKEN_URL, data=data)
@@ -214,10 +214,10 @@ def generate_username_for_intra42(login: str) -> str:
 def generate_access_token_for_intra42(code: str) -> str:
     data = {
         'grant_type': 'authorization_code',
-        'client_id': 'u-s4t2ud-b6b88edd4d4f5119f7dddb97ea26fe24cd2430e7649bc5416d377099689575ca',
-        'client_secret': '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',
+        'client_id': INTRA42_CLIENT_ID,
+        'client_secret': INTRA42_CLIENT_SECRET,
         'code': code,
-        'redirect_uri': 'https://localhost/auth/intra42',
+        'redirect_uri': INTRA42_REDIRECT_URI,
     }
     token_url = 'https://api.intra.42.fr/oauth/token'
     response = requests.post(token_url, data=data)
