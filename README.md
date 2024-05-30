@@ -4,16 +4,6 @@ Welcome to **ExtreamPong**, an exciting and challenging pingpong game developed 
 
 ![game modes](https://github.com/aamajane/42Cursus-Ft_Transcendence/blob/main/docs/game_modes.png)
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Game Modes](#game-modes)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Introduction
 ExtreamPong is a single-page application that brings the classic game of pingpong to new heights with multiple exciting modes. Built using vanilla JavaScript for the frontend and Django with GraphQL for the backend, this project showcases a robust implementation of modern web technologies.
 
