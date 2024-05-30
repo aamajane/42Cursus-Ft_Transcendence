@@ -221,6 +221,7 @@ def generate_access_token_for_intra42(code: str) -> str:
     }
     token_url = 'https://api.intra.42.fr/oauth/token'
     response = requests.post(token_url, data=data)
+    print(response)
     if response.status_code != 200: # if the response is not 200, return None
         return None
     try:
