@@ -1,6 +1,6 @@
-# ExtremePong
+# ExtreamPong
 
-Welcome to **ExtremePong**, an exciting and challenging pingpong game developed as part of the 42 Network cursus project, originally named "Transcendence." This project demonstrates a full-stack application with a modern architecture and a rich feature set. Here, you'll find all the information you need to understand, run, and contribute to this project.
+Welcome to **ExtreamPong**, an exciting and challenging pingpong game developed as part of the 42 Network cursus project, originally named "Transcendence." This project demonstrates a full-stack application with a modern architecture and a rich feature set. Here, you'll find all the information you need to understand, run, and contribute to this project.
 
 ![game modes](https://github.com/aamajane/42Cursus-Ft_Transcendence/blob/main/docs/game_modes.png)
 
@@ -15,7 +15,7 @@ Welcome to **ExtremePong**, an exciting and challenging pingpong game developed 
 - [License](#license)
 
 ## Introduction
-ExtremePong is a single-page application that brings the classic game of pingpong to new heights with multiple exciting modes. Built using vanilla JavaScript for the frontend and Django with GraphQL for the backend, this project showcases a robust implementation of modern web technologies.
+ExtreamPong is a single-page application that brings the classic game of pingpong to new heights with multiple exciting modes. Built using vanilla JavaScript for the frontend and Django with GraphQL for the backend, this project showcases a robust implementation of modern web technologies.
 
 ## Features
 - **Single Page Application**: The entire frontend is built as a single-page application using vanilla JavaScript.
@@ -35,10 +35,13 @@ ExtremePong is a single-page application that brings the classic game of pingpon
 - OAuth2 for authentication (Google and Intra42)
 - WebSockets for real-time communication
 
-## Installation
-To get started with ExtremePong, follow these steps:
+## How to run ExtreamPong
+To get started with ExtreamPong, follow these steps:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/extremepong.git
-   cd extremepong
+   git clone https://github.com/aamajane/42Cursus-Ft_Transcendence.git
+   cd 42Cursus-Ft_Transcendence
+   docker-compose up
+
+   
